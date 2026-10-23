@@ -1,0 +1,31 @@
+{
+  "checked_utc": "2026-10-23T08:53:48.146616+00:00",
+  "url": "https://api.github.com/repos/YimianDai/open-sirst-v2/git/trees/master?recursive=1",
+  "tree_sha": "a927e5c67a7d2e22c7c96b54703ffe9ae01a1f35",
+  "truncated": false,
+  "image_path_count": 1024,
+  "image_files_downloaded": false,
+  "method": "Count image paths in author repository git tree only",
+  "tree_response_sha256": "2e723254b4b7a94d7f67aac96c62e42580e1592255ac6124745b6b89b1cd0e12",
+  "split_paths": [
+    "splits/mini-v2background.txt",
+    "splits/mini_test.txt",
+    "splits/mini_trainval.txt",
+    "splits/test_full.txt",
+    "splits/test_v1.txt",
+    "splits/test_v1fullv2target.txt",
+    "splits/train_full.txt",
+    "splits/train_v1.txt",
+    "splits/trainval_full.txt",
+    "splits/trainval_v1.txt",
+    "splits/trainval_v1fullv2target.txt",
+    "splits/trainvaltest_full.txt",
+    "splits/trainvaltest_v1.txt",
+    "splits/trainvaltest_v1fullv2target.txt",
+    "splits/trainvaltest_v2target.txt",
+    "splits/v2background.txt",
+    "splits/val_full.txt",
+    "splits/val_v1.txt",
+    "splits/val_v1fullv2target.txt"
+  ]
+}

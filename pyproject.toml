@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mpu-uav-detection"
+version = "0.1.0"
+description = "YOLO26 infrared UAV detection course project"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+model = ["ultralytics==8.4.184"]
+
+[tool.setuptools.packages.find]
+where = ["src"]

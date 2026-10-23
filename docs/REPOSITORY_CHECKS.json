@@ -1,0 +1,31 @@
+{
+  "checked_utc": "2026-10-23T11:50:01.609019+00:00",
+  "repository": "MPU-Big-Data-Project2-UAV-Detection",
+  "checks": {
+    "original_zip_and_six_members": "PASS",
+    "proposal_report_protected_prefix_and_class": "PASS",
+    "Markdown_local_links": "PASS",
+    "proposal_13_citation_keys": "PASS",
+    "report_3_existing_citation_keys": "PASS",
+    "BibTeX_warnings": 0,
+    "training_guard_unittests_passed": 4,
+    "train_and_build_help": "PASS",
+    "ignored_data_weights_outputs_credentials": "PASS",
+    "both_TeX_app_compile": "success"
+  },
+  "execution": {
+    "model_imported_or_built": false,
+    "training_started": false,
+    "cloud_started": false,
+    "weights_or_images_downloaded": false
+  },
+  "deliverables": {
+    "proposal": "V4 migrated",
+    "report": "chapter framework",
+    "slides": "outline",
+    "code": "baseline build/train entries; PConv/P2 pending"
+  },
+  "original_archive_sha256": "6c315c3b6729bd7b96a6a0e7d3bb6342023413a4cd4d113fb4a193019af1c603",
+  "git_state": "Validation snapshot captured before the first commit; current synchronization state is recorded by Git history and branch tracking.",
+  "PDF_exported_or_visually_reviewed": false
+}

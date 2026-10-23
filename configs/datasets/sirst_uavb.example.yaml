@@ -1,0 +1,8 @@
+# Copy to an untracked data/ configuration and set the actual local root.
+# Lists must contain only the previously assigned split's image paths.
+path: /absolute/path/to/sirst-uavb-uav-only
+train: splits/train.txt
+val: splits/val.txt
+test: splits/test.txt
+names:
+  0: uav

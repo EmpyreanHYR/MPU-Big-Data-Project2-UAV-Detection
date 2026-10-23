@@ -1,0 +1,50 @@
+{
+  "trainvaltest_full.txt": {
+    "count": 1024,
+    "unique_count": 1024,
+    "sha256": "78595150306398b9a51a22d6198fa8da131bdfd3ebd6ec213b99f45f39af5a1f",
+    "url": "https://raw.githubusercontent.com/YimianDai/open-sirst-v2/a927e5c67a7d2e22c7c96b54703ffe9ae01a1f35/splits/trainvaltest_full.txt"
+  },
+  "trainvaltest_v2target.txt": {
+    "count": 87,
+    "unique_count": 87,
+    "sha256": "173fbe220565e63d7fd14c30b16f649544baaa21c5c07ab42e7ccc4e719a754c",
+    "url": "https://raw.githubusercontent.com/YimianDai/open-sirst-v2/a927e5c67a7d2e22c7c96b54703ffe9ae01a1f35/splits/trainvaltest_v2target.txt"
+  },
+  "v2background.txt": {
+    "count": 510,
+    "unique_count": 510,
+    "sha256": "22c89cb59b1d9a115d3b05b7d8b09d3d4f1193586fcd5b122dbdb0ab99e60e0d",
+    "url": "https://raw.githubusercontent.com/YimianDai/open-sirst-v2/a927e5c67a7d2e22c7c96b54703ffe9ae01a1f35/splits/v2background.txt"
+  },
+  "train_full.txt": {
+    "count": 512,
+    "unique_count": 512,
+    "sha256": "ed986ddb4f4191ef69be83ed75956f30edfd2e7903ea1f07f2e86c02c780eaee",
+    "url": "https://raw.githubusercontent.com/YimianDai/open-sirst-v2/a927e5c67a7d2e22c7c96b54703ffe9ae01a1f35/splits/train_full.txt"
+  },
+  "val_full.txt": {
+    "count": 256,
+    "unique_count": 256,
+    "sha256": "046583e1dbcf8e4e4b0cd29c0ceed20fb645264b64bfd115ddeda579816bd9a9",
+    "url": "https://raw.githubusercontent.com/YimianDai/open-sirst-v2/a927e5c67a7d2e22c7c96b54703ffe9ae01a1f35/splits/val_full.txt"
+  },
+  "trainval_full.txt": {
+    "count": 768,
+    "unique_count": 768,
+    "sha256": "f7af0d4009c398c6f7db74adddc419cc99a4e28117450c0ad39b22e03eda2d04",
+    "url": "https://raw.githubusercontent.com/YimianDai/open-sirst-v2/a927e5c67a7d2e22c7c96b54703ffe9ae01a1f35/splits/trainval_full.txt"
+  },
+  "test_full.txt": {
+    "count": 256,
+    "unique_count": 256,
+    "sha256": "d17823181060855e165124d56a11623c6f9b433e81eae37f8744fca366634776",
+    "url": "https://raw.githubusercontent.com/YimianDai/open-sirst-v2/a927e5c67a7d2e22c7c96b54703ffe9ae01a1f35/splits/test_full.txt"
+  },
+  "trainvaltest_v1.txt": {
+    "count": 427,
+    "unique_count": 427,
+    "sha256": "57b3498008127a735a798aed867ce3eb3d56d152950ea428e26f29f0e6a90ea7",
+    "url": "https://raw.githubusercontent.com/YimianDai/open-sirst-v2/a927e5c67a7d2e22c7c96b54703ffe9ae01a1f35/splits/trainvaltest_v1.txt"
+  }
+}

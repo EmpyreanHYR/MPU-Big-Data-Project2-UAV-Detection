@@ -1,0 +1,13 @@
+{
+  "source_archive": "source.zip",
+  "source_filename": "IEEE-Transactions-LaTeX2e-templates-and-instructions.zip",
+  "archive_sha256": "6c315c3b6729bd7b96a6a0e7d3bb6342023413a4cd4d113fb4a193019af1c603",
+  "members": {
+    "bare_jrnl_new_sample4.tex": "a1225c6ddb0c828596fad8285d4344a654e1597d62e757d0109b07e4f579e4fc",
+    "bare_jrnl_new_sample4.pdf": "30c9326f0f9e3a65f62d87c748add8c8c7600cc0cc13e44d4f05098c669f64c5",
+    "New_IEEEtran_how-to.tex": "417b40378ec1c1124918f000eab2f9a27f9cc37d576ef17b77d78347e00c0cd3",
+    "New_IEEEtran_how-to.pdf": "3ad40a6f9f6b8ac10baa9dcd3cda9d6e83dae8577d950c09fa73a5d97146ff43",
+    "fig1.png": "966fa8e10adb05f5bc7bc32e6debc68be14e2c4cb5c7a6784cac4324472d6c8e",
+    "IEEEtran.cls": "b0eb3567b81aec7fe98144a3ad283eeac2d31035bb19e0d9dcba7da190f18d9d"
+  }
+}

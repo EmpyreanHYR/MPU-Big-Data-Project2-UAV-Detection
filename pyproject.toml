@@ -11,6 +11,7 @@ dependencies = []
 
 [project.optional-dependencies]
 model = ["ultralytics==8.4.184"]
+data = ["pillow>=10,<14"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

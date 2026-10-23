@@ -4,6 +4,7 @@ from pathlib import Path
 import hashlib
 import json
 import re
+import subprocess
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -29,8 +30,16 @@ def main():
             doc = ROOT / "docs" / kind
             assert normalized_prefix((doc / "main.tex").read_text()) == expected, kind
             assert (doc / "IEEEtran.cls").read_bytes() == z.read("IEEEtran.cls")
+        assert normalized_prefix((ROOT / "docs/proposal/main_zh.tex").read_text()) == expected
+    for item in json.loads((ROOT / "third_party/sources.json").read_text()):
+        assert hashlib.sha256((ROOT / "third_party" / item["file"]).read_bytes()).hexdigest() == item["sha256"]
     missing = []
-    for md in ROOT.rglob("*.md"):
+    # Respect .gitignore: installed environments and local data are not project docs.
+    paths = subprocess.check_output(["git", "ls-files", "--cached", "--others", "--exclude-standard", "-z"], cwd=ROOT).decode().split("\0")
+    for name in sorted(set(paths)):
+        if not name.endswith(".md"):
+            continue
+        md = ROOT / name
         for link in re.findall(r"\]\(([^)]+)\)", md.read_text()):
             if "://" in link or link.startswith("#"):
                 continue
@@ -38,7 +47,7 @@ def main():
             if local and not (md.parent / local).exists():
                 missing.append((str(md.relative_to(ROOT)), link))
     assert not missing, missing
-    print("PASS: original ZIP and six members; protected proposal/report prefixes/classes; Markdown links")
+    print("PASS: original ZIP and six members; protected English/Chinese proposal and report templates; source hashes; Markdown links")
 
 
 if __name__ == "__main__":

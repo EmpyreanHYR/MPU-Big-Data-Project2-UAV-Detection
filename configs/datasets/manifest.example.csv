@@ -1,0 +1,4 @@
+image,annotation,format,group,split
+images/sequence01_frame001.png,labels/sequence01_frame001.txt,yolo,sequence01,train
+images/sequence02_frame001.png,labels/sequence02_frame001.txt,yolo,sequence02,val
+images/sequence03_frame001.png,labels/sequence03_frame001.txt,yolo,sequence03,test

@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Cloud-only baseline training; --help does not import model dependencies."""
+"""Cloud-only YOLO26 variant training; --help does not import model dependencies."""
 from pathlib import Path
 import argparse
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-from uav_detection.training import train_baseline
+from uav_detection.training import train_detector
 
 
 def main():
@@ -16,7 +16,7 @@ def main():
     parser.add_argument("--deadline", required=True, help="Approved ISO8601 deadline with timezone")
     parser.add_argument("--max-hours", type=float, required=True)
     args = parser.parse_args()
-    train_baseline(args.config, args.data, args.weights, args.output,
+    train_detector(args.config, args.data, args.weights, args.output,
                    args.deadline, args.max_hours)
 
 

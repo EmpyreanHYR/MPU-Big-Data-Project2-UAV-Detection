@@ -1,0 +1,12 @@
+[
+  {
+    "file": "ultralytics-yolo26.yaml",
+    "url": "https://raw.githubusercontent.com/ultralytics/ultralytics/v8.4.184/ultralytics/cfg/models/26/yolo26.yaml",
+    "sha256": "b1d1fa0c69eced64f9939536038bd8d697c32e72200b34187a767de431af7ef0"
+  },
+  {
+    "file": "pconv-LICENSE.txt",
+    "url": "https://raw.githubusercontent.com/JN-Yang/PConv-SDloss-Data/a801f043c83f73aa9af9ab2f689e59ebef928fc4/LICENSE",
+    "sha256": "708d615ce3fc65f1a5d5f66bbaabe89e06f757bbe62d2fc66879acf07a898806"
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "model": "yolo26n-pconv.yaml",
+  "task": "detect",
+  "epochs": 300,
+  "imgsz": 640,
+  "batch": 4,
+  "device": 0,
+  "seed": 42,
+  "workers": 4,
+  "patience": 0,
+  "cache": false,
+  "plots": true,
+  "save": true,
+  "save_period": 10,
+  "deterministic": true,
+  "variant": "pconv"
+}

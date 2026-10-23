@@ -6,10 +6,10 @@
 
 | 内容 | 位置 | 当前状态 |
 |---|---|---|
-| 模型构建与训练入口 | [src/uav_detection](src/uav_detection/) / [scripts](scripts/) | 已建立 YOLO26n 基线入口；PConv/P2 待实现 |
-| 实验与数据配置 | [configs](configs/) | 基线配置与数据路径示例 |
+| 模型构建与训练入口 | [src/uav_detection](src/uav_detection/) / [scripts](scripts/) | 三种结构、训练器重建及检查点恢复检查通过 |
+| 实验与数据配置 | [configs](configs/) | 三份实验配置、原始清单和类别映射示例 |
 | 数据集来源与标注 | [SOURCES.md](docs/datasets/SOURCES.md) | 主数据及补充数据说明 |
-| 中文提案 | [阅读稿](docs/proposal/项目提案_中文版.md) / [TeX](docs/proposal/main.tex) | 已迁入当前 V4 |
+| 双语提案 | [中文](docs/proposal/项目提案_中文版.md) / [英文](docs/proposal/proposal_en.md) / [英文 TeX](docs/proposal/main.tex) / [PDF](docs/proposal/main.pdf) | 英文译稿与中文原稿 V4 |
 | 报告 | [TeX](docs/report/main.tex) / [说明](docs/report/README.md) | 已建立章节框架 |
 | PPT | [大纲](docs/slides/outline_zh.md) | 已建立目录与汇报大纲 |
 | 参考文献 | [references.bib](bibliography/references.bib) | 统一 BibTeX 文献源 |
@@ -22,13 +22,13 @@ src/uav_detection/       模型构建、训练配置与训练入口逻辑
 configs/                数据集、模型和实验配置
 scripts/                构建、训练、文献生成和仓库检查
 bibliography/           统一 BibTeX 文献源
-docs/proposal/          提案 TeX、正文、中文阅读稿
+docs/proposal/          中英提案 TeX、正文、阅读稿和英文 PDF
 docs/report/            报告 TeX 与章节框架
 docs/slides/            PPT、讲稿和展示材料
 docs/research/          段落式文献分析
 docs/datasets/          数据来源、标注约定与元数据
 templates/ieee/         原始 ZIP、完整解压模板与哈希清单
-tests/                  配置与训练运行条件检查
+tests/                  模型结构、数据处理与训练运行条件检查
 data/                   本地数据，Git 忽略
 models/                 本地权重和导出模型，Git 忽略
 outputs/                本地实验输出，Git 忽略
@@ -44,7 +44,17 @@ python scripts/build_model.py --help
 python scripts/train.py --help
 ```
 
-`scripts/build_model.py` 构建 YOLO26n 结构，可通过 `--weights` 读取本地权重。云端训练采用 [基线配置](configs/experiments/yolo26n_baseline.json)，数据示例复制到本地 `data/` 并设置实际路径。训练入口要求 Linux x86_64、单张 RTX 2080 Ti、本地数据与权重、带时区的截止时间和最多8小时的单次时间窗口。Mac和树莓派用于资料处理与部署，不进行模型训练。
+`scripts/build_model.py --variant baseline|pconv|p2` 构建相应结构，可用 `--weights` 读取本地权重。三份实验配置分别为 `configs/experiments/yolo26n_baseline.json`、`yolo26n_pconv.json`、`yolo26n_p2.json`。具体结构和公共前缀权重迁移策略见 [模型说明](configs/models/README.md)。
+
+SIRST-UAVB 通过显式原始清单、来源组和类别映射处理，支持 YOLO/VOC 框、UAV/bird 分离与跨划分重复检查，见 [数据处理流程](docs/datasets/PREPARATION.md)。实际数据尚未取得。
+
+训练入口要求 Linux x86_64、单张 RTX 2080 Ti、通过审计的数据、本地权重、带时区的截止时间和最多8小时的单次窗口。Mac和树莓派不进行训练。以下仅供后续云端执行，本次未启动：
+
+```sh
+python scripts/train.py --config configs/experiments/yolo26n_baseline.json \
+  --data data/sirst-uavb/prepared/dataset.yaml --weights models/yolo26n.pt \
+  --output outputs/baseline-seed42 --deadline 2026-10-25T02:25:00+08:00 --max-hours 8
+```
 
 训练操作按已有授权预算和截止安排；平台强停与训练后关机由云端运行管理流程负责。当前仓库整理没有启动训练。当前进度与下一步见 [PROJECT_STATUS.md](docs/PROJECT_STATUS.md)。
 
@@ -61,4 +71,4 @@ python scripts/check_repository.py
 python -m unittest discover -s tests -v
 ```
 
-生成提案阅读稿需要 BibTeX 与 IEEEtran.bst。检查脚本和单元测试不导入模型、不下载权重、不运行训练。
+生成提案阅读稿需要 BibTeX 与 IEEEtran.bst。文档检查不导入模型；完整测试使用 model/data 可选依赖，进行 CPU 随机权重前向、训练器构建/恢复及合成数据检查，不调用训练循环或下载权重。结构检查可通过 `python scripts/verify_models.py --output docs/checks/model_smoke_20261023.json` 记录。

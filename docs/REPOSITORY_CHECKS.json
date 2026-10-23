@@ -1,31 +1,40 @@
 {
-  "checked_utc": "2026-10-23T11:50:01.609019+00:00",
+  "checked_utc": "2026-10-23T12:54:10.248128+00:00",
   "repository": "MPU-Big-Data-Project2-UAV-Detection",
   "checks": {
     "original_zip_and_six_members": "PASS",
-    "proposal_report_protected_prefix_and_class": "PASS",
+    "english_chinese_proposal_report_protected_prefix_and_class": "PASS",
+    "upstream_source_hashes": "PASS",
     "Markdown_local_links": "PASS",
-    "proposal_13_citation_keys": "PASS",
+    "proposal_bilingual_13_citation_keys_and_identical_order": "PASS",
     "report_3_existing_citation_keys": "PASS",
     "BibTeX_warnings": 0,
-    "training_guard_unittests_passed": 4,
-    "train_and_build_help": "PASS",
-    "ignored_data_weights_outputs_credentials": "PASS",
-    "both_TeX_app_compile": "success"
+    "model_integration_tests_passed": 5,
+    "data_pipeline_tests_passed": 12,
+    "training_guard_tests_passed": 6,
+    "total_unittests_passed": 23,
+    "640_square_random_weight_CPU_inference": "PASS",
+    "train_build_data_help": "PASS",
+    "english_TeX_pdflatex_bibtex": "PASS",
+    "english_PDF_pages": 3,
+    "english_PDF_all_pages_visually_reviewed": true,
+    "english_TeX_undefined_citations": 0,
+    "english_TeX_overfull_boxes": 0
   },
   "execution": {
-    "model_imported_or_built": false,
+    "model_imported_or_built": true,
+    "synthetic_checkpoint_roundtrip": true,
     "training_started": false,
     "cloud_started": false,
-    "weights_or_images_downloaded": false
+    "actual_dataset_or_pretrained_weights_downloaded": false,
+    "GPU_or_H10_tested": false
   },
   "deliverables": {
-    "proposal": "V4 migrated",
+    "proposal": "English TeX/PDF and bilingual reading copies V4; Chinese preserved",
     "report": "chapter framework",
     "slides": "outline",
-    "code": "baseline build/train entries; PConv/P2 pending"
+    "code": "baseline, PConv, P2; model/trainer adapter; YOLO/VOC data conversion and audits"
   },
   "original_archive_sha256": "6c315c3b6729bd7b96a6a0e7d3bb6342023413a4cd4d113fb4a193019af1c603",
-  "git_state": "Validation snapshot captured before the first commit; current synchronization state is recorded by Git history and branch tracking.",
-  "PDF_exported_or_visually_reviewed": false
+  "git_state": "Validation snapshot before this implementation commit; Git history and remote branch record synchronization."
 }

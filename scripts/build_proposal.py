@@ -1,4 +1,4 @@
-"""Render the Chinese reading copy using the actual IEEEtran BibTeX order."""
+"""Render bilingual reading copies using the actual IEEEtran BibTeX order."""
 from pathlib import Path
 import json
 import re
@@ -11,11 +11,16 @@ for kind in ('proposal', 'report'):
     target = ROOT / 'docs' / kind / 'references.bib'
     target.write_bytes((ROOT / 'bibliography' / 'references.bib').read_bytes())
 source = json.loads((PROJECT / 'proposal_content.json').read_text())
+english_source = json.loads((PROJECT / 'proposal_content_en.json').read_text())
 body = (PROJECT / 'body_zh.tex').read_text()
 bib = (PROJECT / 'references.bib').read_text()
 keys = re.findall(r'@\w+\{([^,]+),', bib)
 calls = re.findall(r'\\cite\{([^}]+)\}', body)
 used = [k.strip() for call in calls for k in call.split(',')]
+assert re.findall(r'\\cite\{([^}]+)\}', (PROJECT / 'body_en.tex').read_text()) == calls
+for content, filename in ((source, 'body_zh.tex'), (english_source, 'body_en.tex')):
+    json_calls = re.findall(r'\\cite\{([^}]+)\}', '\n'.join(p for section in content['sections'] for p in section['paragraphs']))
+    assert json_calls == re.findall(r'\\cite\{([^}]+)\}', (PROJECT / filename).read_text()), filename
 assert len(keys) == len(set(keys)), 'Duplicate BibTeX keys'
 assert set(used) == set(keys), 'Missing or unused bibliography entry'
 aux = '\\relax\n' + ''.join('\\citation{' + c + '}\n' for c in calls)
@@ -55,6 +60,16 @@ for section in source['sections']:
 md += '## 参考文献\n\n'
 md += '\n\n'.join('[' + str(index[k]) + '] ' + plain_reference(v) for k, v in entries) + '\n'
 (PROJECT / '项目提案_中文版.md').write_text(md)
+md_en = '# ' + english_source['title'] + '\n\n'
+md_en += '**Big Data Introduction · Group Project Proposal · English V4.0**\n\n'
+md_en += 'Team: Member A, Member B, Member C, Member D\n\nDate: 23 October 2026\n\n'
+md_en += '## Abstract\n\n' + english_source['abstract'] + '\n\n'
+for section in english_source['sections']:
+    md_en += '## ' + section['title'] + '\n\n'
+    md_en += '\n\n'.join(render_cites(x) for x in section['paragraphs']) + '\n\n'
+md_en += '## References\n\n'
+md_en += '\n\n'.join('[' + str(index[k]) + '] ' + plain_reference(v).replace('[在线来源]', '[Online]') for k, v in entries) + '\n'
+(PROJECT / 'proposal_en.md').write_text(md_en)
 (PROJECT / 'citation_index.json').write_text(json.dumps(index, ensure_ascii=False, indent=2) + '\n')
 # The literature reading copy is prose and shares the bibliography's generated index.
 lit = '# YOLO26 红外小目标检测：文献分析\n\n'

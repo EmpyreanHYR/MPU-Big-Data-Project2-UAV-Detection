@@ -1,5 +1,5 @@
 {
-  "model": "yolo26n.yaml",
+  "model": "yolo26n-baseline.yaml",
   "task": "detect",
   "epochs": 300,
   "imgsz": 640,
@@ -12,5 +12,6 @@
   "plots": true,
   "save": true,
   "save_period": 10,
-  "deterministic": true
+  "deterministic": true,
+  "variant": "baseline"
 }

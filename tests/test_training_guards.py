@@ -10,6 +10,25 @@ from uav_detection.training import read_experiment, require_training_host, train
 
 
 class TrainingGuards(unittest.TestCase):
+    def test_three_variant_configs_and_mismatch(self):
+        root = Path(__file__).resolve().parents[1]
+        for variant in ("baseline", "pconv", "p2"):
+            settings = read_experiment(root / f"configs/experiments/yolo26n_{variant}.json")
+            self.assertEqual(settings["variant"], variant)
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "bad.json"
+            path.write_text(json.dumps(settings | {"model": "yolo26n-pconv.yaml"}))
+            with self.assertRaises(ValueError):
+                read_experiment(path)
+
+    def test_mac_train_entry_stops_before_model_build(self):
+        from uav_detection.training import train_detector
+        root = Path(__file__).resolve().parents[1]
+        with patch("platform.system", return_value="Darwin"), patch("uav_detection.modeling.build_detector") as build:
+            with self.assertRaises(RuntimeError):
+                train_detector(root/"configs/experiments/yolo26n_baseline.json", "missing.yaml", "missing.pt", "unused", "2999-01-01T00:00:00Z", 1)
+            build.assert_not_called()
+
     def test_mac_and_pi_rejected_before_torch_import(self):
         for system, machine in [("Darwin", "arm64"), ("Linux", "aarch64")]:
             with self.subTest(system=system), patch("platform.system", return_value=system), patch("platform.machine", return_value=machine):

@@ -1,3 +1,34 @@
+\documentclass[lettersize,journal]{IEEEtran}
+\usepackage{amsmath,amsfonts}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{array}
+\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+\usepackage{textcomp}
+\usepackage{stfloats}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage{cite}
+\hyphenation{op-tical net-works semi-conduc-tor IEEE-Xplore}
+% updated with editorial comments 8/9/2021
+
+\begin{document}
+
+\title{基于改进 YOLO26 的红外小目标无人机检测研究报告}
+
+\author{Yaorong Huang, Chunshen Yu, Yifan Zhai, and Zhiwen Luo\\Macao Polytechnic University}
+
+% The paper headers
+\markboth{Journal of \LaTeX\ Class Files,~Vol.~14, No.~8, August~2021}%
+{Shell \MakeLowercase{\textit{et al.}}: A Sample Article Using IEEEtran.cls for IEEE Journals}
+
+\IEEEpubid{0000--0000/00\$00.00~\copyright~2021 IEEE}
+% Remember, if you use this you must call \IEEEpubidadjcol in the second
+% column for its text to clear the IEEEpubid mark.
+
+\maketitle
+
 \begin{abstract}
 本文围绕红外小目标无人机检测组织研究内容，包括数据处理、YOLO26 模型设计、模块对照、检测评价和边缘部署。报告采用统一的数据划分与评价指标组织实验记录，分析浅层特征提取与高分辨率预测对检测效果和计算开销的影响。
 \end{abstract}
@@ -28,3 +59,6 @@ YOLO26 结合端到端检测结构和小目标感知标签分配，为实时框�
 
 \section{结论}
 % 根据已完成实验总结研究结论。
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+\end{document}

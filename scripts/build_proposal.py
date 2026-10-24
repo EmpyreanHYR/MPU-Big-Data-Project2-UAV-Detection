@@ -1,82 +1,55 @@
-"""Render bilingual reading copies using the actual IEEEtran BibTeX order."""
+#!/usr/bin/env python3
+"""Compile proposal.tex without leaving LaTeX build state beside the document."""
 from pathlib import Path
-import json
 import re
-import subprocess
 import shutil
+import subprocess
+import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
-PROJECT = ROOT / 'docs' / 'proposal'
-for kind in ('proposal', 'report'):
-    target = ROOT / 'docs' / kind / 'references.bib'
-    target.write_bytes((ROOT / 'bibliography' / 'references.bib').read_bytes())
-source = json.loads((PROJECT / 'proposal_content.json').read_text())
-english_source = json.loads((PROJECT / 'proposal_content_en.json').read_text())
-body = (PROJECT / 'body_zh.tex').read_text()
-bib = (PROJECT / 'references.bib').read_text()
-keys = re.findall(r'@\w+\{([^,]+),', bib)
-calls = re.findall(r'\\cite\{([^}]+)\}', body)
-used = [k.strip() for call in calls for k in call.split(',')]
-assert re.findall(r'\\cite\{([^}]+)\}', (PROJECT / 'body_en.tex').read_text()) == calls
-for content, filename in ((source, 'body_zh.tex'), (english_source, 'body_en.tex')):
-    json_calls = re.findall(r'\\cite\{([^}]+)\}', '\n'.join(p for section in content['sections'] for p in section['paragraphs']))
-    assert json_calls == re.findall(r'\\cite\{([^}]+)\}', (PROJECT / filename).read_text()), filename
-assert len(keys) == len(set(keys)), 'Duplicate BibTeX keys'
-assert set(used) == set(keys), 'Missing or unused bibliography entry'
-aux = '\\relax\n' + ''.join('\\citation{' + c + '}\n' for c in calls)
-aux += '\\bibstyle{IEEEtran}\n\\bibdata{references}\n'
-(PROJECT / 'citation_check.aux').write_text(aux)
-result = subprocess.run([shutil.which('bibtex') or '/Library/TeX/texbin/bibtex', 'citation_check'],
-                        cwd=PROJECT, text=True, capture_output=True)
-assert result.returncode == 0, result.stdout + result.stderr
-assert 'Warning--' not in result.stdout, result.stdout
-bbl = (PROJECT / 'citation_check.bbl').read_text()
-entries = re.findall(r'\\bibitem\{([^}]+)\}\s*(.*?)(?=\\bibitem\{|\\end\{thebibliography\})',
-                     bbl, re.S)
-order = [k for k, _ in entries]
-assert order == list(dict.fromkeys(used)), 'Order differs from first citation'
-index = {key: i for i, key in enumerate(order, 1)}
+PROJECT = ROOT / 'docs/proposal'
 
-def render_cites(text):
-    def replace(match):
-        return '[' + ', '.join(str(v) for v in sorted({index[k.strip()] for k in match[1].split(',')})) + ']'
-    return re.sub(r'\\cite\{([^}]+)\}', replace, text)
 
-def plain_reference(text):
-    text = re.sub(r'\\BIBentry(?:ALT|STD)interwordspacing', '', text)
-    text = re.sub(r'\\url\{([^}]+)\}', lambda m: '[在线来源](' + m[1] + ')', text)
-    text = re.sub(r'\\emph\{([^}]+)\}', lambda m: '*' + m[1] + '*', text)
-    text = text.replace('{', '').replace('}', '').replace('~', ' ')
-    text = text.replace('``', '“').replace("''", '”').replace('--', '–')
-    return re.sub(r'\s+', ' ', text).strip()
+def executable(name):
+    path = shutil.which(name)
+    fallback = Path('/Library/TeX/texbin') / name
+    if path:
+        return path
+    if fallback.exists():
+        return str(fallback)
+    raise RuntimeError(f'{name} is required to build the proposal')
 
-md = '# ' + source['title'] + '\n\n'
-md += '**《大数据概论》小组项目提案 · 中文版 V4.0**  \n'
-md += '小组成员：成员甲、成员乙、成员丙、成员丁  \n日期：2026年10月23日\n\n'
-md += '## 摘要\n\n' + source['abstract'] + '\n\n'
-for section in source['sections']:
-    md += '## ' + section['title'] + '\n\n'
-    md += '\n\n'.join(render_cites(x) for x in section['paragraphs']) + '\n\n'
-md += '## 参考文献\n\n'
-md += '\n\n'.join('[' + str(index[k]) + '] ' + plain_reference(v) for k, v in entries) + '\n'
-(PROJECT / '项目提案_中文版.md').write_text(md)
-md_en = '# ' + english_source['title'] + '\n\n'
-md_en += '**Big Data Introduction · Group Project Proposal · English V4.0**\n\n'
-md_en += 'Team: Member A, Member B, Member C, Member D\n\nDate: 23 October 2026\n\n'
-md_en += '## Abstract\n\n' + english_source['abstract'] + '\n\n'
-for section in english_source['sections']:
-    md_en += '## ' + section['title'] + '\n\n'
-    md_en += '\n\n'.join(render_cites(x) for x in section['paragraphs']) + '\n\n'
-md_en += '## References\n\n'
-md_en += '\n\n'.join('[' + str(index[k]) + '] ' + plain_reference(v).replace('[在线来源]', '[Online]') for k, v in entries) + '\n'
-(PROJECT / 'proposal_en.md').write_text(md_en)
-(PROJECT / 'citation_index.json').write_text(json.dumps(index, ensure_ascii=False, indent=2) + '\n')
-# The literature reading copy is prose and shares the bibliography's generated index.
-lit = '# YOLO26 红外小目标检测：文献分析\n\n'
-lit += '\n\n'.join(render_cites(x) for x in source['sections'][0]['paragraphs'])
-lit += '\n\n参考条目与编号见[中文提案](../proposal/项目提案_中文版.md)；引用源为 '
-lit += '[references.bib](../../bibliography/references.bib)。\n'
-(ROOT / 'docs/research/literature_review_zh.md').write_text(lit)
-print(json.dumps({'entries': len(index), 'body_citation_calls': len(calls),
-                  'missing_keys': [], 'unused_keys': [],
-                  'BibTeX_warnings': [], 'order': index}, ensure_ascii=False))
+
+def main():
+    canonical = (ROOT / 'bibliography/references.bib').read_bytes()
+    for kind in ('proposal', 'report'):
+        target = ROOT / 'docs' / kind / 'references.bib'
+        if target.read_bytes() != canonical:
+            target.write_bytes(canonical)
+    with tempfile.TemporaryDirectory(prefix='uav-proposal-build-') as temporary:
+        work = Path(temporary)
+        for name in ('proposal.tex', 'IEEEtran.cls', 'references.bib'):
+            shutil.copy2(PROJECT / name, work / name)
+        latex = [executable('pdflatex'), '-interaction=nonstopmode',
+                 '-halt-on-error', 'proposal.tex']
+        commands = [latex, [executable('bibtex'), 'proposal'], latex, latex]
+        for command in commands:
+            result = subprocess.run(command, cwd=work, capture_output=True, text=True)
+            if result.returncode:
+                raise RuntimeError(result.stdout + result.stderr)
+            if command[0] == executable('bibtex') and 'Warning--' in result.stdout:
+                raise RuntimeError(result.stdout)
+        log = (work / 'proposal.log').read_text()
+        if 'undefined' in log or 'Overfull' in log:
+            raise RuntimeError('Unresolved references or overflowing text:\n' + log)
+        pages = re.search(r'Output written on proposal\.pdf \((\d+) pages?', log)
+        if not pages or pages[1] != '2':
+            raise RuntimeError('Proposal must remain two pages:\n' + log)
+        pending = PROJECT / 'proposal.pdf.tmp'
+        shutil.copy2(work / 'proposal.pdf', pending)
+        pending.replace(PROJECT / 'proposal.pdf')
+    print('PASS: proposal.pdf compiled, 2 pages; temporary build files removed')
+
+
+if __name__ == '__main__':
+    main()

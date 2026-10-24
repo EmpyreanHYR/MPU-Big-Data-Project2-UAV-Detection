@@ -1,0 +1,80 @@
+\documentclass[lettersize,journal]{IEEEtran}
+\usepackage{amsmath,amsfonts}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{array}
+\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+\usepackage{textcomp}
+\usepackage{stfloats}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage{cite}
+\hyphenation{op-tical net-works semi-conduc-tor IEEE-Xplore}
+% updated with editorial comments 8/9/2021
+
+\begin{document}
+
+\title{Improved YOLO26 for Small Infrared UAV Target Detection}
+
+\author{Yaorong Huang, Chunshen Yu, Yifan Zhai, and Zhiwen Luo\\Macao Polytechnic University}
+
+% The paper headers
+\markboth{Journal of \LaTeX\ Class Files,~Vol.~14, No.~8, August~2021}%
+{Shell \MakeLowercase{\textit{et al.}}: A Sample Article Using IEEEtran.cls for IEEE Journals}
+
+\IEEEpubid{0000--0000/00\$00.00~\copyright~2021 IEEE}
+% Remember, if you use this you must call \IEEEpubidadjcol in the second
+% column for its text to clear the IEEEpubid mark.
+
+\maketitle
+
+\begin{abstract}
+This project aims to improve the detection of small infrared UAVs in cluttered backgrounds. Starting with YOLO26n, we will study two changes: replacing a shallow convolution with pinwheel-shaped convolution (PConv) and adding a high-resolution P2 prediction branch. Experiments on SIRST-UAVB will compare their effects on recall, false positives, and inference speed. We will then test the selected model on infrared videos and deploy it on a Raspberry Pi with H10 acceleration.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Infrared UAV detection, YOLO26, small targets, PConv, edge deployment.
+\end{IEEEkeywords}
+
+\section{Background and related work}
+Small infrared UAVs have little texture and low contrast, making them difficult to separate from birds and bright background points. YOLO26 supports end-to-end prediction and small-target-aware label assignment. Its lightweight YOLO26n model is the starting point for our study of shallow features and prediction resolution\cite{jocher2026yolo26,ultralytics2026docs}.
+
+PConv uses directional sampling to enlarge shallow receptive fields\cite{yang2025pconv}. EFLNet combines adaptive losses, normalized Wasserstein distance (NWD), and multi-level features for infrared detection\cite{yang2024eflnet}.
+
+TY-RIST studies high-resolution heads and inference cost\cite{atrash2025tyrist}. RDANet, DNANet, ISNet, and ACM explore ways to preserve weak-target information during feature extraction\cite{liu2026rdanet,li2023dnanet,zhang2022isnet,dai2021acm}. This motivates our P2 experiment: retaining more spatial detail may help detect small UAVs, but also increases computation. NWD offers another view of tiny-box localization\cite{wang2021nwd}, which will inform our error analysis.
+
+\section{Research objectives}
+We will compare shallow PConv and a high-resolution P2 branch to find which improves small-UAV recall and reduces false positives across target sizes and backgrounds, while measuring the additional inference cost.
+
+\section{Datasets and preparation}
+The main dataset is SIRST-UAVB, with 3,000 real infrared images, 2,955 UAV boxes, and 1,742 bird boxes\cite{yang2025pconv}. We will train a single-class UAV detector and use the bird annotations to study false positives. Preparation includes checking image dimensions, box coordinates, and class mappings, then creating training, validation, and test splits by source sequence.
+
+IRSTD-1k (1,001 real images), NUDT-SIRST (1,327 synthetic), and SIRST (427 real) will provide separate experiments on generic infrared targets\cite{zhang2022isnet,li2023dnanet,dai2021acm}. We will use native boxes where available and convert target masks into enclosing boxes, checking touching and very small targets.
+
+SIRST-V2, DenseSIRST, and NUDT-SIRST-Sea provide possible extensions to complex backgrounds, dense targets, and maritime scenes\cite{dai2023oscar,xiao2025bafe,wu2023mtunet}. Samples will be grouped by sequence or original large image, with duplicate checks across sources, including the overlap between SIRST and SIRST-V2.
+
+\section{Proposed approach}
+All models will use aspect-ratio-preserving preprocessing to 640 by 640 pixels. B0 is the YOLO26n baseline, retaining its heads, losses, and label assignment\cite{jocher2026yolo26,ultralytics2026docs}. B1 replaces one shallow convolution with PConv\cite{yang2025pconv} to examine directional sampling. B2 adds a stride-4 P2 branch beside P3/P4/P5 to predict from a finer feature map.
+
+B1 and B2 will each be compared with B0, followed by ablations on module placement and combined configurations. Validation accuracy, tiny-target recall, and inference cost will guide model selection.
+
+\IEEEpubidadjcol
+
+\section{Experiments and evaluation}
+Training is planned on a cloud GPU for 300 epochs, using weights from the same COCO-pretrained source. Models will share data splits, augmentation, and input size; initialization of new layers will be recorded. We will select checkpoints by validation mAP@0.5:0.95 and evaluate them on the same test set. Paired random seeds will help assess consistency across runs.
+
+Detection quality will be measured with precision, recall, F1, mAP@0.5, and mAP@0.5:0.95. We will group results by target size in the original image and background complexity, then inspect missed UAVs, bird false positives, and localization errors. Confidence and matching thresholds will be chosen on validation data.
+
+Efficiency tests will use the same prediction branch and output settings, with nested workloads of approximately 25\%, 50\%, and 100\% of the evaluation frames. We will record frame counts, runtime, FPS, p50/p95 frame latency, and peak memory. Timing will cover decoding, preprocessing, inference, coordinate restoration, and display, alongside model latency. Queueing and dropped frames will help explain limits during video processing.
+
+\section{Video validation and deployment}
+We will test the selected detector on independent infrared UAV videos, including distant targets, bird interference, bright background points, and targets entering or leaving the frame. Annotated frames and continuous segments will be used to evaluate detection performance.
+
+The deployment stage will take the model through floating-point inference, ONNX export, quantization, compilation, and video inference on the Raspberry Pi/H10 platform. Calibration images will come from the training set. Comparing the deployed model with the floating-point model will show the effect of quantization on detection quality and speed.
+
+\section{Team responsibilities}
+Yaorong Huang will develop the models, run cloud experiments, coordinate the report, and answer technical questions. Chunshen Yu will prepare slides, performance charts, and result visualizations. Yifan Zhai will organize the oral presentation, video demonstration, script, and rehearsal. Zhiwen Luo will organize the literature, prepare datasets, check annotations and splits, and manage references.
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+\end{document}

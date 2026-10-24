@@ -1,5 +1,7 @@
 # 当前项目状态
 
+2026-10-24：提案 V4.5 进一步删除工作计划与预期成果整节，清理成果清单、演示材料承诺和重复的目的说明。中英文仅围绕研究背景、目标、数据、方法、评价、视频部署与分工展开；英文PDF含13条文献共2页，原模板格式不变。文件结构已简化为 `proposal.tex`/`proposal.pdf` 和 `report.tex`，必要的模型配置、来源元数据及历史实验记录保留。
+
 2026-10-23：YOLO26n 三种结构、SIRST-UAVB 处理流程及英文提案已完成本轮代码与文档检查。后续开发以本仓库为准。
 
 ## 已完成
@@ -8,7 +10,7 @@ B0 baseline、B1 浅层 PConv、B2 stride4 P2 分支均有模型配置、统一�
 
 数据处理支持原生 YOLO/VOC 框、显式类别映射、UAV 单类标签和鸟框保留、来源组划分、文件/像素重复检测、坐标校验及独立输出审计。操作见 [PREPARATION.md](datasets/PREPARATION.md)。合成数据测试通过，实际 SIRST-UAVB 下载包尚未取得，其类别 ID、来源组和正式划分尚待核验。
 
-英文提案已翻译并写入 `docs/proposal/main.tex` 与 `body_en.tex`，中文原稿保留为 `main_zh.tex` 和 `body_zh.tex`。13条文献使用 BibTeX 自动编号，双语引用顺序一致。英文 PDF 三页编译成功并逐页视觉检查。原 IEEE ZIP、六个成员、宏包、类、示例作者、thanks 和页眉通过保护检查。报告仍为章节框架，PPT仍为大纲。
+提案统一为 `docs/proposal/proposal.tex`，中文阅读稿保留在 `docs/proposal/proposal_zh.md`；报告统一为 `docs/report/report.tex`。正文已并入各自入口，删除重复的内容JSON、拆分TeX、英文阅读副本及编译中间文件。13条文献使用BibTeX自动编号。英文 PDF 于2026-10-24精简至两页（含参考文献），编译成功并逐页视觉检查。原 IEEE ZIP、六个成员、宏包、类和页眉通过保护检查；提案与报告作者栏已按用户要求统一填写四位成员及学校信息，删除示例会员身份及编辑部thanks。报告仍为章节框架，PPT仍为大纲。
 
 ## 本轮验证
 

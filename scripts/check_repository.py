@@ -10,9 +10,12 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def normalized_prefix(text):
+def normalized_prefix(text, normalize_author=False):
     prefix = text.split("\\maketitle", 1)[0] + "\\maketitle"
-    return re.sub(r"\\title\{.*?\}\n", "TITLE\n", prefix, count=1, flags=re.S)
+    prefix = re.sub(r"\\title\{.*?\}\n", "TITLE\n", prefix, count=1, flags=re.S)
+    if normalize_author:
+        prefix = re.sub(r"\\author\{.*?(?=\n\n% The paper headers)", "AUTHORS", prefix, count=1, flags=re.S)
+    return prefix
 
 
 def main():
@@ -25,12 +28,18 @@ def main():
             original = z.read(name)
             assert hashlib.sha256(original).hexdigest() == digest
             assert (folder / "original" / name).read_bytes() == original
-        expected = normalized_prefix(z.read("bare_jrnl_new_sample4.tex").decode())
+        template = z.read("bare_jrnl_new_sample4.tex").decode()
+        authors = []
         for kind in ("proposal", "report"):
             doc = ROOT / "docs" / kind
-            assert normalized_prefix((doc / "main.tex").read_text()) == expected, kind
+            text = (doc / f"{kind}.tex").read_text()
+            author = re.search(r"\\author\{.*?(?=\n\n% The paper headers)", text, re.S)
+            assert author and r"\\" in author[0], "Document needs authors and affiliation"
+            assert r"\thanks" not in author[0] and r"\IEEEmembership" not in author[0], "Remove sample editorial author information"
+            authors.append(author[0])
+            assert normalized_prefix(text, True) == normalized_prefix(template, True), "Template changed outside title/authors"
             assert (doc / "IEEEtran.cls").read_bytes() == z.read("IEEEtran.cls")
-        assert normalized_prefix((ROOT / "docs/proposal/main_zh.tex").read_text()) == expected
+        assert authors[0] == authors[1], "Proposal and report authors must match"
     for item in json.loads((ROOT / "third_party/sources.json").read_text()):
         assert hashlib.sha256((ROOT / "third_party" / item["file"]).read_bytes()).hexdigest() == item["sha256"]
     missing = []
@@ -40,6 +49,8 @@ def main():
         if not name.endswith(".md"):
             continue
         md = ROOT / name
+        if not md.exists():
+            continue
         for link in re.findall(r"\]\(([^)]+)\)", md.read_text()):
             if "://" in link or link.startswith("#"):
                 continue
@@ -47,7 +58,7 @@ def main():
             if local and not (md.parent / local).exists():
                 missing.append((str(md.relative_to(ROOT)), link))
     assert not missing, missing
-    print("PASS: original ZIP and six members; protected English/Chinese proposal and report templates; source hashes; Markdown links")
+    print("PASS: original ZIP and six members; protected proposal/report templates and matching authors; source hashes; Markdown links")
 
 
 if __name__ == "__main__":

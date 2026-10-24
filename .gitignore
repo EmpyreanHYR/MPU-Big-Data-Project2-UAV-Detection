@@ -36,3 +36,10 @@ dist/
 *.fdb_latexmk
 *.synctex.gz
 *.out
+
+# Private local operating instructions, cloud account state and transfer records
+/AGENTS.md
+/cloud/
+/docs/cloud/
+/docs/datasets/SIRST_UAVB_INTAKE_20261024.md
+/tests/test_cloud_limits.py

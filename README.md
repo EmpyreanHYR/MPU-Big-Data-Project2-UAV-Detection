@@ -9,8 +9,8 @@
 | 模型构建与训练入口 | [src/uav_detection](src/uav_detection/) / [scripts](scripts/) | 三种结构、训练器重建及检查点恢复检查通过 |
 | 实验与数据配置 | [configs](configs/) | 三份实验配置、原始清单和类别映射示例 |
 | 数据集来源与标注 | [SOURCES.md](docs/datasets/SOURCES.md) | 主数据及补充数据说明 |
-| 双语提案 | [中文](docs/proposal/项目提案_中文版.md) / [英文](docs/proposal/proposal_en.md) / [英文 TeX](docs/proposal/main.tex) / [PDF](docs/proposal/main.pdf) | 英文译稿与中文原稿 V4 |
-| 报告 | [TeX](docs/report/main.tex) / [说明](docs/report/README.md) | 已建立章节框架 |
+| 提案 | [TeX](docs/proposal/proposal.tex) / [PDF](docs/proposal/proposal.pdf) / [中文阅读稿](docs/proposal/proposal_zh.md) | 英文 PDF 2 页 |
+| 报告 | [TeX](docs/report/report.tex) / [说明](docs/report/README.md) | 已建立章节框架 |
 | PPT | [大纲](docs/slides/outline_zh.md) | 已建立目录与汇报大纲 |
 | 参考文献 | [references.bib](bibliography/references.bib) | 统一 BibTeX 文献源 |
 | 原始 IEEE 模板 | [压缩包](templates/ieee/source.zip) / [说明](templates/ieee/README.md) | 原件及六个成员完整保留 |
@@ -20,10 +20,10 @@
 ```text
 src/uav_detection/       模型构建、训练配置与训练入口逻辑
 configs/                数据集、模型和实验配置
-scripts/                构建、训练、文献生成和仓库检查
+scripts/                构建、训练与仓库检查
 bibliography/           统一 BibTeX 文献源
-docs/proposal/          中英提案 TeX、正文、阅读稿和英文 PDF
-docs/report/            报告 TeX 与章节框架
+docs/proposal/          proposal.tex、proposal.pdf 和中文阅读稿
+docs/report/            report.tex 报告框架
 docs/slides/            PPT、讲稿和展示材料
 docs/research/          段落式文献分析
 docs/datasets/          数据来源、标注约定与元数据
@@ -60,7 +60,7 @@ python scripts/train.py --config configs/experiments/yolo26n_baseline.json \
 
 ## 提案、报告与引用
 
-提案和报告均从用户提供 ZIP 中的 `bare_jrnl_new_sample4.tex` 建立。标题、正文和文献接口按项目填写；宏包、IEEEtran 文档类、示例作者、thanks、页眉保持原样。每个文档目录可以独立用 LaTeX 编辑器打开。
+提案和报告均从用户提供 ZIP 中的 `bare_jrnl_new_sample4.tex` 建立。标题、正文和文献接口按项目填写；宏包、IEEEtran 文档类和页眉保持原样；提案与报告使用相同的四位成员姓名和学校信息。每个文档目录可以独立用 LaTeX 编辑器打开；正文直接写在对应的 `proposal.tex` 或 `report.tex` 中。
 
 文献采用 `\cite{key}` 与 `\bibliography{references}`。修改统一文献库后执行：
 
@@ -71,4 +71,6 @@ python scripts/check_repository.py
 python -m unittest discover -s tests -v
 ```
 
-生成提案阅读稿需要 BibTeX 与 IEEEtran.bst。文档检查不导入模型；完整测试使用 model/data 可选依赖，进行 CPU 随机权重前向、训练器构建/恢复及合成数据检查，不调用训练循环或下载权重。结构检查可通过 `python scripts/verify_models.py --output docs/checks/model_smoke_20261023.json` 记录。
+提案构建使用 pdflatex、BibTeX 与 IEEEtran.bst；中间文件在临时目录生成，文档目录只保留源码和最终 PDF。文档检查不导入模型；完整测试使用 model/data 可选依赖，进行 CPU 随机权重前向、训练器构建/恢复及合成数据检查，不调用训练循环或下载权重。结构检查可通过 `python scripts/verify_models.py --output docs/checks/model_smoke_20261023.json` 记录。
+
+本地设备、云端账号及运行记录由 `.gitignore` 排除，公开仓库保留模型、数据处理代码和课程文稿。

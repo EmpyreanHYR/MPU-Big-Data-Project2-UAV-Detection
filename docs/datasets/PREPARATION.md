@@ -4,7 +4,7 @@
 
 ## 原始清单
 
-安装 `python -m pip install -e '.[data]'`。原始包统一下载至 Windows `LOCAL_DATA_DIRECTORY`；处理/传输副本放在 Git 忽略的 `data/`，记录下载入口、版本、许可、取得时间和包 SHA256。解包后核对标注格式及类别定义，再建立 CSV，必需列为：
+安装 `python -m pip install -e '.[data]'`。原始包统一下载至 本地原始数据目录；处理/传输副本放在 Git 忽略的 `data/`，记录下载入口、版本、许可、取得时间和包 SHA256。解包后核对标注格式及类别定义，再建立 CSV，必需列为：
 
 ```csv
 image,annotation,format,group,split

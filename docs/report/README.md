@@ -1,5 +1,7 @@
 # 课程报告
 
-`main.tex` 从 `templates/ieee/source.zip` 的 IEEE 模板建立，保留前导、宏包、文档类、示例作者、thanks 和页眉。`body_zh.tex` 为报告章节框架；实验设置、结果、部署和结论随实测记录补充。
+[report.tex](report.tex) 为报告源码，正文直接在此编辑，当前仍为章节框架。后续在对应章节补入真实实验和部署结果。
 
-正文使用 `\cite{key}`，文献库从仓库 `bibliography/references.bib` 同步。修改正文后可用应用内 LaTeX 编辑器编译；引用检查执行 `python scripts/check_references.py`。
+文献使用 `\cite{key}`，`references.bib` 从 `bibliography/references.bib` 同步。`IEEEtran.cls` 保留原模板版本。可在应用内LaTeX编辑器打开；编译后的文件名为 `report.pdf`。
+
+作者及学校与提案一致，已替换模板示例作者。

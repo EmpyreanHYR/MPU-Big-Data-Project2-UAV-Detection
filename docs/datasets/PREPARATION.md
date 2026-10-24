@@ -1,10 +1,10 @@
 # SIRST-UAVB 数据处理
 
-处理入口为 `scripts/prepare_sirst_uavb.py`。本次完成转换程序和合成样例检查，尚未取得实际 SIRST-UAVB 图像、确认下载包的类别 ID 或生成正式划分。来源见 [SOURCES.md](SOURCES.md)。
+处理入口为 `scripts/prepare_sirst_uavb.py`。本次完成转换程序和合成样例检查，已在用户指定的 Windows 目录找到实包，正在续传和核验；类别语义、全包审计及正式划分尚未完成。来源见 [SOURCES.md](SOURCES.md)。
 
 ## 原始清单
 
-安装 `python -m pip install -e '.[data]'`。原始包存入 Git 忽略的 `data/`，记录下载入口、版本、许可、取得时间和包 SHA256。解包后核对标注格式及类别定义，再建立 CSV，必需列为：
+安装 `python -m pip install -e '.[data]'`。原始包统一下载至 Windows `LOCAL_DATA_DIRECTORY`；处理/传输副本放在 Git 忽略的 `data/`，记录下载入口、版本、许可、取得时间和包 SHA256。解包后核对标注格式及类别定义，再建立 CSV，必需列为：
 
 ```csv
 image,annotation,format,group,split

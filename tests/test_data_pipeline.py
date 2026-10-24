@@ -124,4 +124,88 @@ class DataPreparation(unittest.TestCase):
         self.assertEqual((out/'keep').read_text(),'unique')
 
 
+    def two_split_policy(self):
+        policy = self.root/'group_policy.json'
+        policy.write_text(json.dumps({
+            'video_identity':'unknown','protocol':'inferred-view-holdout',
+            'test_policy':'no_independent_test',
+            'grouping_basis':'Synthetic background family assignment, not video identity',
+            'evidence':[{'method':'generated images','review':'whole groups held out'}]
+        },indent=2))
+        for row in self.rows:
+            if row['split']=='test':row['split']='train'
+        self.write_manifest()
+        return policy
+
+    def prepare_two(self, policy, name='prepared'):
+        from uav_detection.data.prepare import prepare_dataset
+        return prepare_dataset(self.manifest,self.raw,self.mapping,self.root/name,
+                               train_val_only=True,group_provenance=policy)
+
+    def test_explicit_two_split_freezes_policy_and_omits_test(self):
+        import hashlib
+        from uav_detection.data.prepare import audit_prepared
+        policy=self.two_split_policy();raw=policy.read_bytes()
+        result=self.prepare_two(policy);out=self.root/'prepared'
+        self.assertEqual(result['images'],{'train':4,'val':2})
+        self.assertEqual(result['splits'],['train','val'])
+        self.assertEqual(result['test_policy'],'no_independent_test')
+        manifest=json.loads((out/'manifest.json').read_text())
+        self.assertEqual(manifest['schema'],2)
+        self.assertEqual(manifest['splits'],['train','val'])
+        self.assertEqual(manifest['group_provenance'],json.loads(raw))
+        self.assertEqual(manifest['group_provenance_sha256'],hashlib.sha256(raw).hexdigest())
+        self.assertEqual((out/'group_provenance.json').read_bytes(),raw)
+        self.assertNotIn('test:',(out/'dataset.yaml').read_text())
+        self.assertFalse((out/'images/test').exists())
+        self.assertEqual(audit_prepared(out)['status'],'PASS')
+
+    def test_two_split_needs_explicit_mode_policy_and_fixed_rows(self):
+        from uav_detection.data.prepare import prepare_dataset
+        policy=self.two_split_policy()
+        with self.assertRaises(ValueError):self.prepare()
+        with self.assertRaises(ValueError):self.prepare_two(None)
+        with self.assertRaises(ValueError):
+            prepare_dataset(self.manifest,self.raw,self.mapping,self.root/'prepared',group_provenance=policy)
+        original=json.loads(policy.read_text())
+        for change in ({'video_identity':'independent videos'},{'protocol':'random'},
+                       {'test_policy':'test is val'},{'evidence':[]},{'grouping_basis':''}):
+            policy.write_text(json.dumps(original|change))
+            with self.subTest(change=change),self.assertRaises(ValueError):self.prepare_two(policy)
+        policy.write_text(json.dumps(original));self.rows[0]['split']='';self.write_manifest()
+        with self.assertRaises(ValueError):self.prepare_two(policy)
+        self.assertFalse((self.root/'prepared').exists())
+
+    def test_two_split_requires_nonempty_uav_positive_validation(self):
+        policy=self.two_split_policy();original=[dict(row) for row in self.rows]
+        for row in self.rows:row['split']='train'
+        self.write_manifest()
+        with self.assertRaises(ValueError):self.prepare_two(policy)
+        self.rows=original;self.write_manifest()
+        for i in (2,3):(self.raw/f'{i}.txt').write_text('1 0.5 0.5 0.1 0.1\n')
+        with self.assertRaises(ValueError):self.prepare_two(policy)
+
+    def test_two_split_rejects_group_and_pixel_leakage(self):
+        from PIL import Image
+        policy=self.two_split_policy();self.rows[2]['group']='seq0';self.write_manifest()
+        with self.assertRaises(ValueError):self.prepare_two(policy)
+        self.rows[2]['group']='seq1';self.write_manifest()
+        with Image.open(self.raw/'0.png') as image:image.save(self.raw/'2.png',compress_level=0)
+        with self.assertRaises(ValueError):self.prepare_two(policy)
+
+    def test_two_split_audit_rejects_policy_yaml_and_extra_file_tampering(self):
+        from uav_detection.data.prepare import audit_prepared
+        policy=self.two_split_policy();self.prepare_two(policy);out=self.root/'prepared'
+        frozen=out/'group_provenance.json';raw=frozen.read_bytes();frozen.write_bytes(raw+b'\n')
+        with self.assertRaises(ValueError):audit_prepared(out)
+        frozen.write_bytes(raw);mp=out/'manifest.json';original=mp.read_text()
+        contract=json.loads(original);contract['group_provenance']['video_identity']='known'
+        mp.write_text(json.dumps(contract))
+        with self.assertRaises(ValueError):audit_prepared(out)
+        mp.write_text(original);yp=out/'dataset.yaml';y=yp.read_text();yp.write_text(y+'test: images/val\n')
+        with self.assertRaises(ValueError):audit_prepared(out)
+        yp.write_text(y);(out/'images/test').mkdir();shutil.copyfile(self.raw/'0.png',out/'images/test/unlisted.png')
+        with self.assertRaises(ValueError):audit_prepared(out)
+
+
 if __name__=='__main__':unittest.main()

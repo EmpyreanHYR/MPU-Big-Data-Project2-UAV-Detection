@@ -36,3 +36,36 @@ VOC 数据在 prepare 命令追加 `--voc-mode one-based-inclusive` 或经核验
 输出包括 `images/{train,val,test}`、`labels/{train,val,test}`、`dataset.yaml`、`manifest.json` 和 `audit.json`。训练标签仅保留 class 0 UAV；鸟框和原类别保留在 manifest，用于错误归因。manifest 记录原标注摘要、坐标约定、原图与像素摘要和来源组。独立 audit 会重新核对图像、输出标签、清单完整性及划分隔离。输出目录必须不存在；失败清理暂存目录，不覆盖已有结果。
 
 `dataset.yaml` 保存实际绝对根目录，转移到云端后应在目标环境重新执行准备流程。云端训练入口会再次审计整个 prepared 目录。当前适配 native YOLO/VOC 框；其他红外数据的掩膜到框转换需另行实现并记录连通域规则。
+
+## 显式的训练/验证两划分
+
+来源包没有视频或拍摄批次编号时，可以为基线建立**推断背景视图留出**协议；该协议不等于独立视频或独立地点测试。它要求人工检查相同建筑、树木、地平线及近重复图像，将相关背景视图保守合并，固定整组的训练/验证归属。数字文件名不能作为来源证据。先隔离标注冲突、处理精确重复，再记录分组方法和检查依据。
+
+两划分必须显式启用 `--train-val-only`，CSV 每行都填写 `train` 或 `val`，并通过 `--group-provenance` 提供 JSON。它不自动随机生成两划分，也不将验证集充当测试集。JSON 的三个政策字段必须如下填写；`grouping_basis` 为实际方法说明，`evidence` 为非空依据列表，可记录复核清单、阈值、所用程序及其摘要等：
+
+```json
+{
+  "video_identity": "unknown",
+  "protocol": "inferred-view-holdout",
+  "test_policy": "no_independent_test",
+  "grouping_basis": "根据完整图像及去目标背景视图，合并同一建筑、树木与近重复视角；保留人工复核记录。",
+  "evidence": [
+    {"review": "填写实际分组复核记录和固定清单的摘要"}
+  ]
+}
+```
+
+```sh
+python scripts/prepare_sirst_uavb.py prepare \
+  --source-root data/sirst-uavb/raw \
+  --manifest data/sirst-uavb/source_manifest.csv \
+  --class-map data/sirst-uavb/class_map.json \
+  --output data/sirst-uavb/prepared-view-holdout \
+  --train-val-only \
+  --group-provenance data/sirst-uavb/group_provenance.json
+python scripts/prepare_sirst_uavb.py audit --output data/sirst-uavb/prepared-view-holdout
+```
+
+该模式输出 schema 2 清单，显式保存 `splits: ["train", "val"]`，`dataset.yaml` 不包含 `test`。分组政策的完整 JSON 内容和原始文件 SHA256 同时冻结在 manifest，原始字节复制到输出的 `group_provenance.json`；独立审计重新核验二者一致性。每份仍须含无人机正样本，分组及解码像素不得跨份，实际图像、标签及坐标必须匹配清单。缺少政策、缺少分组依据、空验证集、跨组重复、改变政策文件或额外混入图像均拒绝。两划分的 CSV 已固定，因此不应用 `--ratios`；结果只能报告该验证协议下的基线指标。
+
+默认行为保持 schema 1 的 train/val/test 三划分；没有显式两分政策时，不会自动省略 test 或降低默认审计要求。

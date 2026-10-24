@@ -18,6 +18,7 @@ import xml.etree.ElementTree as ET
 from PIL import Image
 
 SPLITS = ("train", "val", "test")
+TRAIN_VAL_SPLITS = ("train", "val")
 
 
 def sha256(path):
@@ -149,9 +150,13 @@ def read_manifest(manifest, source_root, class_map, voc_mode=None):
     return rows, mapping
 
 
-def assign_splits(rows, seed=42, ratios=(0.7, 0.15, 0.15)):
-    if len(ratios) != 3 or any(not math.isfinite(v) or v <= 0 for v in ratios) or abs(sum(ratios)-1) > 1e-8:
-        raise ValueError("Three positive split ratios summing to one are required")
+def assign_splits(rows, seed=42, ratios=(0.7, 0.15, 0.15), splits=SPLITS):
+    if splits not in (SPLITS, TRAIN_VAL_SPLITS):
+        raise ValueError("Unsupported split protocol")
+    if len(ratios) != len(splits) or any(not math.isfinite(v) or v <= 0 for v in ratios) or abs(sum(ratios)-1) > 1e-8:
+        raise ValueError("Positive split ratios summing to one are required")
+    if any(r["split"] and r["split"] not in splits for r in rows):
+        raise ValueError("Input split is outside the declared protocol")
     parent = {r["group"]: r["group"] for r in rows}
     def find(x):
         while parent[x] != x:
@@ -180,24 +185,24 @@ def assign_splits(rows, seed=42, ratios=(0.7, 0.15, 0.15)):
                 raise ValueError("Source group or identical image crosses splits")
     else:
         positives = [k for k, v in clusters.items() if any(b["role"] == "uav" for r in v for b in r["boxes"])]
-        if len(positives) < 3:
-            raise ValueError("At least three independent UAV-positive source groups are required")
+        if len(positives) < len(splits):
+            raise ValueError("Each split needs a separate UAV-positive group")
         rng = random.Random(seed)
         positives = sorted(positives); rng.shuffle(positives)
         counts = Counter()
-        assignments = dict(zip(positives[:3], SPLITS))
+        assignments = dict(zip(positives[:len(splits)], splits))
         for group, split in assignments.items():
             counts[split] += len(clusters[group])
         rest = sorted(set(clusters) - set(assignments)); rng.shuffle(rest)
         # Whole groups are assigned; image ratios are approximate.
         for group in rest:
-            split = max(SPLITS, key=lambda s: (ratios[SPLITS.index(s)]*len(rows)-counts[s]) /
-                        (ratios[SPLITS.index(s)]*len(rows)))
+            split = max(splits, key=lambda s: (ratios[splits.index(s)]*len(rows)-counts[s]) /
+                        (ratios[splits.index(s)]*len(rows)))
             assignments[group] = split; counts[split] += len(clusters[group])
         for group, cluster in clusters.items():
             for row in cluster:
                 row["split"] = assignments[group]
-    for split in SPLITS:
+    for split in splits:
         part = [r for r in rows if r["split"] == split]
         if not part or not any(b["role"] == "uav" for r in part for b in r["boxes"]):
             raise ValueError(f"Split {split} must contain images and at least one UAV")
@@ -213,23 +218,57 @@ def _label_lines(row):
     return lines
 
 
-def _dataset_yaml(root):
-    return "path: "+json.dumps(str(root))+"\ntrain: images/train\nval: images/val\ntest: images/test\nnames:\n  0: uav\n"
+def _dataset_yaml(root, splits=SPLITS):
+    return ("path: "+json.dumps(str(root))+"\n" +
+            "".join(f"{split}: images/{split}\n" for split in splits) + "names:\n  0: uav\n")
+
+
+def _validate_group_provenance(document):
+    expected = {"video_identity": "unknown", "protocol": "inferred-view-holdout",
+                "test_policy": "no_independent_test"}
+    if not isinstance(document, dict) or any(document.get(k) != v for k, v in expected.items()):
+        raise ValueError("Train/val-only requires the explicit unknown-video inferred-view/no-test policy")
+    if not isinstance(document.get("grouping_basis"), str) or not document["grouping_basis"].strip():
+        raise ValueError("The inferred group policy needs a grouping_basis description")
+    evidence = document.get("evidence")
+    if (not isinstance(evidence, list) or not evidence or
+        any(not isinstance(item, (str, dict)) or not item or
+            (isinstance(item, str) and not item.strip()) for item in evidence)):
+        raise ValueError("The inferred group policy needs nonempty auditable evidence")
+    return document
+
+
+def _manifest_splits(manifest, output):
+    if manifest.get("target_class") != "uav":
+        raise ValueError("Unsupported prepared target class")
+    if manifest.get("schema") == 1:
+        if "splits" in manifest and manifest["splits"] != list(SPLITS):
+            raise ValueError("Schema 1 requires train/val/test")
+        return SPLITS
+    if manifest.get("schema") != 2 or manifest.get("splits") != list(TRAIN_VAL_SPLITS):
+        raise ValueError("Unsupported prepared manifest contract")
+    document = _validate_group_provenance(manifest.get("group_provenance"))
+    if manifest.get("group_provenance_file") != "group_provenance.json":
+        raise ValueError("Missing frozen group provenance file")
+    path = _inside(output, manifest["group_provenance_file"])
+    if (sha256(path) != manifest.get("group_provenance_sha256") or
+        json.loads(path.read_text(encoding="utf-8-sig")) != document):
+        raise ValueError("Frozen group provenance differs from the audited policy")
+    return TRAIN_VAL_SPLITS
 
 
 def audit_prepared(output, require_config=True):
     output = Path(output).resolve()
     manifest = json.loads((output / "manifest.json").read_text())
-    if manifest.get("schema") != 1 or manifest.get("target_class") != "uav":
-        raise ValueError("Unsupported prepared manifest contract")
-    if require_config and (output/"dataset.yaml").read_text() != _dataset_yaml(output):
+    splits = _manifest_splits(manifest, output)
+    if require_config and (output/"dataset.yaml").read_text() != _dataset_yaml(output, splits):
         raise ValueError("Dataset YAML differs from the audited layout/root")
     groups, pixels, counts = defaultdict(set), defaultdict(set), Counter()
     positives = Counter()
     expected = set()
     for row in manifest["images"]:
         split = row["split"]
-        if split not in SPLITS:
+        if split not in splits:
             raise ValueError("Invalid output split")
         image = _inside(output, row["image"])
         label = _inside(output, row["label"])
@@ -255,25 +294,42 @@ def audit_prepared(output, require_config=True):
         raise ValueError("Unmanifested or missing prepared image/label")
     if any(len(x) > 1 for x in list(groups.values()) + list(pixels.values())):
         raise ValueError("Source group or pixel duplicate leakage")
-    if any(counts[s] == 0 or positives[s] == 0 for s in SPLITS):
+    if any(counts[s] == 0 or positives[s] == 0 for s in splits):
         raise ValueError("Empty split")
-    return {"status": "PASS", "images": dict(counts), "source_groups": len(groups),
+    result = {"status": "PASS", "images": dict(counts), "source_groups": len(groups),
             "duplicate_image_count": len(manifest["images"]) - len(pixels),
             "uav_boxes": sum(b["role"] == "uav" for r in manifest["images"] for b in r["boxes"]),
             "bird_boxes_for_error_analysis": sum(b["role"] == "bird" for r in manifest["images"] for b in r["boxes"])}
+    if manifest["schema"] == 2:
+        result.update(splits=list(splits), test_policy="no_independent_test",
+                      group_protocol="inferred-view-holdout", video_identity="unknown",
+                      group_provenance_sha256=manifest["group_provenance_sha256"])
+    return result
 
 
 def prepare_dataset(manifest, source_root, class_map, output, seed=42,
-                    ratios=(0.7, 0.15, 0.15), voc_mode=None):
+                    ratios=(0.7, 0.15, 0.15), voc_mode=None,
+                    train_val_only=False, group_provenance=None):
     root, out = Path(source_root).resolve(), Path(output).resolve()
     if out.exists() or root.is_relative_to(out) or out.is_relative_to(root):
         raise ValueError("Output must be new and separate from the raw source tree")
+    provenance_raw, provenance = None, None
+    if train_val_only:
+        if group_provenance is None:
+            raise ValueError("Train/val-only requires an explicit group provenance JSON")
+        provenance_raw = Path(group_provenance).read_bytes()
+        provenance = _validate_group_provenance(json.loads(provenance_raw.decode("utf-8-sig")))
+    elif group_provenance is not None:
+        raise ValueError("Group provenance for the inferred two-split policy needs train_val_only=True")
     rows, mapping = read_manifest(manifest, root, class_map, voc_mode)
-    assign_splits(rows, seed, ratios)
+    splits = TRAIN_VAL_SPLITS if train_val_only else SPLITS
+    if train_val_only and any(row["split"] not in splits for row in rows):
+        raise ValueError("Inferred train/val-only requires every CSV row to have a fixed train or val split")
+    assign_splits(rows, seed, (0.8, 0.2) if train_val_only else ratios, splits)
     out.parent.mkdir(parents=True, exist_ok=True)
     stage = Path(tempfile.mkdtemp(prefix=".uav-prepare-", dir=out.parent))
     try:
-        for split in SPLITS:
+        for split in splits:
             (stage/"images"/split).mkdir(parents=True); (stage/"labels"/split).mkdir(parents=True)
         rendered = []
         for row in rows:
@@ -284,14 +340,19 @@ def prepare_dataset(manifest, source_root, class_map, output, seed=42,
             shutil.copy2(row["_image"], stage/image_rel)
             (stage/label_rel).write_text("\n".join(_label_lines(row)) + ("\n" if _label_lines(row) else ""))
             rendered.append({k: v for k, v in row.items() if not k.startswith("_")} | {"image": image_rel, "label": label_rel})
-        contract = {"schema": 1, "target_class": "uav", "class_map": mapping,
-                    "seed": seed, "requested_ratios": ratios, "voc_coordinate_mode": voc_mode,
+        contract = {"schema": 2 if train_val_only else 1, "target_class": "uav", "class_map": mapping,
+                    "seed": seed, "requested_ratios": None if train_val_only else ratios, "voc_coordinate_mode": voc_mode,
                     "input_manifest_sha256": sha256(manifest), "images": rendered}
+        if train_val_only:
+            (stage/"group_provenance.json").write_bytes(provenance_raw)
+            contract.update(splits=list(splits), group_provenance=provenance,
+                            group_provenance_file="group_provenance.json",
+                            group_provenance_sha256=hashlib.sha256(provenance_raw).hexdigest())
         (stage/"manifest.json").write_text(json.dumps(contract, indent=2, ensure_ascii=False)+"\n")
         audit = audit_prepared(stage, require_config=False)
         (stage/"audit.json").write_text(json.dumps(audit, indent=2)+"\n")
         # Absolute YAML root: Ultralytics resolves relative roots against its datasets directory.
-        (stage/"dataset.yaml").write_text(_dataset_yaml(out))
+        (stage/"dataset.yaml").write_text(_dataset_yaml(out, splits))
         if out.exists():
             raise FileExistsError(out)
         stage.rename(out)

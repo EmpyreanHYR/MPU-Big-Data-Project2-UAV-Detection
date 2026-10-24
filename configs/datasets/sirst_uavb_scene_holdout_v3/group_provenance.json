@@ -1,0 +1,274 @@
+{
+  "protocol": "inferred-view-holdout",
+  "video_identity": "unknown",
+  "test_policy": "no_independent_test",
+  "splits": [
+    "train",
+    "val"
+  ],
+  "schema": 1,
+  "archive_sha256": "f0469f42c998d35fd3f26b4495bd4bdfe4911579e8ca254e099c88cd30618db9",
+  "method": "fixed image-content descriptors and manually reviewed broad background-view families; facade family held out; remove entire validation similarity components with any train-image NCC>=0.90; no filename sequences or detector metrics used",
+  "descriptor": "native Windows .NET thumbnails48x40; fixed bilinear16x12 centered unit-L2 luminance; NCC>=0.96 components; manual merged same-facade families; 0.90 cross-boundary quarantine margin",
+  "class_map": {
+    "0": "uav",
+    "1": "bird"
+  },
+  "class_evidence": {
+    "author_statement_url": "https://arxiv.org/html/2412.16986v1#S3.SS3",
+    "author_statement": "Bird targets excluded from masks",
+    "class0_boxes": 2961,
+    "class0_hits_uav_mask": 2955,
+    "class1_boxes": 1747,
+    "class1_hits_uav_mask": 1,
+    "class1_hit_pixels": 2,
+    "mapping": {
+      "0": "uav",
+      "1": "bird"
+    }
+  },
+  "image_counts": {
+    "train": 1438,
+    "val": 505
+  },
+  "native_box_counts": {
+    "train": {
+      "0": 1421,
+      "1": 925
+    },
+    "val": {
+      "0": 491,
+      "1": 227
+    }
+  },
+  "retained_unique_images": 1943,
+  "duplicate_images_retained": 0,
+  "cross_split_pixel_overlap": 0,
+  "cross_split_max_ncc": 0.8678334951400757,
+  "cross_split_review_pairs": [
+    {
+      "train": "1172",
+      "val": "1551",
+      "ncc": 0.8678334951400757,
+      "val_component": "inferred-ncc096-023"
+    },
+    {
+      "train": "296",
+      "val": "263",
+      "ncc": 0.8484228253364563,
+      "val_component": "inferred-ncc096-079"
+    },
+    {
+      "train": "744",
+      "val": "2456",
+      "ncc": 0.8411172032356262,
+      "val_component": "inferred-ncc096-042"
+    },
+    {
+      "train": "1430",
+      "val": "1550",
+      "ncc": 0.8363147377967834,
+      "val_component": "inferred-ncc096-076"
+    },
+    {
+      "train": "1077",
+      "val": "1414",
+      "ncc": 0.8061314225196838,
+      "val_component": "inferred-ncc096-094"
+    },
+    {
+      "train": "2251",
+      "val": "1691",
+      "ncc": 0.8047323822975159,
+      "val_component": "inferred-ncc096-020"
+    },
+    {
+      "train": "247",
+      "val": "135",
+      "ncc": 0.8046634197235107,
+      "val_component": "inferred-ncc096-071"
+    },
+    {
+      "train": "1172",
+      "val": "1130",
+      "ncc": 0.8019778728485107,
+      "val_component": "inferred-ncc096-067"
+    },
+    {
+      "train": "167",
+      "val": "1229",
+      "ncc": 0.7982633709907532,
+      "val_component": "inferred-ncc096-070"
+    },
+    {
+      "train": "669",
+      "val": "1278",
+      "ncc": 0.7845784425735474,
+      "val_component": "inferred-ncc096-011"
+    },
+    {
+      "train": "769",
+      "val": "185",
+      "ncc": 0.7811272144317627,
+      "val_component": "inferred-ncc096-059"
+    },
+    {
+      "train": "641",
+      "val": "2956",
+      "ncc": 0.77679842710495,
+      "val_component": "inferred-ncc096-087"
+    }
+  ],
+  "cross_boundary_components_quarantined": [
+    "inferred-ncc096-001",
+    "inferred-ncc096-007",
+    "inferred-ncc096-024",
+    "inferred-ncc096-031",
+    "inferred-ncc096-095"
+  ],
+  "unique_images_quarantined": 559,
+  "quarantine_reasons": [
+    "3 conflicting native label groups (7 original images)",
+    "6 UAV mask-absence images including duplicate copies; 5 unique pixel groups",
+    "178 unreviewed or ambiguous unique images",
+    "97 sky-family unique images: cannot create robust independent third split",
+    "271 whole facade-component unique images too close to training backgrounds",
+    "5 images in component064 quarantined after manual facade/tree near-neighbor review"
+  ],
+  "group_definitions": {
+    "inferred-view-lowrise-hillside-cranes": "train; reviewed low-rise/hillside/crane-dominant backgrounds",
+    "inferred-view-nearby-building-facades": "val; reviewed nearby facade family after cross-boundary quarantine"
+  },
+  "source_files": {
+    "mask_box_checks_sha256": "f4484acc1e2c2838fa76f66012ae005f958a6e382ed2348b1f538764114fde53",
+    "thumbnail_features_sha256": "fe189f2e95ec3b50b2af87ea168137dbd951e03640ecbda1258dd71928a9768e",
+    "source_manifest_sha256": "995479f329832f92e3ceb5a2ab893b6ed410687ac72e76589f851b4253c3b216"
+  },
+  "limitations": [
+    "Original videos, sessions and places not released; these are inferred background-view groups, not verified independent video sources",
+    "Both splits are urban thermal images and may share capture geography; no claim of site independence",
+    "Validation reflects a held-out facade-view shift, not an iid random image split",
+    "No independent test inference or test accuracy is reported; later external video is needed"
+  ],
+  "grouping_basis": "fixed image-content descriptors and manually reviewed broad background-view families; facade family held out; remove entire validation similarity components with any train-image NCC>=0.90; no filename sequences or detector metrics used",
+  "evidence": [
+    {
+      "kind": "paper-mask-semantics",
+      "url": "https://arxiv.org/html/2412.16986v1#S3.SS3",
+      "matches": {
+        "author_statement_url": "https://arxiv.org/html/2412.16986v1#S3.SS3",
+        "author_statement": "Bird targets excluded from masks",
+        "class0_boxes": 2961,
+        "class0_hits_uav_mask": 2955,
+        "class1_boxes": 1747,
+        "class1_hits_uav_mask": 1,
+        "class1_hit_pixels": 2,
+        "mapping": {
+          "0": "uav",
+          "1": "bird"
+        }
+      }
+    },
+    {
+      "kind": "fixed-NCC-components-and-visual-review",
+      "input_sha256": "fe189f2e95ec3b50b2af87ea168137dbd951e03640ecbda1258dd71928a9768e",
+      "similarity_threshold": 0.96,
+      "holdout_quarantine_threshold": 0.9
+    },
+    {
+      "kind": "frozen-source-manifest",
+      "sha256": "c6386a3b8071089ac1e1e1c95d1e1f57790a1b235c9203994066d6894f8bd31a"
+    },
+    {
+      "kind": "cross-split-nearest-manual-review",
+      "pairs": [
+        {
+          "train": "1172",
+          "val": "1551",
+          "ncc": 0.8678334951400757,
+          "val_component": "inferred-ncc096-023"
+        },
+        {
+          "train": "296",
+          "val": "263",
+          "ncc": 0.8484228253364563,
+          "val_component": "inferred-ncc096-079"
+        },
+        {
+          "train": "744",
+          "val": "2456",
+          "ncc": 0.8411172032356262,
+          "val_component": "inferred-ncc096-042"
+        },
+        {
+          "train": "1430",
+          "val": "1550",
+          "ncc": 0.8363147377967834,
+          "val_component": "inferred-ncc096-076"
+        },
+        {
+          "train": "1077",
+          "val": "1414",
+          "ncc": 0.8061314225196838,
+          "val_component": "inferred-ncc096-094"
+        },
+        {
+          "train": "2251",
+          "val": "1691",
+          "ncc": 0.8047323822975159,
+          "val_component": "inferred-ncc096-020"
+        },
+        {
+          "train": "247",
+          "val": "135",
+          "ncc": 0.8046634197235107,
+          "val_component": "inferred-ncc096-071"
+        },
+        {
+          "train": "1172",
+          "val": "1130",
+          "ncc": 0.8019778728485107,
+          "val_component": "inferred-ncc096-067"
+        },
+        {
+          "train": "167",
+          "val": "1229",
+          "ncc": 0.7982633709907532,
+          "val_component": "inferred-ncc096-070"
+        },
+        {
+          "train": "669",
+          "val": "1278",
+          "ncc": 0.7845784425735474,
+          "val_component": "inferred-ncc096-011"
+        },
+        {
+          "train": "769",
+          "val": "185",
+          "ncc": 0.7811272144317627,
+          "val_component": "inferred-ncc096-059"
+        },
+        {
+          "train": "641",
+          "val": "2956",
+          "ncc": 0.77679842710495,
+          "val_component": "inferred-ncc096-087"
+        }
+      ]
+    },
+    {
+      "component": "inferred-ncc096-064",
+      "unique_images_quarantined": 5,
+      "reason": "tree-occluded nearby facade in train1430 visually matches facade family in validation1550; quarantine whole component despite NCC below fixed threshold"
+    },
+    {
+      "kind": "final-source-manifest",
+      "sha256": "995479f329832f92e3ceb5a2ab893b6ed410687ac72e76589f851b4253c3b216"
+    }
+  ],
+  "manual_nearest_review_correction": {
+    "component": "inferred-ncc096-064",
+    "unique_images_quarantined": 5,
+    "reason": "tree-occluded nearby facade in train1430 visually matches facade family in validation1550; quarantine whole component despite NCC below fixed threshold"
+  }
+}

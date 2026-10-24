@@ -46,7 +46,7 @@ python scripts/train.py --help
 
 `scripts/build_model.py --variant baseline|pconv|p2` 构建相应结构，可用 `--weights` 读取本地权重。三份实验配置分别为 `configs/experiments/yolo26n_baseline.json`、`yolo26n_pconv.json`、`yolo26n_p2.json`。具体结构和公共前缀权重迁移策略见 [模型说明](configs/models/README.md)。
 
-SIRST-UAVB 通过显式原始清单、来源组和类别映射处理，支持 YOLO/VOC 框、UAV/bird 分离与跨划分重复检查，见 [数据处理流程](docs/datasets/PREPARATION.md)。实际数据尚未取得。
+SIRST-UAVB 通过显式原始清单、来源组和类别映射处理，支持 YOLO/VOC 框、UAV/bird 分离与跨划分重复检查，见 [数据处理流程](docs/datasets/PREPARATION.md)。实际实包已取得，类别及重复检查完成；当前固定背景视图训练/验证协议见 [数据划分](configs/datasets/sirst_uavb_scene_holdout_v3/README.md)。
 
 训练入口要求 Linux x86_64、单张 RTX 2080 Ti、通过审计的数据、本地权重、带时区的截止时间和最多8小时的单次窗口。Mac和树莓派不进行训练。以下仅供后续云端执行，本次未启动：
 

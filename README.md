@@ -48,7 +48,7 @@ python scripts/train.py --help
 
 SIRST-UAVB 通过显式原始清单、来源组和类别映射处理，支持 YOLO/VOC 框、UAV/bird 分离与跨划分重复检查，见 [数据处理流程](docs/datasets/PREPARATION.md)。实际实包已取得，类别及重复检查完成；当前固定背景视图训练/验证协议见 [数据划分](configs/datasets/sirst_uavb_scene_holdout_v3/README.md)。
 
-训练入口要求 Linux x86_64、单张 RTX 2080 Ti、通过审计的数据、本地权重、带时区的截止时间和最多8小时的单次窗口。Mac和树莓派不进行训练。以下仅供后续云端执行，本次未启动：
+训练入口要求 Linux x86_64、单张 RTX 2080 Ti、通过审计的数据、本地权重、带时区的截止时间和最多8小时的单次窗口。Mac和树莓派不进行训练。以下为云端调用示例；实际运行窗口须按剩余授权时间计算：
 
 ```sh
 python scripts/train.py --config configs/experiments/yolo26n_baseline.json \
@@ -56,7 +56,7 @@ python scripts/train.py --config configs/experiments/yolo26n_baseline.json \
   --output outputs/baseline-seed42 --deadline 2026-10-25T02:25:00+08:00 --max-hours 8
 ```
 
-训练操作按已有授权预算和截止安排；平台强停与训练后关机由云端运行管理流程负责。当前仓库整理没有启动训练。当前进度与下一步见 [PROJECT_STATUS.md](docs/PROJECT_STATUS.md)。
+训练操作按已有授权预算和截止安排；平台强停与训练后关机由云端运行管理流程负责。2026-10-25已在云端单RTX2080Ti启动YOLO26n基线；真实完成轮数与最终验证待训练收尾核验。当前进度与下一步见 [PROJECT_STATUS.md](docs/PROJECT_STATUS.md)。
 
 ## 提案、报告与引用
 

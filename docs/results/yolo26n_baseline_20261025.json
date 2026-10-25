@@ -120,10 +120,65 @@
     "retrieval_mode": "no GPU; stopped again after retrieval"
   },
   "not_run": [
-    "PConv comparative training",
     "P2 comparative training",
     "independent test evaluation",
     "YOLO26n H10 deployment",
     "real infrared video latency benchmark"
-  ]
+  ],
+  "numerical_history_audit": {
+    "audited_date": "2026-10-26",
+    "csv_rows": 93,
+    "nonfinite_validation_loss_epochs": [
+      {
+        "epoch": 6,
+        "fields": [
+          "val/cls_loss"
+        ]
+      },
+      {
+        "epoch": 7,
+        "fields": [
+          "val/box_loss",
+          "val/cls_loss",
+          "val/l1_loss"
+        ]
+      },
+      {
+        "epoch": 12,
+        "fields": [
+          "val/box_loss",
+          "val/cls_loss",
+          "val/l1_loss"
+        ]
+      },
+      {
+        "epoch": 31,
+        "fields": [
+          "val/cls_loss"
+        ]
+      },
+      {
+        "epoch": 32,
+        "fields": [
+          "val/cls_loss"
+        ]
+      },
+      {
+        "epoch": 36,
+        "fields": [
+          "val/cls_loss"
+        ]
+      },
+      {
+        "epoch": 37,
+        "fields": [
+          "val/cls_loss"
+        ]
+      }
+    ],
+    "all_training_losses_finite": true,
+    "all_detection_metrics_finite": true,
+    "interpretation": "Final detection metrics and checkpoint finiteness remain verified; complete validation-loss history is not finite. Cause unresolved; no NaN rows removed or imputed."
+  },
+  "subsequent_pconv_record": "yolo26n_pconv_20261026.json"
 }

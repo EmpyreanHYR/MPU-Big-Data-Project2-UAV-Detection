@@ -1,0 +1,203 @@
+{
+  "experiment": "B1 layer-1 PConv / matched92",
+  "date": "2026-10-26",
+  "training_source_commit": "1b7311088bddbafd6d89d5b9a54f501799ba670d",
+  "dataset": {
+    "train_images": 1438,
+    "validation_images": 505,
+    "train_uav_boxes": 1421,
+    "validation_uav_boxes": 491,
+    "train_bird_boxes_retained_for_analysis": 925,
+    "validation_bird_boxes_retained_for_analysis": 227,
+    "cross_split_exact_pixel_duplicates": 0,
+    "protocol": "inferred-background-view holdout; original video/session identities unavailable",
+    "independent_test": false,
+    "source_manifest_sha256": "995479f329832f92e3ceb5a2ab893b6ed410687ac72e76589f851b4253c3b216",
+    "prepared_manifest_sha256": "c5665f8251efe5eeb6e57d14db7b3932ca5a986b23bada0b0bdeb7fb4ba61b2e"
+  },
+  "environment": {
+    "python": "3.10.8 (main, Nov 24 2022, 14:13:03) [GCC 11.2.0]",
+    "torch": "2.1.2+cu118",
+    "ultralytics": "8.4.184",
+    "gpu": "NVIDIA GeForce RTX 2080 Ti"
+  },
+  "training": {
+    "complete_epochs": 92,
+    "lr_schedule_epochs": 300,
+    "framework_duration_hours": 1.002,
+    "stop_reason": "matched_complete_epoch_limit",
+    "seed": 42,
+    "batch": 4,
+    "imgsz": 640,
+    "amp": true,
+    "optimizer": "AdamW",
+    "lr0": 0.002,
+    "momentum": 0.9,
+    "weight_decay": 0.0005,
+    "lrf": 0.01,
+    "nbs": 64,
+    "warmup_bias_lr": 0.0,
+    "transferred_tensors": 342,
+    "excluded_prefix_layers": [
+      1
+    ]
+  },
+  "best_selection": {
+    "epoch_from_unique_csv_max_and_checkpoint_metrics": 68,
+    "criterion": "validation mAP50-95",
+    "in_training_metrics": {
+      "metrics/precision(B)": 0.41639,
+      "metrics/recall(B)": 0.37475,
+      "metrics/mAP50(B)": 0.35578,
+      "metrics/mAP50-95(B)": 0.14111
+    }
+  },
+  "final_best_validation": {
+    "images": 505,
+    "uav_instances": 491,
+    "precision": 0.416,
+    "recall": 0.378,
+    "map50": 0.358,
+    "map50_95": 0.141,
+    "precision_of_record": "rounded final console output",
+    "preprocess_ms_per_image": 0.2,
+    "inference_ms_per_image": 3.1,
+    "postprocess_ms_per_image": 0.1,
+    "timing_scope": "offline CUDA validation, batch 8; not edge video"
+  },
+  "numerical_history_audit": {
+    "all_training_losses_finite": true,
+    "all_detection_metrics_finite": true,
+    "nonfinite_validation_loss_epochs": [
+      {
+        "epoch": 3,
+        "fields": [
+          "val/cls_loss"
+        ]
+      },
+      {
+        "epoch": 6,
+        "fields": [
+          "val/cls_loss"
+        ]
+      },
+      {
+        "epoch": 7,
+        "fields": [
+          "val/cls_loss"
+        ]
+      },
+      {
+        "epoch": 8,
+        "fields": [
+          "val/cls_loss"
+        ]
+      },
+      {
+        "epoch": 9,
+        "fields": [
+          "val/cls_loss"
+        ]
+      },
+      {
+        "epoch": 10,
+        "fields": [
+          "val/box_loss",
+          "val/cls_loss",
+          "val/l1_loss"
+        ]
+      },
+      {
+        "epoch": 11,
+        "fields": [
+          "val/box_loss",
+          "val/cls_loss",
+          "val/l1_loss"
+        ]
+      },
+      {
+        "epoch": 12,
+        "fields": [
+          "val/cls_loss"
+        ]
+      },
+      {
+        "epoch": 14,
+        "fields": [
+          "val/cls_loss"
+        ]
+      },
+      {
+        "epoch": 16,
+        "fields": [
+          "val/cls_loss"
+        ]
+      },
+      {
+        "epoch": 17,
+        "fields": [
+          "val/cls_loss"
+        ]
+      }
+    ],
+    "history_gate": "failed",
+    "queue_pipeline_exit": 1,
+    "pconv_training_process_exit": 0,
+    "cause": "unresolved; no rows removed or imputed"
+  },
+  "artifacts": {
+    "archive_sha256": "3a001ab0cdb3818d1a603a4e62a46c2a4769037767d08152b7b3796e01ce233a",
+    "verified_files": 35,
+    "final_weights": [
+      {
+        "name": "best.pt",
+        "bytes": 5394626,
+        "sha256": "c9a1f63d76761864e2132288ad9b80930d10e01bde09d831a1c4a71ecaf5e9d3",
+        "all_floating_state_finite": true,
+        "state_tensors": 720,
+        "layer1_type": "PConv",
+        "stored_epoch": -1,
+        "checkpoint_metrics": {
+          "metrics/precision(B)": 0.41639,
+          "metrics/recall(B)": 0.37475,
+          "metrics/mAP50(B)": 0.35578,
+          "metrics/mAP50-95(B)": 0.14111,
+          "val/box_loss": 2.17772,
+          "val/cls_loss": 2.37516,
+          "val/l1_loss": 0.00139,
+          "fitness": 0.14111
+        },
+        "ultralytics": "8.4.184"
+      },
+      {
+        "name": "last.pt",
+        "bytes": 5394626,
+        "sha256": "cc4ed65ffbc087d5d816cd07361321454547ed55f048cab29bde12b2ebf3fe03",
+        "all_floating_state_finite": true,
+        "state_tensors": 720,
+        "layer1_type": "PConv",
+        "stored_epoch": -1,
+        "checkpoint_metrics": {
+          "metrics/precision(B)": 0.3788,
+          "metrics/recall(B)": 0.33809,
+          "metrics/mAP50(B)": 0.2428,
+          "metrics/mAP50-95(B)": 0.09585,
+          "val/box_loss": 2.17808,
+          "val/cls_loss": 2.746,
+          "val/l1_loss": 0.00138,
+          "fitness": 0.09585
+        },
+        "ultralytics": "8.4.184"
+      }
+    ],
+    "raw_csv_sha256": "dce1b371463a4fc0ee03745cf16d431af3b146404048c3dac85870a324e1cbfb",
+    "remote_manifest_and_local_sha_match": true,
+    "retrieval_ack_exit": 0
+  },
+  "p2": {
+    "started": false,
+    "reason": "prior stage numerical-history gate failed"
+  },
+  "platform_shutdown_verified": true,
+  "local_training": false
+}

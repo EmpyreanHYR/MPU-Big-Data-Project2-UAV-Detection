@@ -15,7 +15,7 @@
 
 \begin{document}
 
-\title{YOLO26n for Infrared Small-UAV Detection: Baseline Experiments}
+\title{YOLO26n for Infrared Small-UAV Detection: Baseline and PConv Experiments}
 
 \author{Yaorong Huang, Chunshen Yu, Yifan Zhai, and Zhiwen Luo\\Macao Polytechnic University}
 
@@ -30,7 +30,7 @@
 \maketitle
 
 \begin{abstract}
-This report presents a YOLO26n baseline for single-class infrared UAV bounding-box detection on SIRST-UAVB. An audit of the released images found exact-pixel overlap across the original training and validation split and conflicting annotations for some identical images. We fixed a background-view holdout containing 1,438 training and 505 validation images after duplicate removal and annotation quarantine. Training completed 92 full epochs and part of epoch 93 within a fixed execution window. Final validation of the selected checkpoint achieved 66.5\% precision, 49.2\% recall, 56.2\% mAP@0.5, and 23.2\% mAP@0.5:0.95 on 491 UAV instances. These measurements establish the baseline for subsequent shallow pinwheel-shaped convolution and high-resolution P2 experiments.
+We study YOLO26n for infrared UAV bounding-box detection on SIRST-UAVB. Exact-pixel duplicates and conflicting labels were audited before fixing a background-view holdout of 1,438 training and 505 validation images. The baseline completed 92 full epochs and part of epoch 93; its selected checkpoint achieved 56.2\% mAP@0.5 and 23.2\% mAP@0.5:0.95. A layer-1 pinwheel-shaped convolution (PConv) variant completed 92 full epochs under the same 300-epoch learning-rate plan and achieved 35.8\% and 14.1\%, respectively. Both runs had finite training losses, detection metrics, and saved weights, but some validation-loss entries were NaN. The strict history check stopped the comparison queue before P2 training. We report these observed results and the unresolved numerical issue.
 \end{abstract}
 \begin{IEEEkeywords}
 Infrared UAV detection, YOLO26n, small targets, dataset audit, baseline experiments.
@@ -39,12 +39,12 @@ Infrared UAV detection, YOLO26n, small targets, dataset audit, baseline experime
 \section{Background and Study Design}
 Small infrared UAVs contain few pixels and limited texture. Bright background structures and birds can resemble the target, while small coordinate errors strongly affect box overlap. We study bounding-box detection using YOLO26n as the lightweight baseline\cite{jocher2026yolo26,ultralytics2026docs}. Pinwheel-shaped convolution (PConv) provides directional shallow sampling for infrared small-target features\cite{yang2025pconv}; a stride-4 P2 prediction branch provides a second way to preserve spatial detail.
 
-The implementation contains B0 (baseline), B1 (a layer-1 PConv replacement), and B2 (an added P2 branch). The experiment reported here trains B0. B1 and B2 currently have model-construction and checkpoint-restoration checks; their detection improvements remain to be measured using the same fixed data protocol.
+The implementation contains B0 (baseline), B1 (a layer-1 PConv replacement), and B2 (an added P2 branch). This report records B0 and a completed 92-epoch B1 attempt. B2 has model-construction and checkpoint-restoration checks but was not trained because B1 failed the subsequent numerical-history check.
 
 \section{Dataset Audit and Preparation}
-SIRST-UAVB is the main dataset\cite{yang2025pconv}. The acquired archive contains 3,000 grayscale images at 640 by 512 pixels. Direct inspection of its native labels counted 2,961 class-0 and 1,747 class-1 boxes. We identified class 0 as UAV and class 1 as bird by cross-checking boxes against masks and the authors' description that bird targets are excluded from masks. Positive mask pixels overlapped 2,955 of the class-0 boxes and only one class-1 box, with two pixels in that exceptional overlap. Native boxes were retained rather than regenerated from masks.
+SIRST-UAVB contains 3,000 grayscale images at 640 by 512 pixels\cite{yang2025pconv}. The acquired native labels contain 2,961 UAV and 1,747 bird boxes, identified by cross-checking masks and the authors' annotation description. We retain native boxes and use UAV as the training class; bird boxes remain available for error analysis.
 
-The original 2,400/600 split has 496 exact-pixel groups shared across training and validation. Three additional pixel-identical groups have inconsistent labels. We isolated those conflicts, the six UAV images without corresponding positive mask pixels and their pixel-identical copies, and close background views at the split boundary. Exact-pixel deduplication and the fixed background-view review produced the counts in Table~\ref{tab:data}. Bird boxes are retained in the audit manifest but omitted from the single-class UAV training labels.
+The original 2,400/600 split shares 496 exact-pixel image groups; three further groups have conflicting labels. We isolated conflicts, six UAV images without corresponding positive mask pixels and their copies, and close background views at the split boundary. Deduplication and background-view review produced Table~\ref{tab:data}.
 
 \begin{table}[!t]
 \caption{Fixed SIRST-UAVB Background-View Holdout}
@@ -61,13 +61,13 @@ Bird boxes retained for analysis & 925 & 227\\
 \end{tabular}
 \end{table}
 
-\IEEEpubidadjcol
 The release provides no original video or session identifiers. The grouping therefore represents inferred background-view families, with nearby facade views held out for validation. It has zero cross-split exact-pixel duplicates and no independent test split. The image list, class map, grouping policy, and prepared-manifest digest are frozen in the repository. Conversion preserves original pixels and dimensions; training then uses aspect-ratio-preserving resizing and padding to a 640-pixel input.
 
 \section{Model and Experimental Settings}
-B0 uses the n-scale, single-class YOLO26 architecture with prediction strides 8, 16, and 32 and its end-to-end output branch. The constructed training model has 2,504,190 parameters. For consistent initialization across future variants, we transfer only same-name, same-shape tensors in layers 0--16 from the official YOLO26n checkpoint: 348 tensors were copied. Layers from 17 onward are randomly initialized. Thus the experiment uses a shared-prefix transfer policy rather than full-model pretrained initialization.
+B0 uses the n-scale, single-class YOLO26 architecture with prediction strides 8, 16, and 32 and its end-to-end output branch. The constructed training model has 2,504,190 parameters. For consistent initialization across variants, we transfer only same-name, same-shape tensors in layers 0--16 from the official YOLO26n checkpoint: 348 tensors were copied. Layers from 17 onward are randomly initialized. Thus the experiment uses a shared-prefix transfer policy rather than full-model pretrained initialization.
 
-Training ran on one RTX 2080 Ti with Python 3.10.8, PyTorch 2.1.2+cu118, and Ultralytics 8.4.184. Table~\ref{tab:settings} records the effective settings. The automatic optimizer resolved to AdamW at an initial learning rate of 0.002; this effective value supersedes the generic default in the argument file. Standard training augmentation includes mosaic, scaling, translation, and horizontal flipping. Validation uses the fixed 505-image split without training augmentation.
+\IEEEpubidadjcol
+Both runs used one RTX 2080 Ti, Python 3.10.8, PyTorch 2.1.2+cu118, and Ultralytics 8.4.184. B0's automatic optimizer resolved to AdamW. B1 explicitly matches its learning rate 0.002, momentum 0.9, weight decay 0.0005, lrf 0.01, nbs 64, and warmup bias learning rate 0.0. B1 replaces layer 1 with PConv and transfers 342 tensors, excluding that layer. It stops after complete epoch 92 while retaining the 300-epoch learning-rate and augmentation plan. Both use mosaic, scaling, translation, flipping, and the same unaugmented validation split.
 
 \begin{table}[!t]
 \caption{Effective Baseline Training Settings}
@@ -89,10 +89,10 @@ Checkpoint selection & Highest validation mAP@0.5:0.95\\
 \end{tabular}
 \end{table}
 
-A dual-clock stopping callback reserved time for saving and final validation. The framework printed ``93 epochs completed in 0.946 hours,'' but the last visible training progress in epoch 93 was 317/360 batches before the time stop. We therefore count 92 complete epochs plus a partial 93rd epoch. No model training was performed on the local computer. The selected checkpoint was saved at epoch 81, as confirmed by its stored epoch index and the validation CSV.
+A time callback reserved saving and validation time for B0. Although its log reported 93 epochs, the final visible progress was 317/360 batches in epoch 93: we count 92 full epochs plus a partial 93rd. B1 completed exactly 92 full epochs. B0 selected epoch 81; B1 selected epoch 68. No local model training was performed.
 
 \section{Results and Analysis}
-Table~\ref{tab:results} presents the final end-of-run validation output. Precision and recall are the operating point reported by the Ultralytics validator, and mAP@0.5:0.95 averages AP across IoU thresholds from 0.50 to 0.95. The values are rounded to the three-decimal precision of the final console output. The selected checkpoint was revalidated after optimizer stripping; its final scores differ slightly from the in-training epoch-81 values of 56.176\% mAP@0.5 and 23.061\% mAP@0.5:0.95.
+Table~\ref{tab:results} reports final checkpoint revalidation, rounded to the console's three-decimal precision. Precision and recall use the validator's operating point; AP50:95 averages IoU thresholds 0.50--0.95. Revalidation after optimizer stripping differs slightly from in-training values: B0's selected row has AP50/AP50:95 of 56.176\%/23.061\%, and B1's has 35.578\%/14.111\%.
 
 \begin{table}[!t]
 \caption{Final Validation on 505 Images and 491 UAV Boxes (\%)}
@@ -103,7 +103,8 @@ Table~\ref{tab:results} presents the final end-of-run validation output. Precisi
 Model state & Precision & Recall & AP50 & AP50:95\\
 \hline
 Partial epoch 93 & 72.4 & 48.3 & 52.6 & 20.6\\
-Selected best (epoch 81) & 66.5 & 49.2 & 56.2 & 23.2\\
+B0 best (epoch 81) & 66.5 & 49.2 & 56.2 & 23.2\\
+B1 PConv best (epoch 68) & 41.6 & 37.8 & 35.8 & 14.1\\
 \hline
 \end{tabular}
 \end{table}
@@ -111,24 +112,26 @@ Selected best (epoch 81) & 66.5 & 49.2 & 56.2 & 23.2\\
 \begin{figure}[!t]
 \centering
 \includegraphics[width=\columnwidth]{figures/baseline_validation.png}
-\caption{In-training validation AP from the verified CSV snapshot, through complete epoch 92. The dashed line marks the selected checkpoint at epoch 81. The partial final epoch and post-training best-checkpoint revalidation are reported separately in Table~\ref{tab:results}.}
+\caption{B0 in-training validation AP from the verified CSV snapshot, through complete epoch 92. The dashed line marks the selected checkpoint at epoch 81. The partial final epoch and post-training best-checkpoint revalidation are reported separately in Table~\ref{tab:results}.}
 \label{fig:curve}
 \end{figure}
 
-The selected checkpoint has higher AP than the final partial-epoch state, supporting validation-based checkpoint selection. Recall of 49.2\% leaves substantial missed-target headroom. The gap between AP50 and AP50:95 also motivates closer analysis of localization at small target scales. Figure~\ref{fig:curve} shows sizeable validation variation across epochs; this single-seed run establishes a reference rather than a measured improvement for PConv or P2. A later comparison should keep the data, initialization policy, and training schedule matched.
+The history audit found NaN validation losses in seven B0 rows (epochs 6, 7, 12, 31, 32, 36, 37) and eleven B1 rows (3, 6--12, 14, 16, 17). Training losses, detection metrics, and saved floating-point weights were finite in both runs. B1 training returned normally, but the subsequent all-history finiteness check rejected it and stopped the queue before B2. The cause remains unresolved; no rows were removed or imputed.
+
+PConv produced lower observed AP than B0 in this single-seed attempt. Baseline recall of 49.2\% leaves missed-target headroom, and the AP50--AP50:95 gap motivates localization analysis. Figure~\ref{fig:curve} shows considerable epoch-to-epoch variation. The validation-loss issue needs investigation before further algorithm comparisons.
 
 \subsection{Timing and Artifact Verification}
-The final GPU validation reported 0.1 ms preprocessing, 3.1 ms inference, and 0.1 ms postprocessing per image, using validation batches of eight. These are framework timings for offline images. Camera input, video decoding, display, and device transfer require a separate end-to-end benchmark on the deployment device.
+The final B0 GPU validation reported 0.1 ms preprocessing, 3.1 ms inference, and 0.1 ms postprocessing per image, using validation batches of eight. These are framework timings for offline images. Camera input, video decoding, display, and device transfer require a separate end-to-end benchmark on the deployment device.
 
-The cloud log confirms that both best.pt and last.pt were written and optimizer-stripped to approximately 5.4 MB before final validation returned. The independently hashed local archive was captured just before shutdown: it contains the selected epoch-81 best checkpoint (25,780,216 bytes, including training state) and an epoch-92 last checkpoint (25,781,880 bytes). Both deserialize successfully and each has 708 state tensors with finite floating-point values. Both final stripped files have now been retrieved: each is 5,388,158 bytes, and each local SHA256 matches both the pre-shutdown artifact manifest and a fresh cloud SHA256. Both deserialize with finite floating-point state tensors. Every final-best tensor equals the archived epoch-81 EMA tensor; final-last differs from the epoch-92 snapshot. Optimizer stripping resets the stored epoch to $-1$, so training progress is identified from the final 93-row CSV, stopping record, and console log. The last CSV row follows the partial epoch; Fig.~\ref{fig:curve} retains only the 92 complete epochs. The retrieval session used no GPU and was stopped after transfer.
+Final best/last files are each 5,388,158 bytes for B0 and 5,394,626 bytes for B1. Remote manifests and local SHA256 digests agree. CPU deserialization verified finite floating-point states in all 708 B0 and 720 B1 tensors per file, with PConv retained at B1 layer 1. Stripping resets stored epochs to $-1$; CSVs, checkpoint metrics, and stopping records identify progress. The 35-file B1 archive was verified before acknowledgement and platform shutdown. Raw histories and weights are preserved.
 
 \section{Edge Deployment and Further Experiments}
-The next algorithm experiments replace the second backbone convolution with PConv and add a separate stride-4 P2 branch. Their relative recall, AP, and inference cost will be compared with B0 under a matched protocol. Bird-box matching and target-size groups will provide more specific error analysis.
+P2 training remains pending. The next step is to isolate the validation-loss numerical anomaly while preserving the recorded settings and raw histories. Subsequent comparisons will measure recall, AP, bird-associated false detections, target-size effects, and inference cost under the same data protocol.
 
 YOLO26n conversion for H10, Raspberry Pi execution, and real infrared-video timing have not yet been measured for this trained baseline. The deployment stage will record the compiler/runtime combination, conversion success, any accuracy change, and end-to-end video latency. The GPU validation timing above is the current measured reference.
 
 \section{Conclusion}
-We completed a real-data YOLO26n baseline with a fixed, audited background-view holdout. The selected epoch-81 checkpoint achieved 56.2\% mAP@0.5 and 23.2\% mAP@0.5:0.95 after 92 full training epochs and part of epoch 93. Local checkpoint integrity and the final cloud save messages were checked, and the cloud platform was confirmed stopped after the run. The remaining study compares shallow directional sampling and higher-resolution prediction using this baseline and then measures deployment performance.
+The audited YOLO26n baseline achieved 56.2\% AP50 and 23.2\% AP50:95. A matched 92-epoch PConv attempt achieved 35.8\% and 14.1\%, providing no observed improvement in this run. Final weights were saved and hash-verified, but nonfinite validation-loss history stopped the queue before P2. Resolving that numerical issue precedes the remaining comparison and device deployment.
 \bibliographystyle{IEEEtran}
 \bibliography{references}
 \end{document}

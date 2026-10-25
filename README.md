@@ -10,7 +10,7 @@
 | 实验与数据配置 | [configs](configs/) | 三份实验配置、原始清单和类别映射示例 |
 | 数据集来源与标注 | [SOURCES.md](docs/datasets/SOURCES.md) | 主数据及补充数据说明 |
 | 提案 | [TeX](docs/proposal/proposal.tex) / [PDF](docs/proposal/proposal.pdf) / [中文阅读稿](docs/proposal/proposal_zh.md) | 英文 PDF 2 页 |
-| 报告 | [TeX](docs/report/report.tex) / [PDF](docs/report/report.pdf) / [说明](docs/report/README.md) | 已补入YOLO26n基线实测与PDF |
+| 报告 | [TeX](docs/report/report.tex) / [PDF](docs/report/report.pdf) / [说明](docs/report/README.md) | 已补入B0/B1实测与验证损失审计 |
 | PPT | [大纲](docs/slides/outline_zh.md) | 已建立目录与汇报大纲 |
 | 参考文献 | [references.bib](bibliography/references.bib) | 统一 BibTeX 文献源 |
 | 原始 IEEE 模板 | [压缩包](templates/ieee/source.zip) / [说明](templates/ieee/README.md) | 原件及六个成员完整保留 |
@@ -56,7 +56,7 @@ python scripts/train.py --config configs/experiments/yolo26n_baseline.json \
   --output outputs/baseline-seed42 --deadline "$JOB_TIMEOUT_ISO8601" --max-hours "$JOB_TIMEOUT_HOURS"
 ```
 
-训练参数中的时间窗口由每次作业的剩余预算和独立超时生成。训练操作按已有授权累计预算安排；平台强停与训练后关机由云端运行管理流程负责。2026-10-25基线限时训练已结束：92完整轮次加部分第93轮，best复验mAP50为56.2%、mAP50:95为23.2%，平台已核验关机。最终best/last已取回并匹配远端及训练结束清单SHA；真实结果及权重保存范围见[基线记录](docs/results/yolo26n_baseline_20261025.md)，下一组比较见[匹配对照协议](docs/experiments/MATCHED92.md)。当前进度与下一步见 [PROJECT_STATUS.md](docs/PROJECT_STATUS.md)。
+训练参数中的时间窗口由每次作业的剩余预算和独立超时生成。训练操作按已有授权累计预算安排；平台强停与训练后关机由云端运行管理流程负责。2026-10-25基线限时训练已结束：92完整轮次加部分第93轮，best复验mAP50为56.2%、mAP50:95为23.2%，平台已核验关机。最终best/last已取回并匹配远端及训练结束清单SHA；真实结果及权重保存范围见[基线记录](docs/results/yolo26n_baseline_20261025.md)，下一组比较见[匹配对照协议](docs/experiments/MATCHED92.md)。PConv已完成92轮，最终mAP50为35.8%、mAP50:95为14.1%；验证损失历史检查失败后队列停止，P2未启动。两组非有限验证损失记录及恢复安排见[PConv实测](docs/results/yolo26n_pconv_20261026.md)。当前进度与下一步见 [PROJECT_STATUS.md](docs/PROJECT_STATUS.md)。
 
 ## 提案、报告与引用
 

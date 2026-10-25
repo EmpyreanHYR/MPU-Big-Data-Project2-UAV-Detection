@@ -69,3 +69,6 @@ python scripts/prepare_sirst_uavb.py audit --output data/sirst-uavb/prepared-vie
 该模式输出 schema 2 清单，显式保存 `splits: ["train", "val"]`，`dataset.yaml` 不包含 `test`。分组政策的完整 JSON 内容和原始文件 SHA256 同时冻结在 manifest，原始字节复制到输出的 `group_provenance.json`；独立审计重新核验二者一致性。每份仍须含无人机正样本，分组及解码像素不得跨份，实际图像、标签及坐标必须匹配清单。缺少政策、缺少分组依据、空验证集、跨组重复、改变政策文件或额外混入图像均拒绝。两划分的 CSV 已固定，因此不应用 `--ratios`；结果只能报告该验证协议下的基线指标。
 
 默认行为保持 schema 1 的 train/val/test 三划分；没有显式两分政策时，不会自动省略 test 或降低默认审计要求。
+
+
+训练框架会在labels目录生成train.cache和val.cache。再次严格审计前，应仅将这两份派生缓存按文件大小和SHA记录后隔离保存，随后重新扫描图像与原生标签；不要反序列化来源不明的缓存，也不要为缓存放宽额外文件检查。本轮云端队列在预审计和每个模型启动前执行此步骤，训练本身重新生成缓存。

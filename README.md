@@ -53,10 +53,10 @@ SIRST-UAVB 通过显式原始清单、来源组和类别映射处理，支持 YO
 ```sh
 python scripts/train.py --config configs/experiments/yolo26n_baseline.json \
   --data data/sirst-uavb/prepared/dataset.yaml --weights models/yolo26n.pt \
-  --output outputs/baseline-seed42 --deadline 2026-10-25T02:25:00+08:00 --max-hours 8
+  --output outputs/baseline-seed42 --deadline "$JOB_TIMEOUT_ISO8601" --max-hours "$JOB_TIMEOUT_HOURS"
 ```
 
-训练操作按已有授权预算和截止安排；平台强停与训练后关机由云端运行管理流程负责。2026-10-25基线限时训练已结束：92完整轮次加部分第93轮，best复验mAP50为56.2%、mAP50:95为23.2%，平台已核验关机。真实结果及权重保存范围见[基线记录](docs/results/yolo26n_baseline_20261025.md)。当前进度与下一步见 [PROJECT_STATUS.md](docs/PROJECT_STATUS.md)。
+训练参数中的时间窗口由每次作业的剩余预算和独立超时生成。训练操作按已有授权累计预算安排；平台强停与训练后关机由云端运行管理流程负责。2026-10-25基线限时训练已结束：92完整轮次加部分第93轮，best复验mAP50为56.2%、mAP50:95为23.2%，平台已核验关机。最终best/last已取回并匹配远端及训练结束清单SHA；真实结果及权重保存范围见[基线记录](docs/results/yolo26n_baseline_20261025.md)，下一组比较见[匹配对照协议](docs/experiments/MATCHED92.md)。当前进度与下一步见 [PROJECT_STATUS.md](docs/PROJECT_STATUS.md)。
 
 ## 提案、报告与引用
 

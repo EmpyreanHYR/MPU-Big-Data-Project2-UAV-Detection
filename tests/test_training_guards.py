@@ -142,5 +142,102 @@ class TrainingGuards(unittest.TestCase):
 
 
 
+    def test_matched92_configs_retain_original_schedule_and_explicit_adamw(self):
+        root=Path(__file__).resolve().parents[1]
+        expected={'optimizer':'AdamW','lr0':.002,'momentum':.9,
+                  'weight_decay':.0005,'lrf':.01,'nbs':64,'stop_after_epochs':92,'warmup_bias_lr':0.0}
+        for variant in ('pconv','p2'):
+            original=read_experiment(root/f'configs/experiments/yolo26n_{variant}.json')
+            matched=read_experiment(root/f'configs/experiments/yolo26n_{variant}_matched92.json')
+            self.assertEqual(matched,original|expected)
+            self.assertEqual(matched['epochs'],300)
+            self.assertEqual((matched['batch'],matched['seed'],matched['imgsz']),(4,42,640))
+
+    def test_matched92_policy_rejects_bad_optimizer_and_numeric_settings(self):
+        root=Path(__file__).resolve().parents[1]
+        base=read_experiment(root/'configs/experiments/yolo26n_pconv_matched92.json')
+        changes=[{'stop_after_epochs':92.0},{'stop_after_epochs':True},{'stop_after_epochs':0},
+                 {'stop_after_epochs':301},{'optimizer':'SGD'},{'lr0':float('nan')},
+                 {'lr0':0},{'lr0':True},{'lr0':'.002'},{'momentum':1},
+                 {'momentum':float('inf')},{'weight_decay':-.001},{'lrf':0},
+                 {'nbs':64.0},{'nbs':True},{'nbs':0},{'warmup_bias_lr':-0.1},
+                 {'warmup_bias_lr':float('nan')},{'warmup_bias_lr':True},{'unexpected_optimizer_option':1}]
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp)/'experiment.json'
+            for change in changes:
+                path.write_text(json.dumps(base|change))
+                with self.subTest(change=change),self.assertRaises(ValueError):read_experiment(path)
+            missing=dict(base);missing.pop('lr0');path.write_text(json.dumps(missing))
+            with self.assertRaises(ValueError):read_experiment(path)
+
+    def test_complete_epoch_callback_keeps_budget_priority(self):
+        from uav_detection.training import CompleteEpochStopCallback
+        budget,clock=self.budget();stop=CompleteEpochStopCallback(92,budget)
+        trainer=SimpleNamespace(stop=False,epoch=90,epochs=300)
+        stop(trainer);self.assertFalse(trainer.stop)
+        trainer.epoch=91
+        budget(trainer)  # A batch at epoch 92 does not meet the complete-epoch policy.
+        self.assertFalse(trainer.stop)
+        stop(trainer)
+        self.assertTrue(trainer.stop)
+        self.assertEqual(budget.reason,'matched_complete_epoch_limit')
+        self.assertEqual(trainer.epochs,300)
+        self.assertEqual(budget.epochs_observed,92)
+        budget,clock=self.budget();stop=CompleteEpochStopCallback(92,budget)
+        trainer=SimpleNamespace(stop=False,epoch=91,epochs=300)
+        clock['mono']+=3600;stop(trainer)
+        self.assertTrue(trainer.stop)
+        self.assertEqual(budget.reason,'monotonic_window_save_buffer')
+
+    def test_mock_matched92_train_kwargs_and_complete_epoch_stop(self):
+        from uav_detection.training import train_detector
+        root=Path(__file__).resolve().parents[1]
+        now=datetime(2026,10,24,12,tzinfo=timezone.utc)
+        for variant in ('pconv','p2'):
+            with self.subTest(variant=variant),tempfile.TemporaryDirectory() as tmp:
+                events={};fake=SimpleNamespace(overrides={'time':8},transfer_report={'policy':'mock'},
+                                              trainer=SimpleNamespace(epoch=90,stop=False,epochs=300))
+                fake.add_callback=lambda event,handler:events.setdefault(event,[]).append(handler)
+                captured={}
+                def mocked_train(**kwargs):
+                    captured.update(kwargs)
+                    for event in ('on_train_batch_end','on_train_epoch_end'):
+                        for handler in events[event]:handler(fake.trainer)
+                    self.assertFalse(fake.trainer.stop)
+                    fake.trainer.epoch=91
+                    for handler in events['on_train_batch_end']:handler(fake.trainer)
+                    self.assertFalse(fake.trainer.stop)
+                    for handler in events['on_train_epoch_end']:handler(fake.trainer)
+                    self.assertTrue(fake.trainer.stop)
+                    return 'mock-matched-result'
+                fake.train=Mock(side_effect=mocked_train)
+                folder=Path(tmp);data=folder/'dataset.yaml';data.write_text('names: {0: uav}\n')
+                (folder/'manifest.json').write_text('{}');weights=folder/'official.pt';weights.write_bytes(b'mock')
+                output=folder/'run'
+                with patch('uav_detection.training.require_training_host'), \
+                     patch('uav_detection.data.prepare.audit_prepared'), \
+                     patch('uav_detection.modeling.build_detector',return_value=fake), \
+                     patch.dict(sys.modules, {'ultralytics.utils.torch_utils':SimpleNamespace(init_seeds=Mock())}), \
+                     patch('uav_detection.training._utc_now',return_value=now), \
+                     patch('uav_detection.training.time.monotonic',return_value=100):
+                    result=train_detector(root/f'configs/experiments/yolo26n_{variant}_matched92.json',
+                                          data,weights,output,'2026-10-24T14:00:00Z',1)
+                self.assertEqual(result,'mock-matched-result')
+                self.assertEqual(captured['epochs'],300)
+                self.assertNotIn('time',captured)
+                self.assertNotIn('stop_after_epochs',captured)
+                self.assertEqual({k:captured[k] for k in ('optimizer','lr0','momentum','weight_decay','lrf','nbs','warmup_bias_lr')},
+                                 {'optimizer':'AdamW','lr0':.002,'momentum':.9,'weight_decay':.0005,'lrf':.01,'nbs':64,'warmup_bias_lr':0.0})
+                self.assertEqual(len(events['on_train_batch_end']),1)
+                self.assertEqual(len(events['on_train_epoch_end']),2)
+                self.assertIs(events['on_train_batch_end'][0],events['on_train_epoch_end'][0])
+                record=json.loads((output/'training_budget.json').read_text())
+                self.assertEqual(record['stop_reason'],'matched_complete_epoch_limit')
+                self.assertEqual(record['stop_after_complete_epochs'],92)
+                self.assertEqual(record['epochs_observed'],92)
+                self.assertEqual(record['epoch_limit'],300)
+
+
+
 if __name__ == "__main__":
     unittest.main()

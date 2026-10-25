@@ -1,0 +1,15 @@
+# PConv、P2匹配基线对照
+
+本轮比较B0（已完成基线）、B1（层1 Pinwheel-shaped Convolution）和B2（新增stride4 P2路径）。B1/P2分别独立训练，不从B0训练后的best/last继续训练；两份最终B0权重用于成果保存和后续推理。
+
+## 比较协议
+
+B0受原运行窗口限制，完成92个完整轮次和部分第93轮；最终best仍是第81轮，最终93行CSV与best张量身份已核验。为匹配这个选模窗口，新增[训练配置](../../configs/experiments/)使用 `yolo26n_pconv_matched92.json` 和 `yolo26n_p2_matched92.json`：保留 `epochs=300` 的学习率与mosaic计划，在完整第92轮结束后停止并验证、保存。`stop_after_epochs`由独立epoch-end回调处理，不修改Ultralytics的epochs计划，也不在第92轮首个batch提前停止。若预算先触发，则标记预算中断，不能记作92轮完整对照。
+
+两组使用同一1438/505固定背景视图划分、同一官方YOLO26n预训练来源和公共前缀迁移策略、输入640、batch4、seed42、workers4、AMP。优化器显式固定为AdamW、lr0=0.002、momentum=0.9、weight_decay=0.0005、lrf=0.01、nbs64。另固定warmup_bias_lr=0.0：基线auto优化器实际设置了该值，直接切换显式AdamW会使默认值回到0.1，故不能仅照抄初始args.yaml。
+
+只比较同一验证集上的precision、recall、mAP@0.5及mAP@0.5:0.95，按验证mAP@0.5:0.95选择best。记录每组真实完整轮数、选中轮次、有效配置、参数量和运行版本。来源视频ID未知，沿用推断背景视图留出，无独立test；不把验证结果写成外部测试或设备部署成绩。
+
+## 执行与结果保存
+
+仅在授权云端GPU顺序运行B1、B2，本机不训练。每项均有独立超时、整个队列的累计预算边界、异常停止和训练后关机。打包阶段保留有限的下载确认窗口：先对最终best/last、CSV、日志和图表生成哈希清单，取回并核验后确认，或等待窗口结束后关机。按当前真实状态更新[项目进度](../PROJECT_STATUS.md)，代码就绪不等于实验已完成。

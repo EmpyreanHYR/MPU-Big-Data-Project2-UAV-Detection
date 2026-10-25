@@ -2,6 +2,7 @@
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 import json
+import math
 import platform
 import time
 
@@ -26,9 +27,29 @@ def read_experiment(path: str | Path) -> dict:
         raise ValueError("Use the single authorized CUDA device 0.")
     allowed = {"variant", "model", "task", "epochs", "imgsz", "batch", "device", "seed",
                "workers", "patience", "cache", "plots", "save", "save_period",
-               "deterministic"}
+               "deterministic", "stop_after_epochs", "optimizer", "lr0",
+               "momentum", "weight_decay", "lrf", "nbs", "warmup_bias_lr"}
     if set(settings) - allowed:
         raise ValueError(f"Unknown settings: {sorted(set(settings) - allowed)}")
+    if "stop_after_epochs" in settings:
+        stop = settings["stop_after_epochs"]
+        if type(stop) is not int or not 1 <= stop <= settings["epochs"]:
+            raise ValueError("stop_after_epochs must be an integer within the configured epoch schedule")
+        if not {"optimizer", "lr0", "momentum", "weight_decay", "lrf", "nbs", "warmup_bias_lr"} <= set(settings):
+            raise ValueError("A matched epoch comparison requires the explicit optimizer schedule")
+    if "optimizer" in settings and settings["optimizer"] != "AdamW":
+        raise ValueError("Only the explicit AdamW comparison optimizer is supported")
+    for name, include_zero in (("lr0", False), ("momentum", True),
+                               ("weight_decay", True), ("lrf", False), ("warmup_bias_lr", True)):
+        if name not in settings:
+            continue
+        value = settings[name]
+        if (type(value) not in (int, float) or not math.isfinite(value) or
+            not (0 <= value <= 1 if include_zero else 0 < value <= 1) or
+            (name == "momentum" and value >= 1)):
+            raise ValueError(f"Invalid finite optimizer parameter: {name}")
+    if "nbs" in settings and (type(settings["nbs"]) is not int or settings["nbs"] <= 0):
+        raise ValueError("nbs must be a positive integer")
     return settings
 
 
@@ -57,7 +78,7 @@ class BudgetStopCallback:
     authorized wall-clock deadline. The outer cloud timeout remains authoritative.
     """
     def __init__(self, deadline, max_hours, epoch_limit, *, utc_now=None,
-                 monotonic=None, save_buffer_seconds=90):
+                 monotonic=None, save_buffer_seconds=90, stop_after_epochs=None):
         self.utc_now = utc_now or _utc_now
         self.monotonic = monotonic or time.monotonic
         self.started_utc = self.utc_now()
@@ -66,6 +87,7 @@ class BudgetStopCallback:
         self.deadline = datetime.fromisoformat(deadline.replace("Z", "+00:00"))
         self.max_hours = max_hours
         self.epoch_limit = epoch_limit
+        self.stop_after_epochs = stop_after_epochs
         self.save_buffer_seconds = save_buffer_seconds
         if not 60 <= save_buffer_seconds <= 120 or self.allowed_seconds <= save_buffer_seconds:
             raise ValueError("Insufficient training window after the 60–120 second save buffer")
@@ -81,6 +103,7 @@ class BudgetStopCallback:
     def policy(self):
         return {"deadline_utc": self.deadline.astimezone(timezone.utc).isoformat(),
                 "requested_max_hours": self.max_hours, "epoch_limit": self.epoch_limit,
+                "stop_after_complete_epochs": self.stop_after_epochs,
                 "started_utc": self.started_utc.isoformat(),
                 "allowed_seconds": self.allowed_seconds,
                 "save_buffer_seconds": self.save_buffer_seconds,
@@ -148,6 +171,31 @@ class BudgetStopCallback:
         self._persist()
 
 
+
+class CompleteEpochStopCallback:
+    """Stop only after a complete epoch while retaining the full LR/mosaic schedule.
+
+    Register after the budget callback on on_train_epoch_end only. Budget stops
+    take priority, so an interrupted epoch is never labeled a matched full epoch.
+    """
+    def __init__(self, stop_after_epochs, budget):
+        self.stop_after_epochs = stop_after_epochs
+        self.budget = budget
+
+    def __call__(self, trainer):
+        self.budget(trainer)  # Independently preserve budget priority at this boundary.
+        if self.budget.reason is not None or getattr(trainer, "stop", False):
+            return
+        epoch = getattr(trainer, "epoch", None)
+        if type(epoch) is int and epoch+1 >= self.stop_after_epochs:
+            trainer.stop = True
+            self.budget.reason = "matched_complete_epoch_limit"
+            self.budget.stopped_utc = self.budget.utc_now().isoformat()
+            self.budget.status = "stop_requested"
+            self.budget.epochs_observed = epoch+1
+            self.budget._persist()
+
+
 def require_training_host():
     """Reject Mac/Pi/CPU training before building or loading any model."""
     if platform.system() != "Linux" or platform.machine().lower() not in {"x86_64", "amd64"}:
@@ -161,7 +209,8 @@ def require_training_host():
 
 def train_detector(config, data, weights, output, deadline, max_hours):
     settings = read_experiment(config)
-    budget = BudgetStopCallback(deadline, max_hours, settings["epochs"])
+    budget = BudgetStopCallback(deadline, max_hours, settings["epochs"],
+                                stop_after_epochs=settings.get("stop_after_epochs"))
     require_training_host()
     data_path, weight_path = Path(data).resolve(), Path(weights).resolve()
     if data_path.name != "dataset.yaml":
@@ -188,9 +237,12 @@ def train_detector(config, data, weights, output, deadline, max_hours):
                   "initialization": detector.transfer_report,
                   "training_budget": budget.policy()}
     (root/"initialization.json").write_text(json.dumps(provenance, indent=2)+"\n")
-    kwargs = {k: v for k, v in settings.items() if k not in {"model", "task", "variant"}}
+    kwargs = {k: v for k, v in settings.items() if k not in {"model", "task", "variant", "stop_after_epochs"}}
     detector.add_callback("on_train_batch_end", budget)
     detector.add_callback("on_train_epoch_end", budget)
+    if "stop_after_epochs" in settings:
+        detector.add_callback("on_train_epoch_end",
+                              CompleteEpochStopCallback(settings["stop_after_epochs"], budget))
     try:
         budget.require_remaining_window()
         result = detector.train(data=str(data_path), project=str(root),

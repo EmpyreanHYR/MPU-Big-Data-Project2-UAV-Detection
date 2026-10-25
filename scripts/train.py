@@ -13,7 +13,7 @@ def main():
     parser.add_argument("--data", required=True, help="Local dataset YAML")
     parser.add_argument("--weights", required=True, help="Local official YOLO26n weights")
     parser.add_argument("--output", required=True)
-    parser.add_argument("--deadline", required=True, help="Approved ISO8601 deadline with timezone")
+    parser.add_argument("--deadline", required=True, help="Per-job budget safety deadline, ISO8601 with timezone")
     parser.add_argument("--max-hours", type=float, required=True)
     args = parser.parse_args()
     train_detector(args.config, args.data, args.weights, args.output,

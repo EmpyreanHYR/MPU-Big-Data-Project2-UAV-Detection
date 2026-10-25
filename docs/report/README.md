@@ -1,7 +1,7 @@
 # 课程报告
 
-[report.tex](report.tex) 为报告源码，正文直接在此编辑，当前仍为章节框架。后续在对应章节补入真实实验和部署结果。
+[report.tex](report.tex) 为英文报告源码，[report.pdf](report.pdf) 为编译结果。正文已更新真实SIRST-UAVB数据审计、YOLO26n训练设置、最终验证表和AP曲线；中文结果与权重核验范围见[基线实测记录](../results/yolo26n_baseline_20261025.md)。
 
-文献使用 `\cite{key}`，`references.bib` 从 `bibliography/references.bib` 同步。`IEEEtran.cls` 保留原模板版本。可在应用内LaTeX编辑器打开；编译后的文件名为 `report.pdf`。
+运行 `python scripts/build_report.py`，使用临时目录执行pdflatex、BibTeX和两次引用解析，不在本目录遗留编译中间文件。文献来自统一的 `bibliography/references.bib`，使用 `\cite{key}` 自动编号。
 
-作者及学校与提案一致，已替换模板示例作者。
+原IEEE模板的宏包、文档类、格式与页眉保持，作者及学校与提案一致。PConv/P2训练对照、H10部署和真实视频速度仍待实测，报告据实区分已完成与后续实验。

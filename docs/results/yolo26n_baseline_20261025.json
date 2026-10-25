@@ -1,0 +1,102 @@
+{
+  "experiment": "YOLO26n baseline B0 / SIRST-UAVB inferred-view holdout v3",
+  "date": "2026-10-25",
+  "training_source_commit": "93cf67e1b80b8ecdb9c500a5dda8103eb0614825",
+  "dataset": {
+    "train_images": 1438,
+    "validation_images": 505,
+    "train_uav_boxes": 1421,
+    "validation_uav_boxes": 491,
+    "train_bird_boxes_retained_for_analysis": 925,
+    "validation_bird_boxes_retained_for_analysis": 227,
+    "cross_split_exact_pixel_duplicates": 0,
+    "protocol": "inferred-background-view holdout; original video/session identities unavailable",
+    "independent_test": false,
+    "source_manifest_sha256": "995479f329832f92e3ceb5a2ab893b6ed410687ac72e76589f851b4253c3b216",
+    "prepared_manifest_sha256": "c5665f8251efe5eeb6e57d14db7b3932ca5a986b23bada0b0bdeb7fb4ba61b2e"
+  },
+  "training": {
+    "complete_epochs": 92,
+    "final_partial_epoch": 93,
+    "last_visible_batch_in_partial_epoch": 317,
+    "batches_per_full_epoch": 360,
+    "framework_reported_epochs": 93,
+    "framework_duration_hours_rounded": 0.946,
+    "stop": "authorized time window; epoch 93 ended before all batches",
+    "configured_epoch_cap": 300,
+    "seed": 42,
+    "imgsz": 640,
+    "batch": 4,
+    "amp": true,
+    "optimizer": "AdamW",
+    "initial_learning_rate": 0.002,
+    "weight_decay": 0.0005,
+    "transferred_prefix_layers": [
+      0,
+      16
+    ],
+    "copied_tensors": 348,
+    "prediction_layers_from_17": "random initialization"
+  },
+  "environment": {
+    "gpu": "RTX 2080 Ti",
+    "python": "3.10.8",
+    "torch": "2.1.2+cu118",
+    "ultralytics": "8.4.184"
+  },
+  "final_best_validation": {
+    "checkpoint_selected_at_epoch": 81,
+    "images": 505,
+    "uav_instances": 491,
+    "precision": 0.665,
+    "recall": 0.492,
+    "map50": 0.562,
+    "map50_95": 0.232,
+    "precision_of_record": "rounded to three decimals in final console log",
+    "preprocess_ms_per_image": 0.1,
+    "inference_ms_per_image": 3.1,
+    "postprocess_ms_per_image": 0.1,
+    "timing_scope": "framework CUDA validation, batch 8; offline images"
+  },
+  "final_partial_epoch_validation": {
+    "epoch": 93,
+    "precision": 0.724,
+    "recall": 0.483,
+    "map50": 0.526,
+    "map50_95": 0.206,
+    "precision_of_record": "rounded console output"
+  },
+  "epoch81_in_training_validation": {
+    "metrics/precision(B)": 0.64596,
+    "metrics/recall(B)": 0.49794,
+    "metrics/mAP50(B)": 0.56176,
+    "metrics/mAP50-95(B)": 0.23061
+  },
+  "artifacts": {
+    "local_best_snapshot": {
+      "epoch": 81,
+      "bytes": 25780216,
+      "sha256": "1d300464ad8512fa8973bf0bb726a4142e9d8df0ba02df8e9d76bc9320e09b6b"
+    },
+    "local_last_snapshot": {
+      "epoch": 92,
+      "bytes": 25781880,
+      "sha256": "79fdc9415d7bbb5e94e44502c77947ea70228fe56ebd8cc6eb2a27cf0d56e76e"
+    },
+    "checkpoint_integrity": "both SHA256 match verified archive; deserialized on CPU; 708 state tensors each, all floating tensors finite; no training executed locally",
+    "final_optimizer_stripped_files": "best.pt and last.pt saved at approximately 5.4 MB each according to final cloud log; final stripped bytes not retrieved or independently hashed",
+    "console_log_sha256": "6f26155d264ee5ebe2d05bb08f36f1d738395067a15751a406c5b9374a215046"
+  },
+  "shutdown": {
+    "platform_state": "stopped",
+    "platform_checked_date": "2026-10-25",
+    "restarted_for_audit": false
+  },
+  "not_run": [
+    "PConv comparative training",
+    "P2 comparative training",
+    "independent test evaluation",
+    "YOLO26n H10 deployment",
+    "real infrared video latency benchmark"
+  ]
+}

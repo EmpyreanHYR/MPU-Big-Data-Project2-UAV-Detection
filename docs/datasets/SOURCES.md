@@ -24,7 +24,7 @@ SIRST-UAVB 映射为 `uav` 单类；保留原始鸟类框用于错误归因。�
 
 数据配置从 [示例](../../configs/datasets/sirst_uavb.example.yaml)复制到本地 `data/`，填写真实路径和固定的划分清单。Git中不包含数据图像或权重。
 
-本次已加入 native YOLO/VOC 框适配、UAV/bird 分离、来源组划分、原像素重复检测和独立审计；操作见 [PREPARATION.md](PREPARATION.md)。真实数据包现已在Windows取得，原包完整性和原生框检查已完成；源类别语义、来源分组及正式划分审计仍待完成，当前没有正式处理后的数据划分或训练结果。
+本次已加入 native YOLO/VOC 框适配、UAV/bird 分离、来源组划分、原像素重复检测和独立审计；操作见 [PREPARATION.md](PREPARATION.md)。真实数据包完整性、原生框及类别语义检查已完成；固定背景视图划分审计和YOLO26n基线训练已完成，见[实测记录](../results/yolo26n_baseline_20261025.md)。
 
 2026-10-24 较早接收检查仅完成大小、SHA256、目录和标签初步计数；该阶段已由下方全包审计更新替代。设备、原始路径及传输恢复记录仅保存在本地。
 

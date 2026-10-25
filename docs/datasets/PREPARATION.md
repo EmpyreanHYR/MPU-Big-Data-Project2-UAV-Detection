@@ -1,6 +1,6 @@
 # SIRST-UAVB 数据处理
 
-处理入口为 `scripts/prepare_sirst_uavb.py`。本次完成转换程序和合成样例检查，已在用户指定的 Windows 目录找到实包，正在续传和核验；类别语义、全包审计及正式划分尚未完成。来源见 [SOURCES.md](SOURCES.md)。
+处理入口为 `scripts/prepare_sirst_uavb.py`。真实实包已完成类别、像素重复和标注冲突检查，固定1438train/505val的推断背景视图留出划分已在云端转换并独立审计通过；见[固定协议](../../configs/datasets/sirst_uavb_scene_holdout_v3/README.md)。来源见 [SOURCES.md](SOURCES.md)。
 
 ## 原始清单
 

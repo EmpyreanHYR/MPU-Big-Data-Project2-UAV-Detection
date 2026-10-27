@@ -1,0 +1,81 @@
+{
+  "date": "2026-10-28",
+  "variant": "baseline",
+  "mode": "local CPU FP32 reference",
+  "source_record": "infrared_sequence_readiness_20261028.json",
+  "sequence": "validation/01_2192_0001-1500",
+  "frames": 300,
+  "unique_annotated_frames": 300,
+  "target_present_frames": 300,
+  "target_absent_frames": 0,
+  "counts": {
+    "tp": 60,
+    "fp": 5,
+    "fn": 240
+  },
+  "precision": 0.9230769230769231,
+  "recall": 0.2,
+  "f1": 0.32876712328767127,
+  "checkpoint_sha256": "03424275aeab8025a1f210200c1c072fb6f21e74d9948a287fd23d6dc178f7dc",
+  "protocol": {
+    "input": [
+      1,
+      3,
+      640,
+      640
+    ],
+    "batch": 1,
+    "rect": false,
+    "precision": "FP32",
+    "prediction_branch": "one-to-one",
+    "nms_applied": false,
+    "confidence": 0.25,
+    "matching_iou": 0.5,
+    "max_detections": 300,
+    "warmup_separate_frames": 20
+  },
+  "parameters_and_bn_unchanged": true,
+  "state_sha256_before": "471c83f91c6ff1dd7587c79d2a68a21ae9393a17dbe83198d9ea368407b78afa",
+  "state_sha256_after": "471c83f91c6ff1dd7587c79d2a68a21ae9393a17dbe83198d9ea368407b78afa",
+  "runtime": {
+    "architecture": "arm64",
+    "python": "3.12.14",
+    "torch": "2.14.1",
+    "ultralytics": "8.4.184",
+    "device": "cpu",
+    "threads": 4
+  },
+  "all_raw_predictions_finite": true,
+  "training_executed": false,
+  "h10_inference_executed": false,
+  "pi_inference_executed": false,
+  "source_video_independence_proven": false,
+  "evidence": {
+    "prediction_rows": 300,
+    "predictions_sha256": "67cad5f4d4140e9de779e3033a772773e047fccb3f3bc6253075236a00f97df3",
+    "summary_sha256": "f91a60e6c72fa405b99a1a853da021e6cfbf47fd6fe0933eba4257452732095d",
+    "input_retrieval_manifest_sha256": "3116cfaf8e2112abfaeb97f625eeaac09cbd12c4ee6a732a41d3239d93fc9df0",
+    "independent_recount_verified": true,
+    "visual_review_frames": [
+      1,
+      150,
+      300
+    ],
+    "preview_reconstruction": {
+      "frames": 300,
+      "nominal_playback_fps": 25,
+      "original_capture_fps": "unknown",
+      "sha256": "790922cbf13d413efdf6bca518c761a98b5503197ed2dd60ee8cd1f2e8559a9a",
+      "bytes": 769668,
+      "all_frames_decode_passed": true
+    }
+  },
+  "limits": [
+    "One continuous real thermal IR sequence prefix, frozen before inference; not300 independent scenes.",
+    "No target-absent frames; no background false alarms per hour or absence-state accuracy.",
+    "No exact-pixel overlap with3000 SIRST-UAVB source images, but source-sequence independence is unproven.",
+    "Local Torch2.14.1 FP32 reference differs from cloud Torch2.1.2; it does not replace validation metrics.",
+    "JPEG decode and local CPU timings are not Pi/H10 or encoded-video pipeline performance.",
+    "Reconstructed preview cadence is illustrative; source capture frame rate is unknown."
+  ]
+}

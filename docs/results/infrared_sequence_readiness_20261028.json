@@ -1,0 +1,65 @@
+{
+  "source": "Author-linked Anti-UAV600 distribution",
+  "source_page": "https://github.com/ZhaoJ9014/Anti-UAV/blob/master/README.md",
+  "distribution_page": "https://modelscope.cn/datasets/ly261666/3rd_Anti-UAV/files",
+  "source_csv_sha256": "3d967876091f5677c2fadcf9ba93a3ad0a747ed4f2201665f522b6bcf272eabe",
+  "source_archive_object": "3rd_Anti-UAV_train_val.zip",
+  "source_archive_bytes": 34155380225,
+  "source_range_bytes": 17635909,
+  "source_range_sha256": "3eb3eeca1a0694415cf9340d4bd22e3cf33c05c088ea5cda4e9aaf1b9ee51201",
+  "whole_archive_verified": false,
+  "selection_rule": "lexicographically first validation sequence, first300 frames; frozen before detector execution",
+  "sequence": "validation/01_2192_0001-1500",
+  "frame_range_inclusive": [
+    1,
+    300
+  ],
+  "frames": 300,
+  "width": 640,
+  "height": 512,
+  "annotation_fields": [
+    "exist",
+    "gt_rect"
+  ],
+  "annotation_convention": "top-left xywh, visually checked on frames1/150/300",
+  "target_present_frames": 300,
+  "target_absent_frames": 0,
+  "unique_pixel_frames": 300,
+  "exact_pixel_matches_against_3000_sirst_sources": 0,
+  "source_video_independence_proven": false,
+  "csv_type_field": "train on every validation.csv row; partition follows named source path, never calibration input",
+  "all_selected_crc_and_sha_verified": true,
+  "all_frames_decode_and_box_bounds_pass": true,
+  "visual_review_frames": [
+    1,
+    150,
+    300
+  ],
+  "model_execution": true,
+  "default_deployment_candidate": {
+    "variant": "baseline",
+    "checkpoint_sha256": "03424275aeab8025a1f210200c1c072fb6f21e74d9948a287fd23d6dc178f7dc",
+    "reason": "Highest observed AP among available final weights; selection protocol caveats retained."
+  },
+  "inference_protocol_prepared": {
+    "workload_prefix_frames": [
+      75,
+      150,
+      300
+    ],
+    "batch_size": 1,
+    "prediction_branch": "one-to-one end-to-end",
+    "nms": false,
+    "confidence": 0.25,
+    "matching_iou": 0.5,
+    "max_detections": 300,
+    "warmup_frames": 20,
+    "repeats": 3,
+    "quality_uses_unique_original_frames": true,
+    "no_video_threshold_tuning": true,
+    "timing_requires_actual_host_and_complete_path": true
+  },
+  "deployment_status": "local_fp32_reference_completed_h10_not_compiled",
+  "calibration": "Only frozen1438 SIRST train images; evaluation/video frames excluded; no gradient fine-tuning.",
+  "reference_result": "infrared_fp32_reference_20261028.json"
+}

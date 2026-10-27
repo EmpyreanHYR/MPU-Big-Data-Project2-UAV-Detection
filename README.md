@@ -56,7 +56,7 @@ python scripts/train.py --config configs/experiments/yolo26n_baseline.json \
   --output outputs/baseline-seed42 --deadline "$JOB_TIMEOUT_ISO8601" --max-hours "$JOB_TIMEOUT_HOURS"
 ```
 
-训练参数中的时间窗口由每次作业的剩余预算和独立超时生成。训练操作按已有授权累计预算安排；平台强停与训练后关机由云端运行管理流程负责。2026-10-25基线限时训练已结束：92完整轮次加部分第93轮，best复验mAP50为56.2%、mAP50:95为23.2%，平台已核验关机。最终best/last已取回并匹配远端及训练结束清单SHA；真实结果及权重保存范围见[基线记录](docs/results/yolo26n_baseline_20261025.md)，下一组比较见[匹配对照协议](docs/experiments/MATCHED92.md)。PConv已完成92轮，最终mAP50为35.8%、mAP50:95为14.1%；验证损失历史检查失败后队列停止，P2未启动。两组非有限验证损失历史见[PConv实测](docs/results/yolo26n_pconv_20261026.md)。后续已完成早期EMA的AMP/FP32回放及FP32验证恢复实测，P2已按新的FP32验证恢复协议完成92轮，全部训练及验证CSV数值有限，最终AP50为47.405%、AP50:95为20.652%，已取回核验并关机；未超过B0独立FP32复验。见[数值诊断](docs/results/numerical_replay_20261028.md)及[P2实测](docs/results/yolo26n_p2_fp32_20261028.md)，比较须披露best选择精度变化。当前进度与下一步见 [PROJECT_STATUS.md](docs/PROJECT_STATUS.md)。
+训练参数中的时间窗口由每次作业的剩余预算和独立超时生成。训练操作按已有授权累计预算安排；平台强停与训练后关机由云端运行管理流程负责。2026-10-25基线限时训练已结束：92完整轮次加部分第93轮，best复验mAP50为56.2%、mAP50:95为23.2%，平台已核验关机。最终best/last已取回并匹配远端及训练结束清单SHA；真实结果及权重保存范围见[基线记录](docs/results/yolo26n_baseline_20261025.md)，下一组比较见[匹配对照协议](docs/experiments/MATCHED92.md)。PConv已完成92轮，最终mAP50为35.8%、mAP50:95为14.1%；验证损失历史检查失败后队列停止，P2未启动。两组非有限验证损失历史见[PConv实测](docs/results/yolo26n_pconv_20261026.md)。后续已完成早期EMA的AMP/FP32回放及FP32验证恢复实测，P2已按新的FP32验证恢复协议完成92轮，全部训练及验证CSV数值有限，最终AP50为47.405%、AP50:95为20.652%，已取回核验并关机；未超过B0独立FP32复验。见[数值诊断](docs/results/numerical_replay_20261028.md)及[P2实测](docs/results/yolo26n_p2_fp32_20261028.md)，比较须披露best选择精度变化。真实IR序列300帧的无梯度FP32参考已完成，P/R为92.31%/20.00%，见[序列记录](docs/results/infrared_fp32_reference_20261028.md)；H10仍处于[准备阶段](docs/deployment/READINESS_20261028.md)。当前进度与下一步见 [PROJECT_STATUS.md](docs/PROJECT_STATUS.md)。
 
 ## 提案、报告与引用
 

@@ -11,7 +11,7 @@
 | 数据集来源与标注 | [SOURCES.md](docs/datasets/SOURCES.md) | 主数据及补充数据说明 |
 | 提案 | [TeX](docs/proposal/proposal.tex) / [PDF](docs/proposal/proposal.pdf) / [中文阅读稿](docs/proposal/proposal_zh.md) | 英文 PDF 2 页 |
 | 报告 | [TeX](docs/report/report.tex) / [PDF](docs/report/report.pdf) / [说明](docs/report/README.md) | 两页，已合并B0/B1/P2实测与数值诊断 |
-| PPT | [大纲](docs/slides/outline_zh.md) | 已建立目录与汇报大纲 |
+| PPT | [12页可编辑PPTX](docs/slides/YOLO26_实验汇报_20261028.pptx) / [讲稿](docs/slides/speaker_notes_zh.md) | 已含B0/B1/P2、数值诊断与IR参考；H10待实测 |
 | 参考文献 | [references.bib](bibliography/references.bib) | 统一 BibTeX 文献源 |
 | 原始 IEEE 模板 | [压缩包](templates/ieee/source.zip) / [说明](templates/ieee/README.md) | 原件及六个成员完整保留 |
 

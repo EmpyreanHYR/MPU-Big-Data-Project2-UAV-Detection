@@ -359,15 +359,16 @@
     "supported": "Early EMA AMP forward nonfinite values reproduced; full FP32 forward/loss and the project FP32 official-validator recovery are finite on all505 samples.",
     "limit": "First top-level localization is layer22 C3k2; the failing internal operator and every historical NaN epoch were not individually traced.",
     "comparison": "New training-validator FP32 recovery metrics are separate diagnostic evaluations. Historical final-evaluation metrics and CSV remain unchanged; backend/batching/validation path can differ. P2 best selection will use FP32 validation.",
-    "p2": "Separate matched92 P2 recovery experiment started; first three complete epochs finite. No final accuracy or improvement claim."
+    "p2": "Separate matched92 P2 recovery experiment completed. All92 CSV rows finite; final FP32 AP50/AP50:95=.47405/.20652. No improvement over the baseline FP32 control; best-selection precision differs."
   },
   "p2_status": {
-    "state": "running",
-    "verified_complete_epochs": 3,
+    "state": "completed",
+    "verified_complete_epochs": 92,
     "observed_csv_all_finite": true,
     "validation_samples_each_epoch": 505,
     "training_precision": "AMP",
     "validation_precision": "FP32",
-    "final_result_available": false
+    "final_result_available": true,
+    "result_record": "yolo26n_p2_fp32_20261028.json"
   }
 }

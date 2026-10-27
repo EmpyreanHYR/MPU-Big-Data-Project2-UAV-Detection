@@ -1,0 +1,110 @@
+{
+  "date": "2026-10-28",
+  "variant": "p2",
+  "status": "completed",
+  "stage_exit_code": 0,
+  "full_epochs": 92,
+  "lr_schedule_epochs": 300,
+  "stop_reason": "matched_complete_epoch_limit",
+  "dataset": {
+    "train_images": 1438,
+    "val_images": 505,
+    "val_uav_boxes": 491,
+    "split": "inferred-view-holdout",
+    "independent_test": false,
+    "manifest_sha256": "c5665f8251efe5eeb6e57d14db7b3932ca5a986b23bada0b0bdeb7fb4ba61b2e"
+  },
+  "experiment": {
+    "model": "yolo26n-p2.yaml",
+    "task": "detect",
+    "epochs": 300,
+    "imgsz": 640,
+    "batch": 4,
+    "device": 0,
+    "seed": 42,
+    "workers": 4,
+    "patience": 0,
+    "cache": false,
+    "plots": true,
+    "save": true,
+    "save_period": 10,
+    "deterministic": true,
+    "variant": "p2",
+    "stop_after_epochs": 92,
+    "optimizer": "AdamW",
+    "lr0": 0.002,
+    "momentum": 0.9,
+    "weight_decay": 0.0005,
+    "lrf": 0.01,
+    "nbs": 64,
+    "warmup_bias_lr": 0.0
+  },
+  "initialization": {
+    "policy": "shared-prefix-0-through-16",
+    "copied_tensors": 348,
+    "post_fork_layers": "random initialization",
+    "pretrained_sha256": "9b09cc8bf347f0fc8a5f7657480587f25db09b34bf33b0652110fb03a8ad4fef",
+    "model_yaml_sha256": "88234b046cc3ad1cee02bae17f5f46938f5af39d4e1ab0513b511a8fb1dc880f"
+  },
+  "precision": {
+    "training": "AMP",
+    "epoch_validation": "FP32",
+    "best_selection": "FP32",
+    "final_validation": "FP32",
+    "validation_samples_each_epoch": 505,
+    "verified_epoch_records": 92
+  },
+  "history": {
+    "csv_rows": 92,
+    "epochs_consecutive_1_to_92": true,
+    "all_columns_finite": true,
+    "nonfinite_validation_loss_epochs": [],
+    "highest_csv_map50_95_epoch": 89,
+    "highest_csv_epoch_is_not_independent_ema_identity_proof": true
+  },
+  "final_validation": {
+    "checkpoint_sha256": "45a9ccc776d83ad276a3a47509dc4aa350c37c3856bc003f645dd96628666afa",
+    "metrics": {
+      "metrics/precision(B)": 0.57223,
+      "metrics/recall(B)": 0.46589,
+      "metrics/mAP50(B)": 0.47405,
+      "metrics/mAP50-95(B)": 0.20652,
+      "val/box_loss": 2.13623,
+      "val/cls_loss": 1.87533,
+      "val/l1_loss": 0.0013
+    },
+    "precision": "FP32",
+    "samples": 505,
+    "state_unchanged": true,
+    "training_amp_preserved": true
+  },
+  "weights": {
+    "best": {
+      "bytes": 5622388,
+      "sha256": "45a9ccc776d83ad276a3a47509dc4aa350c37c3856bc003f645dd96628666afa",
+      "cloud_final_gate_floating_state_finite": true,
+      "cloud_final_gate_optimizer_stripped": true
+    },
+    "last": {
+      "bytes": 5622388,
+      "sha256": "6ae69fa5f961fb7f4080655b327d8c8fa1d601e481b12e762b3569ac602d1ae6",
+      "cloud_final_gate_floating_state_finite": true,
+      "cloud_final_gate_optimizer_stripped": true
+    }
+  },
+  "evidence": {
+    "archive_sha256": "8d8590eb7a4f387973d45c0836c7de51054033357458251d4edc7fb9fdc0ab00",
+    "archive_bytes": 11297665,
+    "verified_files": 29,
+    "all_member_sha_verified": true,
+    "retrieval_ack_exit": 0,
+    "training_finished_utc": "2026-10-27T18:40:21.909133+00:00",
+    "platform_shutdown_confirmed": true
+  },
+  "comparison_limits": [
+    "P2 best selection uses FP32 validation; B0/B1 historical selection used AMP.",
+    "New B0/B1 FP32 diagnostic controls and P2 final validation use the training-validator path; historical standalone final metrics are retained separately.",
+    "P2 does not exceed the baseline in this observed evaluation; no architecture-only causal gain is established.",
+    "One seed and inferred background-view validation split; no independent test or edge/video speed result."
+  ]
+}

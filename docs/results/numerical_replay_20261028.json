@@ -1,0 +1,364 @@
+{
+  "date": "2026-10-28",
+  "runtime": {
+    "ultralytics": "8.4.184",
+    "torch": "2.1.2+cu118",
+    "cuda": "11.8",
+    "gpu": "NVIDIA GeForce RTX 2080 Ti"
+  },
+  "manifest_sha256": "c5665f8251efe5eeb6e57d14db7b3932ca5a986b23bada0b0bdeb7fb4ba61b2e",
+  "validation_images": 505,
+  "batches": 64,
+  "batch_size": 8,
+  "precision_mode_order_sha256": "4553734ebc6aad8f15b6ad8b65e0391f5714b847f36cdd7da3b3da701d8c8b33",
+  "training_executed": false,
+  "p2_training_executed": false,
+  "parameter_and_bn_state_unchanged": true,
+  "checkpoint_identity": [
+    {
+      "stored_epoch_zero_based": 30,
+      "completed_epoch": 31,
+      "ema_present": true,
+      "state_source": "ema",
+      "ema_updates": 834,
+      "layer1": "Conv",
+      "model_class": "UAVDetectionModel",
+      "case": "b0_early",
+      "checkpoint_sha256": "3688c361d8b0272aec1a156a3e29bac73bd2aa60012bec7b433875749037e1d0"
+    },
+    {
+      "stored_epoch_zero_based": 10,
+      "completed_epoch": 11,
+      "ema_present": true,
+      "state_source": "ema",
+      "ema_updates": 384,
+      "layer1": "PConv",
+      "model_class": "UAVDetectionModel",
+      "case": "b1_early",
+      "checkpoint_sha256": "e9181efb4f65d2bdbf357bb5e27cba1064e394a94d91c415d8d36850f7114e4a"
+    },
+    {
+      "stored_epoch_zero_based": -1,
+      "completed_epoch": null,
+      "ema_present": false,
+      "state_source": "stripped_final_model",
+      "ema_updates": null,
+      "layer1": "Conv",
+      "model_class": "UAVDetectionModel",
+      "case": "b0_best",
+      "checkpoint_sha256": "03424275aeab8025a1f210200c1c072fb6f21e74d9948a287fd23d6dc178f7dc"
+    },
+    {
+      "stored_epoch_zero_based": -1,
+      "completed_epoch": null,
+      "ema_present": false,
+      "state_source": "stripped_final_model",
+      "ema_updates": null,
+      "layer1": "PConv",
+      "model_class": "UAVDetectionModel",
+      "case": "b1_best",
+      "checkpoint_sha256": "c9a1f63d76761864e2132288ad9b80930d10e01bde09d831a1c4a71ecaf5e9d3"
+    }
+  ],
+  "precision_replay": [
+    {
+      "case": "b0_early",
+      "mode": "AMP",
+      "bad_batches": [
+        9,
+        54,
+        61
+      ],
+      "first_nonfinite_stage": {
+        "batch": 9,
+        "stage": "model.22.C3k2",
+        "outputs": [
+          {
+            "path": "",
+            "dtype": "torch.float16",
+            "shape": [
+              8,
+              256,
+              17,
+              21
+            ],
+            "nonfinite": 256
+          }
+        ]
+      },
+      "loss_mean": {
+        "box_loss": 2.3247962780296803,
+        "cls_loss": "nan",
+        "l1_loss": 0.001484211185015738
+      }
+    },
+    {
+      "case": "b0_early",
+      "mode": "FP32",
+      "bad_batches": [],
+      "first_nonfinite_stage": null,
+      "loss_mean": {
+        "box_loss": 2.3475135788321495,
+        "cls_loss": 2.161241265013814,
+        "l1_loss": 0.0014813713014518726
+      }
+    },
+    {
+      "case": "b1_early",
+      "mode": "AMP",
+      "bad_batches": [
+        0,
+        9,
+        13,
+        18,
+        19,
+        22,
+        23,
+        24,
+        29,
+        31,
+        33,
+        35,
+        38,
+        39,
+        41,
+        42,
+        44,
+        46,
+        47,
+        51,
+        54,
+        58,
+        59,
+        61
+      ],
+      "first_nonfinite_stage": {
+        "batch": 0,
+        "stage": "model.22.C3k2",
+        "outputs": [
+          {
+            "path": "",
+            "dtype": "torch.float16",
+            "shape": [
+              8,
+              256,
+              17,
+              21
+            ],
+            "nonfinite": 4864
+          }
+        ]
+      },
+      "loss_mean": {
+        "box_loss": "nan",
+        "cls_loss": "nan",
+        "l1_loss": "nan"
+      }
+    },
+    {
+      "case": "b1_early",
+      "mode": "FP32",
+      "bad_batches": [],
+      "first_nonfinite_stage": null,
+      "loss_mean": {
+        "box_loss": 3.028103483840823,
+        "cls_loss": 3.2321695405989885,
+        "l1_loss": 0.0019289228785055457
+      }
+    },
+    {
+      "case": "b0_best",
+      "mode": "AMP",
+      "bad_batches": [],
+      "first_nonfinite_stage": null,
+      "loss_mean": {
+        "box_loss": 2.0817380882799625,
+        "cls_loss": 1.7714749686419964,
+        "l1_loss": 0.001294229410632397
+      }
+    },
+    {
+      "case": "b0_best",
+      "mode": "FP32",
+      "bad_batches": [],
+      "first_nonfinite_stage": null,
+      "loss_mean": {
+        "box_loss": 2.111833769828081,
+        "cls_loss": 1.772907940670848,
+        "l1_loss": 0.0012918950314997346
+      }
+    },
+    {
+      "case": "b1_best",
+      "mode": "AMP",
+      "bad_batches": [],
+      "first_nonfinite_stage": null,
+      "loss_mean": {
+        "box_loss": 2.178876845166087,
+        "cls_loss": 2.373665167018771,
+        "l1_loss": 0.0013863213644071948
+      }
+    },
+    {
+      "case": "b1_best",
+      "mode": "FP32",
+      "bad_batches": [],
+      "first_nonfinite_stage": null,
+      "loss_mean": {
+        "box_loss": 2.202887687832117,
+        "cls_loss": 2.3727279286831617,
+        "l1_loss": 0.0013842905163983232
+      }
+    }
+  ],
+  "official_training_validator_fp32_recovery": [
+    {
+      "case": "b0_early",
+      "metrics": {
+        "metrics/precision(B)": 0.55741,
+        "metrics/recall(B)": 0.37882,
+        "metrics/mAP50(B)": 0.40858,
+        "metrics/mAP50-95(B)": 0.14131,
+        "fitness": 0.14131,
+        "val/box_loss": 2.34751,
+        "val/cls_loss": 2.16124,
+        "val/l1_loss": 0.00148
+      },
+      "samples": 505,
+      "input_shapes": [
+        [
+          1,
+          3,
+          544,
+          672
+        ],
+        [
+          8,
+          3,
+          544,
+          672
+        ]
+      ],
+      "state_unchanged": true,
+      "precision_audit": {
+        "training_amp_preserved": true,
+        "validation_precision": "FP32",
+        "samples": 505
+      }
+    },
+    {
+      "case": "b1_early",
+      "metrics": {
+        "metrics/precision(B)": 0.04911,
+        "metrics/recall(B)": 0.04888,
+        "metrics/mAP50(B)": 0.02933,
+        "metrics/mAP50-95(B)": 0.00768,
+        "fitness": 0.00768,
+        "val/box_loss": 3.0281,
+        "val/cls_loss": 3.23217,
+        "val/l1_loss": 0.00193
+      },
+      "samples": 505,
+      "input_shapes": [
+        [
+          1,
+          3,
+          544,
+          672
+        ],
+        [
+          8,
+          3,
+          544,
+          672
+        ]
+      ],
+      "state_unchanged": true,
+      "precision_audit": {
+        "training_amp_preserved": true,
+        "validation_precision": "FP32",
+        "samples": 505
+      }
+    },
+    {
+      "case": "b0_best",
+      "metrics": {
+        "metrics/precision(B)": 0.67918,
+        "metrics/recall(B)": 0.49287,
+        "metrics/mAP50(B)": 0.57339,
+        "metrics/mAP50-95(B)": 0.23087,
+        "fitness": 0.23087,
+        "val/box_loss": 2.11183,
+        "val/cls_loss": 1.77291,
+        "val/l1_loss": 0.00129
+      },
+      "samples": 505,
+      "input_shapes": [
+        [
+          1,
+          3,
+          544,
+          672
+        ],
+        [
+          8,
+          3,
+          544,
+          672
+        ]
+      ],
+      "state_unchanged": true,
+      "precision_audit": {
+        "training_amp_preserved": true,
+        "validation_precision": "FP32",
+        "samples": 505
+      }
+    },
+    {
+      "case": "b1_best",
+      "metrics": {
+        "metrics/precision(B)": 0.40057,
+        "metrics/recall(B)": 0.38086,
+        "metrics/mAP50(B)": 0.35523,
+        "metrics/mAP50-95(B)": 0.14026,
+        "fitness": 0.14026,
+        "val/box_loss": 2.20289,
+        "val/cls_loss": 2.37273,
+        "val/l1_loss": 0.00138
+      },
+      "samples": 505,
+      "input_shapes": [
+        [
+          1,
+          3,
+          544,
+          672
+        ],
+        [
+          8,
+          3,
+          544,
+          672
+        ]
+      ],
+      "state_unchanged": true,
+      "precision_audit": {
+        "training_amp_preserved": true,
+        "validation_precision": "FP32",
+        "samples": 505
+      }
+    }
+  ],
+  "evidence": {
+    "replay_archive_sha256": "69b4b3337e75e218445e48230d47b924583b5a0f334de08e57ab5d5442880daf",
+    "recovery_archive_sha256": "908993b3fde690858502a2dc7a3ba73e15b3ccf3458089dd2588e1617b3db608",
+    "all_member_sha_verified": true,
+    "retrieval_ack_exit": 0
+  },
+  "interpretation": {
+    "supported": "Early EMA AMP forward nonfinite values reproduced; full FP32 forward/loss and the project FP32 official-validator recovery are finite on all505 samples.",
+    "limit": "First top-level localization is layer22 C3k2; the failing internal operator and every historical NaN epoch were not individually traced.",
+    "comparison": "New training-validator FP32 recovery metrics are separate diagnostic evaluations. Historical final-evaluation metrics and CSV remain unchanged; backend/batching/validation path can differ. P2 best selection will use FP32 validation.",
+    "p2": "Separate reviewed matched92 P2 protocol prepared; no training yet."
+  }
+}

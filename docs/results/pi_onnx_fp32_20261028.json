@@ -1,0 +1,234 @@
+{
+  "status": "passed",
+  "runtime": {
+    "architecture": "aarch64",
+    "python": "3.13.5",
+    "onnxruntime": "1.23.2",
+    "numpy": "2.2.4",
+    "opencv": "4.12.0",
+    "threads": 4,
+    "provider": [
+      "CPUExecutionProvider"
+    ]
+  },
+  "initialization_s": 0.05176741298055276,
+  "warmup_frames": 20,
+  "prefixes": [
+    75,
+    150,
+    300
+  ],
+  "repeats": 3,
+  "runs": [
+    {
+      "frames": 75,
+      "repeat": 1,
+      "counts": {
+        "tp": 4,
+        "fp": 3,
+        "fn": 71
+      },
+      "decode_s": 0.13503654312808067,
+      "preprocess_s": 0.18140239897184074,
+      "model_s": 10.872890104132239,
+      "postprocess_s": 0.09894766984507442,
+      "pipeline_s": 11.288276716077235,
+      "wall_with_scoring_s": 11.342564845981542,
+      "pipeline_fps": 6.644061080924945
+    },
+    {
+      "frames": 75,
+      "repeat": 2,
+      "counts": {
+        "tp": 4,
+        "fp": 3,
+        "fn": 71
+      },
+      "decode_s": 0.13139635877450928,
+      "preprocess_s": 0.17392232408747077,
+      "model_s": 10.843932764953934,
+      "postprocess_s": 0.1026090097730048,
+      "pipeline_s": 11.251860457588919,
+      "wall_with_scoring_s": 11.257518556027208,
+      "pipeline_fps": 6.6655643555742445
+    },
+    {
+      "frames": 75,
+      "repeat": 3,
+      "counts": {
+        "tp": 4,
+        "fp": 3,
+        "fn": 71
+      },
+      "decode_s": 0.12657343078171834,
+      "preprocess_s": 0.16760223609162495,
+      "model_s": 10.948759843420703,
+      "postprocess_s": 0.09998508484568447,
+      "pipeline_s": 11.34292059513973,
+      "wall_with_scoring_s": 11.348429851001129,
+      "pipeline_fps": 6.612053692074364
+    },
+    {
+      "frames": 150,
+      "repeat": 1,
+      "counts": {
+        "tp": 19,
+        "fp": 3,
+        "fn": 131
+      },
+      "decode_s": 0.25475648179417476,
+      "preprocess_s": 0.3431949793593958,
+      "model_s": 21.79219450952951,
+      "postprocess_s": 0.20304250600747764,
+      "pipeline_s": 22.593188476690557,
+      "wall_with_scoring_s": 22.606507860007696,
+      "pipeline_fps": 6.639169152895588
+    },
+    {
+      "frames": 150,
+      "repeat": 2,
+      "counts": {
+        "tp": 19,
+        "fp": 3,
+        "fn": 131
+      },
+      "decode_s": 0.25806535891024396,
+      "preprocess_s": 0.34881799266440794,
+      "model_s": 21.63295103033306,
+      "postprocess_s": 0.20502925029722974,
+      "pipeline_s": 22.444863632204942,
+      "wall_with_scoring_s": 22.459548286977224,
+      "pipeline_fps": 6.6830434997507835
+    },
+    {
+      "frames": 150,
+      "repeat": 3,
+      "counts": {
+        "tp": 19,
+        "fp": 3,
+        "fn": 131
+      },
+      "decode_s": 0.26889631373342127,
+      "preprocess_s": 0.33919124596286565,
+      "model_s": 21.337525113194715,
+      "postprocess_s": 0.2051895466283895,
+      "pipeline_s": 22.15080221951939,
+      "wall_with_scoring_s": 22.16442324098898,
+      "pipeline_fps": 6.771763772411786
+    },
+    {
+      "frames": 300,
+      "repeat": 1,
+      "counts": {
+        "tp": 60,
+        "fp": 5,
+        "fn": 240
+      },
+      "decode_s": 0.5139383565401658,
+      "preprocess_s": 0.6769062682287768,
+      "model_s": 42.92356065835338,
+      "postprocess_s": 0.41083222097950056,
+      "pipeline_s": 44.525237504101824,
+      "wall_with_scoring_s": 44.569314530992415,
+      "pipeline_fps": 6.73775181934432
+    },
+    {
+      "frames": 300,
+      "repeat": 2,
+      "counts": {
+        "tp": 60,
+        "fp": 5,
+        "fn": 240
+      },
+      "decode_s": 0.5386142618372105,
+      "preprocess_s": 0.6723626894527115,
+      "model_s": 43.97684716171352,
+      "postprocess_s": 0.4023975936579518,
+      "pipeline_s": 45.590221706661396,
+      "wall_with_scoring_s": 45.62405268900329,
+      "pipeline_fps": 6.5803584358565566
+    },
+    {
+      "frames": 300,
+      "repeat": 3,
+      "counts": {
+        "tp": 60,
+        "fp": 5,
+        "fn": 240
+      },
+      "decode_s": 0.5238424562849104,
+      "preprocess_s": 0.6957813177723438,
+      "model_s": 44.154893981292844,
+      "postprocess_s": 0.4049143958836794,
+      "pipeline_s": 45.77943215123378,
+      "wall_with_scoring_s": 45.814499419997446,
+      "pipeline_fps": 6.553161232077774
+    }
+  ],
+  "reference_selected_boxes_max_abs_error_px": 3.0517578125e-05,
+  "reference_selected_score_max_abs_error": 1.4007091522216797e-06,
+  "all_outputs_finite": true,
+  "onnx_sha256": "97b802c9a83fee25ae4e0307470ad4de5e086ce17f2ccf49af9bec4d5704c8e4",
+  "manifest_sha256": "8021e25ec792f7a036d8dd2b15e875b5f5a1d52fcb311fb6547f761c0ca1691b",
+  "training_executed": false,
+  "calibration_executed": false,
+  "h10_used": false,
+  "encoded_video_or_display_measured": false,
+  "timing_scope": "PiCPU ORT FP32 originalJPEG decode, square640 letterbox/normalization, six raw-head inference, host one-to-one decode and coordinate restoration. Score/JSON writes excluded from pipeline timer, included in wall. Initialization/warmup excluded. No video/display encoding.",
+  "date": "2026-10-28",
+  "summary": [
+    {
+      "frames": 75,
+      "repeats": 3,
+      "pipeline_fps_median": 6.644061080924945,
+      "pipeline_fps_min": 6.612053692074364,
+      "pipeline_fps_max": 6.6655643555742445,
+      "pipeline_seconds_median": 11.288276716077235,
+      "model_ms_per_frame_median": 144.9718680550965,
+      "counts": {
+        "tp": 4,
+        "fp": 3,
+        "fn": 71
+      }
+    },
+    {
+      "frames": 150,
+      "repeats": 3,
+      "pipeline_fps_median": 6.6830434997507835,
+      "pipeline_fps_min": 6.639169152895588,
+      "pipeline_fps_max": 6.771763772411786,
+      "pipeline_seconds_median": 22.444863632204942,
+      "model_ms_per_frame_median": 144.21967353555374,
+      "counts": {
+        "tp": 19,
+        "fp": 3,
+        "fn": 131
+      }
+    },
+    {
+      "frames": 300,
+      "repeats": 3,
+      "pipeline_fps_median": 6.5803584358565566,
+      "pipeline_fps_min": 6.553161232077774,
+      "pipeline_fps_max": 6.73775181934432,
+      "pipeline_seconds_median": 45.590221706661396,
+      "model_ms_per_frame_median": 146.58949053904507,
+      "counts": {
+        "tp": 60,
+        "fp": 5,
+        "fn": 240
+      }
+    }
+  ],
+  "retrieval": {
+    "archive_sha256": "0ede572540f82b41df9712d0649da8c3dfe330b23eb0bf77d302bd55a4b98a28",
+    "all_member_sha_verified": true,
+    "prediction_rows": 300,
+    "reference_prediction_rows_recompared": true
+  },
+  "limits": [
+    "One correlated sequence, all frames target-present; not independent test scenes.",
+    "CPU ORT FP32 only; no H10 inference, encoded-video/display pipeline or NPU speedup measured.",
+    "Four threads; dynamic host load/temperature not fully controlled."
+  ]
+}

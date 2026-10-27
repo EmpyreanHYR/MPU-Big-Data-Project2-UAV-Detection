@@ -1,0 +1,58 @@
+{
+  "status": "passed",
+  "frames": 300,
+  "all_six_raw_outputs_finite_and_close": true,
+  "raw_tolerance": {
+    "atol": 0.001,
+    "rtol": 0.0001
+  },
+  "max_raw_abs_error": 7.82012939453125e-05,
+  "selected_boxes_max_abs_error_px": 3.0517578125e-05,
+  "selected_scores_max_abs_error": 1.5795230865478516e-06,
+  "counts": {
+    "tp": 60,
+    "fp": 5,
+    "fn": 240
+  },
+  "threshold": 0.25,
+  "matching_iou": 0.5,
+  "source_weight_sha256": "03424275aeab8025a1f210200c1c072fb6f21e74d9948a287fd23d6dc178f7dc",
+  "model_state_before": "471c83f91c6ff1dd7587c79d2a68a21ae9393a17dbe83198d9ea368407b78afa",
+  "model_state_after": "471c83f91c6ff1dd7587c79d2a68a21ae9393a17dbe83198d9ea368407b78afa",
+  "onnx_sha256": "97b802c9a83fee25ae4e0307470ad4de5e086ce17f2ccf49af9bec4d5704c8e4",
+  "contract_sha256": "a21811a387a03aeb1d50a66a64e3ee85bf6f6e70b78dce46691271188f0b7bf0",
+  "source_script_sha256": "b258378cabc720d22cff39f4351bbe93836854c210d3e27d1d201adb575ba66f",
+  "input_manifest_sha256": "3116cfaf8e2112abfaeb97f625eeaac09cbd12c4ee6a732a41d3239d93fc9df0",
+  "training_executed": false,
+  "calibration_executed": false,
+  "hef_compiled": false,
+  "pi_h10_measured": false,
+  "runtime": {
+    "torch": "2.14.1",
+    "onnx": "1.19.1",
+    "onnxruntime": "1.23.2",
+    "device": "MacCPU",
+    "threads": 4
+  },
+  "scope": "Full B0 raw one-to-one ONNX parity on frozen300realIR frames; localCPU only. Not calibration/HEF or H10 performance.",
+  "output_order": [
+    "reg_s8",
+    "reg_s16",
+    "reg_s32",
+    "cls_s8",
+    "cls_s16",
+    "cls_s32"
+  ],
+  "onnx_input": {
+    "shape": [
+      1,
+      3,
+      640,
+      640
+    ],
+    "layout": "NCHW",
+    "dtype": "float32",
+    "normalization": "RGB0..1,114pad"
+  },
+  "compiler_state": "WSL start returned0x800705aa; no DFC run"
+}

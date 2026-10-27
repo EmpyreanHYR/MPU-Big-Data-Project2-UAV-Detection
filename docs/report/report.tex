@@ -15,7 +15,7 @@
 
 \begin{document}
 
-\title{YOLO26n for Infrared Small-UAV Detection: Baseline and PConv Experiments}
+\title{YOLO26n for Infrared Small-UAV Detection: Experiments and Numerical Diagnosis}
 
 \author{Yaorong Huang, Chunshen Yu, Yifan Zhai, and Zhiwen Luo\\Macao Polytechnic University}
 
@@ -30,21 +30,21 @@
 \maketitle
 
 \begin{abstract}
-We study YOLO26n for infrared UAV bounding-box detection on SIRST-UAVB. Exact-pixel duplicates and conflicting labels were audited before fixing a background-view holdout of 1,438 training and 505 validation images. The baseline completed 92 full epochs and part of epoch 93; its selected checkpoint achieved 56.2\% mAP@0.5 and 23.2\% mAP@0.5:0.95. A layer-1 pinwheel-shaped convolution (PConv) variant completed 92 full epochs under the same 300-epoch learning-rate plan and achieved 35.8\% and 14.1\%, respectively. Both runs had finite training losses, detection metrics, and saved weights, but some validation-loss entries were NaN. The strict history check stopped the comparison queue before P2 training. We report these observed results and the unresolved numerical issue.
+We evaluate YOLO26n, shallow pinwheel-shaped convolution (PConv), and a stride-4 P2 branch for infrared UAV detection. A duplicate-audited SIRST-UAVB holdout contains 1,438 training and 505 validation images. Historical baseline and PConv final AP50/AP50:95 were 56.2\%/23.2\% and 35.8\%/14.1\%, but seven and eleven validation-loss rows contained NaN. Early-EMA replay reproduced nonfinite AMP forward outputs; full FP32 replay was finite. A separate P2 experiment retained AMP training and used FP32 validation and checkpoint selection. All 92 epochs had finite histories; final AP50/AP50:95 were 47.405\%/20.652\%. P2 did not exceed the baseline FP32 revalidation. Different checkpoint-selection precision limits architecture-only comparisons.
 \end{abstract}
 \begin{IEEEkeywords}
-Infrared UAV detection, YOLO26n, small targets, dataset audit, baseline experiments.
+Infrared UAV detection, YOLO26n, small targets, numerical diagnosis, mixed precision.
 \end{IEEEkeywords}
 
 \section{Background and Study Design}
-Small infrared UAVs contain few pixels and limited texture. Bright background structures and birds can resemble the target, while small coordinate errors strongly affect box overlap. We study bounding-box detection using YOLO26n as the lightweight baseline\cite{jocher2026yolo26,ultralytics2026docs}. Pinwheel-shaped convolution (PConv) provides directional shallow sampling for infrared small-target features\cite{yang2025pconv}; a stride-4 P2 prediction branch provides a second way to preserve spatial detail.
+Small infrared UAVs contain few pixels and limited texture. Bright background structures and birds can resemble targets, while small coordinate errors strongly affect box overlap. We use YOLO26n as a lightweight bounding-box detector\cite{jocher2026yolo26,ultralytics2026docs}. Pinwheel-shaped convolution (PConv) provides directional shallow sampling\cite{yang2025pconv}; a high-resolution P2 branch tests whether preserving finer spatial features helps detection.
 
-The implementation contains B0 (baseline), B1 (a layer-1 PConv replacement), and B2 (an added P2 branch). This report records B0 and a completed 92-epoch B1 attempt. B2 has model-construction and checkpoint-restoration checks but was not trained because B1 failed the subsequent numerical-history check.
+B0 is the baseline, B1 replaces layer 1 with PConv, and B2 adds a stride-4 P2 branch. We report the original B0/B1 outcomes, a subsequent numerical diagnosis, and a separate P2 recovery experiment. The original comparison queue stopped before P2; the recovery experiment does not change its failed status or overwrite historical losses.
 
 \section{Dataset Audit and Preparation}
-SIRST-UAVB contains 3,000 grayscale images at 640 by 512 pixels\cite{yang2025pconv}. The acquired native labels contain 2,961 UAV and 1,747 bird boxes, identified by cross-checking masks and the authors' annotation description. We retain native boxes and use UAV as the training class; bird boxes remain available for error analysis.
+SIRST-UAVB contains 3,000 grayscale images at 640 by 512 pixels\cite{yang2025pconv}. Acquired native labels contain 2,961 UAV and 1,747 bird boxes, identified by cross-checking masks and the authors' annotation description. UAV is the single training class; bird boxes are retained for error analysis.
 
-The original 2,400/600 split shares 496 exact-pixel image groups; three further groups have conflicting labels. We isolated conflicts, six UAV images without corresponding positive mask pixels and their copies, and close background views at the split boundary. Deduplication and background-view review produced Table~\ref{tab:data}.
+The original 2,400/600 split shares 496 exact-pixel image groups; three additional groups have conflicting labels. We isolated conflicts, six UAV images without corresponding positive mask pixels and their copies, and close background views at the split boundary. Table~\ref{tab:data} gives the resulting fixed split.
 
 \begin{table}[!t]
 \caption{Fixed SIRST-UAVB Background-View Holdout}
@@ -61,48 +61,29 @@ Bird boxes retained for analysis & 925 & 227\\
 \end{tabular}
 \end{table}
 
-The release provides no original video or session identifiers. The grouping therefore represents inferred background-view families, with nearby facade views held out for validation. It has zero cross-split exact-pixel duplicates and no independent test split. The image list, class map, grouping policy, and prepared-manifest digest are frozen in the repository. Conversion preserves original pixels and dimensions; training then uses aspect-ratio-preserving resizing and padding to a 640-pixel input.
+Original video/session identifiers are unavailable. This is an inferred background-view holdout, with nearby facade views held out, zero cross-split exact-pixel duplicates, and no independent test split. Image lists, class mapping, grouping policy, and prepared-manifest digest are frozen. Conversion preserves pixels and native boxes; training applies aspect-ratio-preserving resizing and padding.
 
-\section{Model and Experimental Settings}
-B0 uses the n-scale, single-class YOLO26 architecture with prediction strides 8, 16, and 32 and its end-to-end output branch. The constructed training model has 2,504,190 parameters. For consistent initialization across variants, we transfer only same-name, same-shape tensors in layers 0--16 from the official YOLO26n checkpoint: 348 tensors were copied. Layers from 17 onward are randomly initialized. Thus the experiment uses a shared-prefix transfer policy rather than full-model pretrained initialization.
+\section{Models and Experimental Settings}
+B0 retains prediction strides 8, 16, and 32 and the end-to-end output branch; its constructed training model has 2,504,190 parameters. Initialization transfers same-name, same-shape tensors from official YOLO26n layers 0--16; layers from 17 onward are random. B0 and P2 each copy 348 tensors. B1 copies 342, excluding its replaced shallow layer. This shared-prefix policy differs from full-model pretrained initialization.
 
 \IEEEpubidadjcol
-Both runs used one RTX 2080 Ti, Python 3.10.8, PyTorch 2.1.2+cu118, and Ultralytics 8.4.184. B0's automatic optimizer resolved to AdamW. B1 explicitly matches its learning rate 0.002, momentum 0.9, weight decay 0.0005, lrf 0.01, nbs 64, and warmup bias learning rate 0.0. B1 replaces layer 1 with PConv and transfers 342 tensors, excluding that layer. It stops after complete epoch 92 while retaining the 300-epoch learning-rate and augmentation plan. Both use mosaic, scaling, translation, flipping, and the same unaugmented validation split.
+All runs use one RTX 2080 Ti, Python 3.10.8, PyTorch 2.1.2+cu118, Ultralytics 8.4.184, image size 640, batch 4, seed 42, and four workers. B0's automatic optimizer resolved to AdamW; B1/P2 explicitly match learning rate 0.002, momentum 0.9, weight decay 0.0005, lrf 0.01, nbs 64, and warmup bias learning rate 0.0. The 300-epoch learning-rate and augmentation plan is retained, including mosaic, scaling, translation, and flipping.
+
+B0 completed 92 full epochs and 317/360 batches of epoch 93 before its time callback stopped training. B1 and P2 completed exactly 92 epochs. B0/B1 selected epochs 81/68 by validation AP50:95 under the original AMP protocol. P2 keeps AMP optimization but changes validation and best selection to FP32 after the recovery checks below. No local training was performed.
+
+\section{Results and Numerical Diagnosis}
+\subsection{Historical B0 and B1 Results}
+Table~\ref{tab:historical} retains the original final-checkpoint revalidation at console precision. Precision and recall use the validator's operating point; AP50:95 averages IoU thresholds 0.50--0.95. These final values differ slightly from the selected in-training rows: B0 AP50/AP50:95 were 56.176\%/23.061\%, and B1 were 35.578\%/14.111\%.
 
 \begin{table}[!t]
-\caption{Effective Baseline Training Settings}
-\label{tab:settings}
-\centering
-\begin{tabular}{ll}
-\hline
-Setting & Value\\
-\hline
-Input / batch size & 640 pixels / 4\\
-Optimizer / initial learning rate & AdamW / 0.002\\
-Weight decay & 0.0005\\
-Seed / workers & 42 / 4\\
-Mixed precision & Enabled; AMP check passed\\
-Epoch cap / full epochs completed & 300 / 92\\
-Final partial epoch & 93\\
-Checkpoint selection & Highest validation mAP@0.5:0.95\\
-\hline
-\end{tabular}
-\end{table}
-
-A time callback reserved saving and validation time for B0. Although its log reported 93 epochs, the final visible progress was 317/360 batches in epoch 93: we count 92 full epochs plus a partial 93rd. B1 completed exactly 92 full epochs. B0 selected epoch 81; B1 selected epoch 68. No local model training was performed.
-
-\section{Results and Analysis}
-Table~\ref{tab:results} reports final checkpoint revalidation, rounded to the console's three-decimal precision. Precision and recall use the validator's operating point; AP50:95 averages IoU thresholds 0.50--0.95. Revalidation after optimizer stripping differs slightly from in-training values: B0's selected row has AP50/AP50:95 of 56.176\%/23.061\%, and B1's has 35.578\%/14.111\%.
-
-\begin{table}[!t]
-\caption{Final Validation on 505 Images and 491 UAV Boxes (\%)}
-\label{tab:results}
+\caption{Historical Validation: 505 Images, 491 UAV Boxes (\%)}
+\label{tab:historical}
 \centering
 \begin{tabular}{lrrrr}
 \hline
 Model state & Precision & Recall & AP50 & AP50:95\\
 \hline
-Partial epoch 93 & 72.4 & 48.3 & 52.6 & 20.6\\
+B0 partial epoch 93 & 72.4 & 48.3 & 52.6 & 20.6\\
 B0 best (epoch 81) & 66.5 & 49.2 & 56.2 & 23.2\\
 B1 PConv best (epoch 68) & 41.6 & 37.8 & 35.8 & 14.1\\
 \hline
@@ -112,26 +93,46 @@ B1 PConv best (epoch 68) & 41.6 & 37.8 & 35.8 & 14.1\\
 \begin{figure}[!t]
 \centering
 \includegraphics[width=\columnwidth]{figures/baseline_validation.png}
-\caption{B0 in-training validation AP from the verified CSV snapshot, through complete epoch 92. The dashed line marks the selected checkpoint at epoch 81. The partial final epoch and post-training best-checkpoint revalidation are reported separately in Table~\ref{tab:results}.}
+\caption{B0 in-training AP through complete epoch 92; the dashed line marks epoch 81. Partial-epoch and post-training revalidation results are separate observations in Table~\ref{tab:historical}.}
 \label{fig:curve}
 \end{figure}
 
-The history audit found NaN validation losses in seven B0 rows (epochs 6, 7, 12, 31, 32, 36, 37) and eleven B1 rows (3, 6--12, 14, 16, 17). Training losses, detection metrics, and saved floating-point weights were finite in both runs. B1 training returned normally, but the subsequent all-history finiteness check rejected it and stopped the queue before B2. The cause remains unresolved; no rows were removed or imputed.
+NaN validation losses occur in B0 epochs 6, 7, 12, 31, 32, 36, 37 and B1 epochs 3, 6--12, 14, 16, 17. Training losses, detection metrics, and saved floating-point weights remain finite. B1 training returned normally, but the strict all-history check rejected it and stopped the original queue. No rows were removed, replaced, or imputed.
 
-PConv produced lower observed AP than B0 in this single-seed attempt. Baseline recall of 49.2\% leaves missed-target headroom, and the AP50--AP50:95 gap motivates localization analysis. Figure~\ref{fig:curve} shows considerable epoch-to-epoch variation. The validation-loss issue needs investigation before further algorithm comparisons.
+\subsection{Early EMA Replay and FP32 Recovery}
+The retained B0/B1 periodic checkpoints store zero-based epochs 30/10, corresponding to completed epochs 31/11, with EMA updates 834/384. Their EMA states are finite and B1 retains PConv. Each early EMA and final stripped best was evaluated in both precision modes on the same 505 images, batch 8, 64 batches, and fixed order, without gradients. Parameters and BN buffers were unchanged.
 
-\subsection{Timing and Artifact Verification}
-The final B0 GPU validation reported 0.1 ms preprocessing, 3.1 ms inference, and 0.1 ms postprocessing per image, using validation batches of eight. These are framework timings for offline images. Camera input, video decoding, display, and device transfer require a separate end-to-end benchmark on the deployment device.
+B0/B1 early AMP replay had 3/24 nonfinite batches; full FP32 replay had none. Both final bests were finite in both modes. The first captured top-level anomaly was \texttt{model.22.C3k2}. Recomputing FP32 loss from the same raw predictions of all 27 anomalous AMP batches remained nonfinite; full FP32 forward and loss were finite. This localizes an AMP forward-related path, not the internal failing operator or every historical NaN epoch. Both architectures exhibit it, so it cannot be attributed solely to PConv.
 
-Final best/last files are each 5,388,158 bytes for B0 and 5,394,626 bytes for B1. Remote manifests and local SHA256 digests agree. CPU deserialization verified finite floating-point states in all 708 B0 and 720 B1 tensors per file, with PConv retained at B1 layer 1. Stripping resets stored epochs to $-1$; CSVs, checkpoint metrics, and stopping records identify progress. The 35-file B1 archive was verified before acknowledgement and platform shutdown. Raw histories and weights are preserved.
+A project-scoped adapter gives the official training validator a read-only trainer view with AMP disabled, while preserving the actual trainer's AMP flag. FP32 preprocessing, forward, and loss passed on all four checkpoints and all 505 images with unchanged parameters/BN. Shared dependencies and historical CSVs were not modified.
 
-\section{Edge Deployment and Further Experiments}
-P2 training remains pending. The next step is to isolate the validation-loss numerical anomaly while preserving the recorded settings and raw histories. Subsequent comparisons will measure recall, AP, bird-associated false detections, target-size effects, and inference cost under the same data protocol.
+\subsection{P2 Recovery Experiment}
+P2 then completed 92 full epochs with all CSV values finite and 505-image FP32 validation each epoch. Final best revalidation after standard optimizer stripping used the same FP32 training-validator path and left model state unchanged. Box/class/L1 losses were 2.13623/1.87533/0.00130. Table~\ref{tab:fp32} compares that outcome with independent FP32 revalidation of the existing B0/B1 bests.
 
-YOLO26n conversion for H10, Raspberry Pi execution, and real infrared-video timing have not yet been measured for this trained baseline. The deployment stage will record the compiler/runtime combination, conversion success, any accuracy change, and end-to-end video latency. The GPU validation timing above is the current measured reference.
+\begin{table}[!t]
+\caption{FP32 Training-Validator Revalidation (\%)}
+\label{tab:fp32}
+\centering
+\begin{tabular}{lrrrr}
+\hline
+Final best & Precision & Recall & AP50 & AP50:95\\
+\hline
+B0 diagnostic control & 67.918 & 49.287 & 57.339 & 23.087\\
+B1 diagnostic control & 40.057 & 38.086 & 35.523 & 14.026\\
+P2 recovery & 57.223 & 46.589 & 47.405 & 20.652\\
+\hline
+\end{tabular}
+\end{table}
+
+P2 does not exceed B0 here. P2 selects best using FP32 validation, whereas B0/B1 retain historical AMP-selected weights. Their new FP32 diagnostic metrics do not replace Table~\ref{tab:historical}; backend, batch, and preprocessing paths also differ from the historical standalone evaluation. Thus neither precision-only effects nor architecture-only gains can be inferred. Single-seed training and the inferred-view split further limit generalization.
+
+\subsection{Artifacts and Timing}
+Best/last files are each 5,388,158 bytes (B0), 5,394,626 (B1), and 5,622,388 (P2); final finite-state checks and remote/local SHA256 verification passed. P2's 29-file archive was verified before acknowledgement and platform shutdown. Raw histories and weights are preserved.
+
+Historical B0 GPU validation reported 0.1/3.1/0.1 ms preprocessing/inference/postprocessing per image at batch 8. These offline framework timings do not measure decoding, camera input, display, or edge transfer. H10 conversion, Raspberry Pi execution, and real infrared-video accuracy and end-to-end latency remain unmeasured for these trained models.
 
 \section{Conclusion}
-The audited YOLO26n baseline achieved 56.2\% AP50 and 23.2\% AP50:95. A matched 92-epoch PConv attempt achieved 35.8\% and 14.1\%, providing no observed improvement in this run. Final weights were saved and hash-verified, but nonfinite validation-loss history stopped the queue before P2. Resolving that numerical issue precedes the remaining comparison and device deployment.
+Neither shallow PConv nor P2 improved observed AP over B0 in this single-seed study. Early-EMA replay reproduced AMP forward-related nonfinite values; FP32 validation enabled a separate P2 run with finite losses throughout 92 epochs. Historical NaNs remain recorded, and precision-dependent checkpoint selection limits direct comparison. Device conversion, video testing, and error analysis remain future work.
 \bibliographystyle{IEEEtran}
 \bibliography{references}
 \end{document}

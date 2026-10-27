@@ -10,7 +10,7 @@
 | 实验与数据配置 | [configs](configs/) | 三份实验配置、原始清单和类别映射示例 |
 | 数据集来源与标注 | [SOURCES.md](docs/datasets/SOURCES.md) | 主数据及补充数据说明 |
 | 提案 | [TeX](docs/proposal/proposal.tex) / [PDF](docs/proposal/proposal.pdf) / [中文阅读稿](docs/proposal/proposal_zh.md) | 英文 PDF 2 页 |
-| 报告 | [TeX](docs/report/report.tex) / [PDF](docs/report/report.pdf) / [说明](docs/report/README.md) | 已补入B0/B1实测与验证损失审计 |
+| 报告 | [TeX](docs/report/report.tex) / [PDF](docs/report/report.pdf) / [说明](docs/report/README.md) | 两页，已合并B0/B1/P2实测与数值诊断 |
 | PPT | [大纲](docs/slides/outline_zh.md) | 已建立目录与汇报大纲 |
 | 参考文献 | [references.bib](bibliography/references.bib) | 统一 BibTeX 文献源 |
 | 原始 IEEE 模板 | [压缩包](templates/ieee/source.zip) / [说明](templates/ieee/README.md) | 原件及六个成员完整保留 |

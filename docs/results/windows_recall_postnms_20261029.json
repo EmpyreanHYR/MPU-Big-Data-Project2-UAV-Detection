@@ -1,0 +1,526 @@
+{
+  "pure_nms_boundary_checks_passed": 4,
+  "candidate_val_results": [
+    {
+      "case": "original_b0_one2one",
+      "confidence": 0.25,
+      "additional_nms_iou": null,
+      "val_metrics": {
+        "tp": 227,
+        "fp": 75,
+        "fn": 264,
+        "images": 505,
+        "precision": 0.7516556291390728,
+        "recall": 0.4623217922606925,
+        "fp_per_image": 0.1485148514851485
+      }
+    },
+    {
+      "case": "original_b0_one2one",
+      "confidence": 0.25,
+      "additional_nms_iou": 0.3,
+      "val_metrics": {
+        "tp": 226,
+        "fp": 28,
+        "fn": 265,
+        "images": 505,
+        "precision": 0.889763779527559,
+        "recall": 0.46028513238289204,
+        "fp_per_image": 0.055445544554455446
+      }
+    },
+    {
+      "case": "original_b0_one2one",
+      "confidence": 0.25,
+      "additional_nms_iou": 0.5,
+      "val_metrics": {
+        "tp": 226,
+        "fp": 29,
+        "fn": 265,
+        "images": 505,
+        "precision": 0.8862745098039215,
+        "recall": 0.46028513238289204,
+        "fp_per_image": 0.05742574257425743
+      }
+    },
+    {
+      "case": "original_b0_one2one",
+      "confidence": 0.25,
+      "additional_nms_iou": 0.7,
+      "val_metrics": {
+        "tp": 226,
+        "fp": 35,
+        "fn": 265,
+        "images": 505,
+        "precision": 0.8659003831417624,
+        "recall": 0.46028513238289204,
+        "fp_per_image": 0.06930693069306931
+      }
+    },
+    {
+      "case": "original_b0_one2one",
+      "confidence": 0.1,
+      "additional_nms_iou": null,
+      "val_metrics": {
+        "tp": 316,
+        "fp": 392,
+        "fn": 175,
+        "images": 505,
+        "precision": 0.4463276836158192,
+        "recall": 0.6435845213849287,
+        "fp_per_image": 0.7762376237623763
+      }
+    },
+    {
+      "case": "original_b0_one2one",
+      "confidence": 0.1,
+      "additional_nms_iou": 0.3,
+      "val_metrics": {
+        "tp": 312,
+        "fp": 140,
+        "fn": 179,
+        "images": 505,
+        "precision": 0.6902654867256637,
+        "recall": 0.6354378818737271,
+        "fp_per_image": 0.27722772277227725
+      }
+    },
+    {
+      "case": "original_b0_one2one",
+      "confidence": 0.1,
+      "additional_nms_iou": 0.5,
+      "val_metrics": {
+        "tp": 312,
+        "fp": 141,
+        "fn": 179,
+        "images": 505,
+        "precision": 0.6887417218543046,
+        "recall": 0.6354378818737271,
+        "fp_per_image": 0.27920792079207923
+      }
+    },
+    {
+      "case": "original_b0_one2one",
+      "confidence": 0.1,
+      "additional_nms_iou": 0.7,
+      "val_metrics": {
+        "tp": 313,
+        "fp": 205,
+        "fn": 178,
+        "images": 505,
+        "precision": 0.6042471042471043,
+        "recall": 0.6374745417515275,
+        "fp_per_image": 0.40594059405940597
+      }
+    },
+    {
+      "case": "original_b0_one2one",
+      "confidence": 0.05,
+      "additional_nms_iou": null,
+      "val_metrics": {
+        "tp": 341,
+        "fp": 769,
+        "fn": 150,
+        "images": 505,
+        "precision": 0.30720720720720723,
+        "recall": 0.6945010183299389,
+        "fp_per_image": 1.5227722772277228
+      }
+    },
+    {
+      "case": "original_b0_one2one",
+      "confidence": 0.05,
+      "additional_nms_iou": 0.3,
+      "val_metrics": {
+        "tp": 335,
+        "fp": 323,
+        "fn": 156,
+        "images": 505,
+        "precision": 0.5091185410334347,
+        "recall": 0.6822810590631364,
+        "fp_per_image": 0.6396039603960396
+      }
+    },
+    {
+      "case": "original_b0_one2one",
+      "confidence": 0.05,
+      "additional_nms_iou": 0.5,
+      "val_metrics": {
+        "tp": 335,
+        "fp": 325,
+        "fn": 156,
+        "images": 505,
+        "precision": 0.5075757575757576,
+        "recall": 0.6822810590631364,
+        "fp_per_image": 0.6435643564356436
+      }
+    },
+    {
+      "case": "original_b0_one2one",
+      "confidence": 0.05,
+      "additional_nms_iou": 0.7,
+      "val_metrics": {
+        "tp": 338,
+        "fp": 440,
+        "fn": 153,
+        "images": 505,
+        "precision": 0.43444730077120824,
+        "recall": 0.6883910386965377,
+        "fp_per_image": 0.8712871287128713
+      }
+    },
+    {
+      "case": "original_b0_one2one",
+      "confidence": 0.01,
+      "additional_nms_iou": null,
+      "val_metrics": {
+        "tp": 368,
+        "fp": 2377,
+        "fn": 123,
+        "images": 505,
+        "precision": 0.13406193078324227,
+        "recall": 0.7494908350305499,
+        "fp_per_image": 4.706930693069307
+      }
+    },
+    {
+      "case": "original_b0_one2one",
+      "confidence": 0.01,
+      "additional_nms_iou": 0.3,
+      "val_metrics": {
+        "tp": 359,
+        "fp": 1122,
+        "fn": 132,
+        "images": 505,
+        "precision": 0.24240378122889938,
+        "recall": 0.7311608961303462,
+        "fp_per_image": 2.221782178217822
+      }
+    },
+    {
+      "case": "original_b0_one2one",
+      "confidence": 0.01,
+      "additional_nms_iou": 0.5,
+      "val_metrics": {
+        "tp": 360,
+        "fp": 1174,
+        "fn": 131,
+        "images": 505,
+        "precision": 0.23468057366362452,
+        "recall": 0.7331975560081466,
+        "fp_per_image": 2.3247524752475246
+      }
+    },
+    {
+      "case": "original_b0_one2one",
+      "confidence": 0.01,
+      "additional_nms_iou": 0.7,
+      "val_metrics": {
+        "tp": 364,
+        "fp": 1640,
+        "fn": 127,
+        "images": 505,
+        "precision": 0.18163672654690619,
+        "recall": 0.7413441955193483,
+        "fp_per_image": 3.2475247524752477
+      }
+    },
+    {
+      "case": "finetuned_best_one2one",
+      "confidence": 0.25,
+      "additional_nms_iou": null,
+      "val_metrics": {
+        "tp": 243,
+        "fp": 126,
+        "fn": 248,
+        "images": 505,
+        "precision": 0.6585365853658537,
+        "recall": 0.49490835030549896,
+        "fp_per_image": 0.2495049504950495
+      }
+    },
+    {
+      "case": "finetuned_best_one2one",
+      "confidence": 0.25,
+      "additional_nms_iou": 0.3,
+      "val_metrics": {
+        "tp": 242,
+        "fp": 80,
+        "fn": 249,
+        "images": 505,
+        "precision": 0.7515527950310559,
+        "recall": 0.49287169042769857,
+        "fp_per_image": 0.15841584158415842
+      }
+    },
+    {
+      "case": "finetuned_best_one2one",
+      "confidence": 0.25,
+      "additional_nms_iou": 0.5,
+      "val_metrics": {
+        "tp": 242,
+        "fp": 80,
+        "fn": 249,
+        "images": 505,
+        "precision": 0.7515527950310559,
+        "recall": 0.49287169042769857,
+        "fp_per_image": 0.15841584158415842
+      }
+    },
+    {
+      "case": "finetuned_best_one2one",
+      "confidence": 0.25,
+      "additional_nms_iou": 0.7,
+      "val_metrics": {
+        "tp": 242,
+        "fp": 88,
+        "fn": 249,
+        "images": 505,
+        "precision": 0.7333333333333333,
+        "recall": 0.49287169042769857,
+        "fp_per_image": 0.17425742574257425
+      }
+    },
+    {
+      "case": "finetuned_best_one2one",
+      "confidence": 0.1,
+      "additional_nms_iou": null,
+      "val_metrics": {
+        "tp": 303,
+        "fp": 373,
+        "fn": 188,
+        "images": 505,
+        "precision": 0.44822485207100593,
+        "recall": 0.6171079429735234,
+        "fp_per_image": 0.7386138613861386
+      }
+    },
+    {
+      "case": "finetuned_best_one2one",
+      "confidence": 0.1,
+      "additional_nms_iou": 0.3,
+      "val_metrics": {
+        "tp": 300,
+        "fp": 183,
+        "fn": 191,
+        "images": 505,
+        "precision": 0.6211180124223602,
+        "recall": 0.6109979633401222,
+        "fp_per_image": 0.36237623762376237
+      }
+    },
+    {
+      "case": "finetuned_best_one2one",
+      "confidence": 0.1,
+      "additional_nms_iou": 0.5,
+      "val_metrics": {
+        "tp": 300,
+        "fp": 183,
+        "fn": 191,
+        "images": 505,
+        "precision": 0.6211180124223602,
+        "recall": 0.6109979633401222,
+        "fp_per_image": 0.36237623762376237
+      }
+    },
+    {
+      "case": "finetuned_best_one2one",
+      "confidence": 0.1,
+      "additional_nms_iou": 0.7,
+      "val_metrics": {
+        "tp": 300,
+        "fp": 215,
+        "fn": 191,
+        "images": 505,
+        "precision": 0.5825242718446602,
+        "recall": 0.6109979633401222,
+        "fp_per_image": 0.42574257425742573
+      }
+    },
+    {
+      "case": "finetuned_best_one2one",
+      "confidence": 0.05,
+      "additional_nms_iou": null,
+      "val_metrics": {
+        "tp": 329,
+        "fp": 654,
+        "fn": 162,
+        "images": 505,
+        "precision": 0.3346897253306205,
+        "recall": 0.670061099796334,
+        "fp_per_image": 1.295049504950495
+      }
+    },
+    {
+      "case": "finetuned_best_one2one",
+      "confidence": 0.05,
+      "additional_nms_iou": 0.3,
+      "val_metrics": {
+        "tp": 324,
+        "fp": 319,
+        "fn": 167,
+        "images": 505,
+        "precision": 0.5038880248833593,
+        "recall": 0.659877800407332,
+        "fp_per_image": 0.6316831683168317
+      }
+    },
+    {
+      "case": "finetuned_best_one2one",
+      "confidence": 0.05,
+      "additional_nms_iou": 0.5,
+      "val_metrics": {
+        "tp": 324,
+        "fp": 319,
+        "fn": 167,
+        "images": 505,
+        "precision": 0.5038880248833593,
+        "recall": 0.659877800407332,
+        "fp_per_image": 0.6316831683168317
+      }
+    },
+    {
+      "case": "finetuned_best_one2one",
+      "confidence": 0.05,
+      "additional_nms_iou": 0.7,
+      "val_metrics": {
+        "tp": 326,
+        "fp": 396,
+        "fn": 165,
+        "images": 505,
+        "precision": 0.4515235457063712,
+        "recall": 0.6639511201629328,
+        "fp_per_image": 0.7841584158415842
+      }
+    },
+    {
+      "case": "finetuned_best_one2one",
+      "confidence": 0.01,
+      "additional_nms_iou": null,
+      "val_metrics": {
+        "tp": 367,
+        "fp": 2036,
+        "fn": 124,
+        "images": 505,
+        "precision": 0.1527257594673325,
+        "recall": 0.7474541751527495,
+        "fp_per_image": 4.031683168316832
+      }
+    },
+    {
+      "case": "finetuned_best_one2one",
+      "confidence": 0.01,
+      "additional_nms_iou": 0.3,
+      "val_metrics": {
+        "tp": 359,
+        "fp": 1040,
+        "fn": 132,
+        "images": 505,
+        "precision": 0.2566118656182988,
+        "recall": 0.7311608961303462,
+        "fp_per_image": 2.0594059405940595
+      }
+    },
+    {
+      "case": "finetuned_best_one2one",
+      "confidence": 0.01,
+      "additional_nms_iou": 0.5,
+      "val_metrics": {
+        "tp": 359,
+        "fp": 1059,
+        "fn": 132,
+        "images": 505,
+        "precision": 0.2531734837799718,
+        "recall": 0.7311608961303462,
+        "fp_per_image": 2.097029702970297
+      }
+    },
+    {
+      "case": "finetuned_best_one2one",
+      "confidence": 0.01,
+      "additional_nms_iou": 0.7,
+      "val_metrics": {
+        "tp": 362,
+        "fp": 1406,
+        "fn": 129,
+        "images": 505,
+        "precision": 0.20475113122171945,
+        "recall": 0.7372708757637475,
+        "fp_per_image": 2.784158415841584
+      }
+    }
+  ],
+  "precision_floor": 0.7316556291390728,
+  "selected": {
+    "case": "finetuned_best_one2one",
+    "confidence": 0.25,
+    "additional_nms_iou": 0.5,
+    "val_metrics": {
+      "tp": 242,
+      "fp": 80,
+      "fn": 249,
+      "images": 505,
+      "precision": 0.7515527950310559,
+      "recall": 0.49287169042769857,
+      "fp_per_image": 0.15841584158415842
+    }
+  },
+  "selection_uses": "505val only",
+  "ir_used_in_selection": false,
+  "candidate_count": 32,
+  "selected_ir_metrics": {
+    "tp": 103,
+    "fp": 71,
+    "fn": 197,
+    "images": 300,
+    "precision": 0.5919540229885057,
+    "recall": 0.3433333333333333,
+    "fp_per_image": 0.23666666666666666
+  },
+  "original_deployment_ir_metrics": {
+    "tp": 60,
+    "fp": 5,
+    "fn": 240,
+    "images": 300,
+    "precision": 0.9230769230769231,
+    "recall": 0.2,
+    "fp_per_image": 0.016666666666666666
+  },
+  "timing_is_not_device_benchmark": true,
+  "model_execution": false,
+  "training": false,
+  "deployment_default_changed": false,
+  "optimization_success_established": false,
+  "caution": "Exploratory validation-selected postprocessing; IR is development only. No new weight training or NMS-free deployment gain claim.",
+  "date": "2026-10-29",
+  "status": "completed_saved_prediction_postprocessing",
+  "protocol": {
+    "date": "2026-10-29",
+    "frozen_before_execution": true,
+    "inputs": "complete SHA-verified v2 predictions at640 only; original B0 and finetuned best one2one branches",
+    "source_archive_sha256": "6b77091fca156bb888426e1b6e9facb8e1c4dfb6f5dd7fbd4a43dfacacfa7a8e",
+    "source_prediction_minimum_confidence": 0.001,
+    "fixed_confidences": [
+      0.25,
+      0.1,
+      0.05,
+      0.01
+    ],
+    "additional_greedy_nms_ious": [
+      0.3,
+      0.5,
+      0.7
+    ],
+    "selection": "fixed505val only: max recall subject precision >= original B0 one2one640@.25 precision minus.02; ties higher precision, then no additional NMS, then higher confidence, then higher NMS IoU, then original B0",
+    "ir_role": "evaluate only single selected operating point after writing frozen selection JSON; previously observed correlated development sequence, no independent test",
+    "nms_details": "score descending, stable original-row tie order; suppress IoU > chosen threshold; max300; same class0",
+    "matching": "same prior greedy descending IoU.5 one-to-one GT assignment",
+    "changes": "additional postprocessing only; no longer pure NMS-free end-to-end inference for these new cases; never rewrite old branch results",
+    "model_execution": false,
+    "training": false,
+    "deployment_change": false
+  },
+  "candidate_scope": "Only original/finetuned one2one saved predictions with or without added NMS; selection is not a global optimum over all branches. Previous original one2many640/.25 still has higher validation P/R.",
+  "independent_implementation_recalculation_matches": true,
+  "second_reviewer": false
+}

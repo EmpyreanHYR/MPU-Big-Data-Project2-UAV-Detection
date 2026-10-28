@@ -1,0 +1,100 @@
+{
+  "date": "2026-10-29",
+  "status": "completed_existing_prediction_analysis",
+  "model_execution": false,
+  "training_executed": false,
+  "validation_images": 505,
+  "validation_uav_boxes": 491,
+  "validation_annotated_bird_boxes": 227,
+  "confidence": 0.25,
+  "uav_matching_iou": 0.5,
+  "bird_overlap_iou": 0.5,
+  "input_size": 640,
+  "branch_protocol": "one2one without additional NMS; one2many NMS IoU0.7/max300",
+  "source_predictions_archive_sha256": "6b77091fca156bb888426e1b6e9facb8e1c4dfb6f5dd7fbd4a43dfacacfa7a8e",
+  "all_four_original_tp_fp_fn_reproduced": true,
+  "same_primary_agent_native_coordinate_recalculation_matches": true,
+  "second_reviewer": false,
+  "coordinate_handling": "Archived validation boxes and predictions share544x672 padded canvas; original640x512 bird boxes receive16 pixels XY padding. All saved UAV GT matched frozen native labels after the same transform; native-space recomputation agrees. No historical metric was changed.",
+  "cases": [
+    {
+      "case": "original_b0_one2one",
+      "tp": 227,
+      "fp": 75,
+      "fn": 264,
+      "bird_overlap_fp": 14,
+      "unclassified_fp": 61
+    },
+    {
+      "case": "original_b0_one2many",
+      "tp": 259,
+      "fp": 55,
+      "fn": 232,
+      "bird_overlap_fp": 24,
+      "unclassified_fp": 31
+    },
+    {
+      "case": "finetuned_best_one2one",
+      "tp": 243,
+      "fp": 126,
+      "fn": 248,
+      "bird_overlap_fp": 21,
+      "unclassified_fp": 105
+    },
+    {
+      "case": "finetuned_best_one2many",
+      "tp": 265,
+      "fp": 118,
+      "fn": 226,
+      "bird_overlap_fp": 24,
+      "unclassified_fp": 94
+    }
+  ],
+  "one2one_finetune_minus_original": {
+    "fp": 51,
+    "bird_overlap_fp": 7,
+    "unclassified_fp": 44
+  },
+  "one2many_finetune_minus_original": {
+    "fp": 63,
+    "bird_overlap_fp": 0,
+    "unclassified_fp": 63
+  },
+  "interpretation": "The net increase in FP is mostly detections without IoU>=0.5 overlap with annotated birds. This does not identify their visual object type or prove they are clouds, trees, labeling errors, or the cause of IR false positives.",
+  "validation_group_note": "All505 validation images belong to one inferred background-view group; this is not a known source video identity.",
+  "ir_analyzed_here": false,
+  "threshold_or_model_selected_here": false,
+  "deployment_default_changed": false,
+  "optimization_success_established": false,
+  "spatial_buckets": [
+    {
+      "case": "original_b0_one2one",
+      "bird_overlap_iou_ge_.5": 14,
+      "unmatched_detection_uav_iou_ge_.5": 44,
+      "unmatched_detection_uav_iou_gt0_lt_.5": 9,
+      "no_overlap_with_annotated_uav_or_bird_ge_.5": 8
+    },
+    {
+      "case": "original_b0_one2many",
+      "bird_overlap_iou_ge_.5": 24,
+      "unmatched_detection_uav_iou_ge_.5": 8,
+      "unmatched_detection_uav_iou_gt0_lt_.5": 8,
+      "no_overlap_with_annotated_uav_or_bird_ge_.5": 15
+    },
+    {
+      "case": "finetuned_best_one2one",
+      "bird_overlap_iou_ge_.5": 21,
+      "unmatched_detection_uav_iou_ge_.5": 42,
+      "unmatched_detection_uav_iou_gt0_lt_.5": 11,
+      "no_overlap_with_annotated_uav_or_bird_ge_.5": 52
+    },
+    {
+      "case": "finetuned_best_one2many",
+      "bird_overlap_iou_ge_.5": 24,
+      "unmatched_detection_uav_iou_ge_.5": 9,
+      "unmatched_detection_uav_iou_gt0_lt_.5": 11,
+      "no_overlap_with_annotated_uav_or_bird_ge_.5": 74
+    }
+  ],
+  "spatial_interpretation": "Among non-bird-overlap FP, those overlapping an already-matched UAV atIoU>=0.5 are duplicate detections under the original matching rule. Remaining0<IoU<0.5 and zero-overlap buckets describe geometry, not object identity."
+}

@@ -1,0 +1,1480 @@
+{
+  "training_executed": false,
+  "torch": "2.7.1+cu118",
+  "gpu": "NVIDIA GeForce RTX 3060 Laptop GPU",
+  "precision": "FP32; TF32 defaults not separately controlled",
+  "thresholds": [
+    0.25,
+    0.1,
+    0.05,
+    0.01
+  ],
+  "selection": "fixed505val max recall subject precision >= original_b0@.25 minus.02; ties higher precision then smaller input then higher threshold",
+  "branch": "both_existing_branches_measured_separately",
+  "sizes": [
+    320,
+    640,
+    960
+  ],
+  "ir_role": "previously observed300frame development/error-analysis, not independent test",
+  "cases": [
+    {
+      "case": "original_b0_one2one_320",
+      "branch": "one2one",
+      "imgsz": 320,
+      "available": true,
+      "checkpoint_sha256": "03424275aeab8025a1f210200c1c072fb6f21e74d9948a287fd23d6dc178f7dc",
+      "official_metrics": {
+        "metrics/precision(B)": 0.50856,
+        "metrics/recall(B)": 0.09063,
+        "metrics/mAP50(B)": 0.08829,
+        "metrics/mAP50-95(B)": 0.0268,
+        "fitness": 0.0268,
+        "val/box_loss": 3.59928,
+        "val/cls_loss": 3.55654,
+        "val/l1_loss": 0.00321
+      },
+      "validation_input_shapes": [
+        [
+          1,
+          3,
+          288,
+          352
+        ],
+        [
+          8,
+          3,
+          288,
+          352
+        ]
+      ],
+      "validation_order_sha256": "1a00a163f56c6725e8c85391d7e0b2c842f4c580b7e338d7c0885bfae0ade637",
+      "val_thresholds": {
+        "0.25": {
+          "tp": 15,
+          "fp": 3,
+          "fn": 476,
+          "images": 505,
+          "precision": 0.8333333333333334,
+          "recall": 0.03054989816700611,
+          "fp_per_image": 0.005940594059405941
+        },
+        "0.1": {
+          "tp": 34,
+          "fp": 23,
+          "fn": 457,
+          "images": 505,
+          "precision": 0.5964912280701754,
+          "recall": 0.06924643584521385,
+          "fp_per_image": 0.04554455445544554
+        },
+        "0.05": {
+          "tp": 45,
+          "fp": 49,
+          "fn": 446,
+          "images": 505,
+          "precision": 0.4787234042553192,
+          "recall": 0.09164969450101833,
+          "fp_per_image": 0.09702970297029703
+        },
+        "0.01": {
+          "tp": 61,
+          "fp": 273,
+          "fn": 430,
+          "images": 505,
+          "precision": 0.18263473053892215,
+          "recall": 0.12423625254582485,
+          "fp_per_image": 0.5405940594059406
+        }
+      },
+      "ir_thresholds": {
+        "0.25": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 300,
+          "images": 300,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fp_per_image": 0.0
+        },
+        "0.1": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 300,
+          "images": 300,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fp_per_image": 0.0
+        },
+        "0.05": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 298,
+          "images": 300,
+          "precision": 1.0,
+          "recall": 0.006666666666666667,
+          "fp_per_image": 0.0
+        },
+        "0.01": {
+          "tp": 55,
+          "fp": 9,
+          "fn": 245,
+          "images": 300,
+          "precision": 0.859375,
+          "recall": 0.18333333333333332,
+          "fp_per_image": 0.03
+        }
+      },
+      "ir_categories_at_conf25": {
+        "detected": 0,
+        "low_score_iou05_candidate": 299,
+        "no_iou05_raw_candidate": 1,
+        "ranking_loss": 0
+      },
+      "ir_forward_seconds": 5.8399129988392815,
+      "timing_scope": "synchronized CUDA forward only batch1, not controlled benchmark/full pipeline",
+      "state_before_sha256": "719e5f9b708d77743eb13e1d22d743235bd6f1139e18a06acf820099f3848b2f",
+      "state_after_sha256": "719e5f9b708d77743eb13e1d22d743235bd6f1139e18a06acf820099f3848b2f",
+      "state_unchanged": true
+    },
+    {
+      "case": "original_b0_one2one_640",
+      "branch": "one2one",
+      "imgsz": 640,
+      "available": true,
+      "checkpoint_sha256": "03424275aeab8025a1f210200c1c072fb6f21e74d9948a287fd23d6dc178f7dc",
+      "official_metrics": {
+        "metrics/precision(B)": 0.67927,
+        "metrics/recall(B)": 0.49287,
+        "metrics/mAP50(B)": 0.57341,
+        "metrics/mAP50-95(B)": 0.23073,
+        "fitness": 0.23073,
+        "val/box_loss": 2.09968,
+        "val/cls_loss": 1.77849,
+        "val/l1_loss": 0.00128
+      },
+      "validation_input_shapes": [
+        [
+          1,
+          3,
+          544,
+          672
+        ],
+        [
+          8,
+          3,
+          544,
+          672
+        ]
+      ],
+      "validation_order_sha256": "1a00a163f56c6725e8c85391d7e0b2c842f4c580b7e338d7c0885bfae0ade637",
+      "val_thresholds": {
+        "0.25": {
+          "tp": 227,
+          "fp": 75,
+          "fn": 264,
+          "images": 505,
+          "precision": 0.7516556291390728,
+          "recall": 0.4623217922606925,
+          "fp_per_image": 0.1485148514851485
+        },
+        "0.1": {
+          "tp": 316,
+          "fp": 392,
+          "fn": 175,
+          "images": 505,
+          "precision": 0.4463276836158192,
+          "recall": 0.6435845213849287,
+          "fp_per_image": 0.7762376237623763
+        },
+        "0.05": {
+          "tp": 341,
+          "fp": 769,
+          "fn": 150,
+          "images": 505,
+          "precision": 0.30720720720720723,
+          "recall": 0.6945010183299389,
+          "fp_per_image": 1.5227722772277228
+        },
+        "0.01": {
+          "tp": 368,
+          "fp": 2377,
+          "fn": 123,
+          "images": 505,
+          "precision": 0.13406193078324227,
+          "recall": 0.7494908350305499,
+          "fp_per_image": 4.706930693069307
+        }
+      },
+      "ir_thresholds": {
+        "0.25": {
+          "tp": 60,
+          "fp": 5,
+          "fn": 240,
+          "images": 300,
+          "precision": 0.9230769230769231,
+          "recall": 0.2,
+          "fp_per_image": 0.016666666666666666
+        },
+        "0.1": {
+          "tp": 159,
+          "fp": 123,
+          "fn": 141,
+          "images": 300,
+          "precision": 0.5638297872340425,
+          "recall": 0.53,
+          "fp_per_image": 0.41
+        },
+        "0.05": {
+          "tp": 195,
+          "fp": 405,
+          "fn": 105,
+          "images": 300,
+          "precision": 0.325,
+          "recall": 0.65,
+          "fp_per_image": 1.35
+        },
+        "0.01": {
+          "tp": 246,
+          "fp": 1366,
+          "fn": 54,
+          "images": 300,
+          "precision": 0.15260545905707196,
+          "recall": 0.82,
+          "fp_per_image": 4.553333333333334
+        }
+      },
+      "ir_categories_at_conf25": {
+        "detected": 60,
+        "low_score_iou05_candidate": 212,
+        "no_iou05_raw_candidate": 28,
+        "ranking_loss": 0
+      },
+      "ir_forward_seconds": 6.091081600054167,
+      "timing_scope": "synchronized CUDA forward only batch1, not controlled benchmark/full pipeline",
+      "state_before_sha256": "719e5f9b708d77743eb13e1d22d743235bd6f1139e18a06acf820099f3848b2f",
+      "state_after_sha256": "719e5f9b708d77743eb13e1d22d743235bd6f1139e18a06acf820099f3848b2f",
+      "state_unchanged": true
+    },
+    {
+      "case": "original_b0_one2one_960",
+      "branch": "one2one",
+      "imgsz": 960,
+      "available": true,
+      "checkpoint_sha256": "03424275aeab8025a1f210200c1c072fb6f21e74d9948a287fd23d6dc178f7dc",
+      "official_metrics": {
+        "metrics/precision(B)": 0.59123,
+        "metrics/recall(B)": 0.46248,
+        "metrics/mAP50(B)": 0.51506,
+        "metrics/mAP50-95(B)": 0.21129,
+        "fitness": 0.21129,
+        "val/box_loss": 2.07249,
+        "val/cls_loss": 2.10436,
+        "val/l1_loss": 0.00129
+      },
+      "validation_input_shapes": [
+        [
+          1,
+          3,
+          800,
+          992
+        ],
+        [
+          8,
+          3,
+          800,
+          992
+        ]
+      ],
+      "validation_order_sha256": "1a00a163f56c6725e8c85391d7e0b2c842f4c580b7e338d7c0885bfae0ade637",
+      "val_thresholds": {
+        "0.25": {
+          "tp": 241,
+          "fp": 200,
+          "fn": 250,
+          "images": 505,
+          "precision": 0.546485260770975,
+          "recall": 0.4908350305498982,
+          "fp_per_image": 0.39603960396039606
+        },
+        "0.1": {
+          "tp": 304,
+          "fp": 673,
+          "fn": 187,
+          "images": 505,
+          "precision": 0.3111566018423746,
+          "recall": 0.6191446028513238,
+          "fp_per_image": 1.3326732673267327
+        },
+        "0.05": {
+          "tp": 335,
+          "fp": 1330,
+          "fn": 156,
+          "images": 505,
+          "precision": 0.2012012012012012,
+          "recall": 0.6822810590631364,
+          "fp_per_image": 2.633663366336634
+        },
+        "0.01": {
+          "tp": 369,
+          "fp": 4258,
+          "fn": 122,
+          "images": 505,
+          "precision": 0.07974929760103738,
+          "recall": 0.7515274949083504,
+          "fp_per_image": 8.431683168316832
+        }
+      },
+      "ir_thresholds": {
+        "0.25": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 300,
+          "images": 300,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fp_per_image": 0.0
+        },
+        "0.1": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 300,
+          "images": 300,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fp_per_image": 0.0
+        },
+        "0.05": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 300,
+          "images": 300,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fp_per_image": 0.0
+        },
+        "0.01": {
+          "tp": 0,
+          "fp": 23,
+          "fn": 300,
+          "images": 300,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fp_per_image": 0.07666666666666666
+        }
+      },
+      "ir_categories_at_conf25": {
+        "detected": 0,
+        "low_score_iou05_candidate": 35,
+        "no_iou05_raw_candidate": 265,
+        "ranking_loss": 0
+      },
+      "ir_forward_seconds": 9.994457501336,
+      "timing_scope": "synchronized CUDA forward only batch1, not controlled benchmark/full pipeline",
+      "state_before_sha256": "719e5f9b708d77743eb13e1d22d743235bd6f1139e18a06acf820099f3848b2f",
+      "state_after_sha256": "719e5f9b708d77743eb13e1d22d743235bd6f1139e18a06acf820099f3848b2f",
+      "state_unchanged": true
+    },
+    {
+      "case": "original_b0_one2many_320",
+      "branch": "one2many",
+      "imgsz": 320,
+      "available": true,
+      "checkpoint_sha256": "03424275aeab8025a1f210200c1c072fb6f21e74d9948a287fd23d6dc178f7dc",
+      "official_metrics": {
+        "metrics/precision(B)": 0.55102,
+        "metrics/recall(B)": 0.09572,
+        "metrics/mAP50(B)": 0.10039,
+        "metrics/mAP50-95(B)": 0.03557,
+        "fitness": 0.03557,
+        "val/box_loss": 3.59928,
+        "val/cls_loss": 3.55654,
+        "val/l1_loss": 0.00321
+      },
+      "validation_input_shapes": [
+        [
+          1,
+          3,
+          288,
+          352
+        ],
+        [
+          8,
+          3,
+          288,
+          352
+        ]
+      ],
+      "validation_order_sha256": "1a00a163f56c6725e8c85391d7e0b2c842f4c580b7e338d7c0885bfae0ade637",
+      "val_thresholds": {
+        "0.25": {
+          "tp": 21,
+          "fp": 2,
+          "fn": 470,
+          "images": 505,
+          "precision": 0.9130434782608695,
+          "recall": 0.04276985743380855,
+          "fp_per_image": 0.0039603960396039604
+        },
+        "0.1": {
+          "tp": 38,
+          "fp": 22,
+          "fn": 453,
+          "images": 505,
+          "precision": 0.6333333333333333,
+          "recall": 0.07739307535641547,
+          "fp_per_image": 0.04356435643564356
+        },
+        "0.05": {
+          "tp": 48,
+          "fp": 40,
+          "fn": 443,
+          "images": 505,
+          "precision": 0.5454545454545454,
+          "recall": 0.09775967413441955,
+          "fp_per_image": 0.07920792079207921
+        },
+        "0.01": {
+          "tp": 71,
+          "fp": 322,
+          "fn": 420,
+          "images": 505,
+          "precision": 0.1806615776081425,
+          "recall": 0.1446028513238289,
+          "fp_per_image": 0.6376237623762376
+        }
+      },
+      "ir_thresholds": {
+        "0.25": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 300,
+          "images": 300,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fp_per_image": 0.0
+        },
+        "0.1": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 300,
+          "images": 300,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fp_per_image": 0.0
+        },
+        "0.05": {
+          "tp": 1,
+          "fp": 1,
+          "fn": 299,
+          "images": 300,
+          "precision": 0.5,
+          "recall": 0.0033333333333333335,
+          "fp_per_image": 0.0033333333333333335
+        },
+        "0.01": {
+          "tp": 40,
+          "fp": 24,
+          "fn": 260,
+          "images": 300,
+          "precision": 0.625,
+          "recall": 0.13333333333333333,
+          "fp_per_image": 0.08
+        }
+      },
+      "ir_categories_at_conf25": {
+        "detected": 0,
+        "low_score_iou05_candidate": 300,
+        "no_iou05_raw_candidate": 0,
+        "ranking_loss": 0
+      },
+      "ir_forward_seconds": 5.766349800513126,
+      "timing_scope": "synchronized CUDA forward only batch1, not controlled benchmark/full pipeline",
+      "state_before_sha256": "719e5f9b708d77743eb13e1d22d743235bd6f1139e18a06acf820099f3848b2f",
+      "state_after_sha256": "719e5f9b708d77743eb13e1d22d743235bd6f1139e18a06acf820099f3848b2f",
+      "state_unchanged": true
+    },
+    {
+      "case": "original_b0_one2many_640",
+      "branch": "one2many",
+      "imgsz": 640,
+      "available": true,
+      "checkpoint_sha256": "03424275aeab8025a1f210200c1c072fb6f21e74d9948a287fd23d6dc178f7dc",
+      "official_metrics": {
+        "metrics/precision(B)": 0.75925,
+        "metrics/recall(B)": 0.57637,
+        "metrics/mAP50(B)": 0.6318,
+        "metrics/mAP50-95(B)": 0.24552,
+        "fitness": 0.24552,
+        "val/box_loss": 2.09968,
+        "val/cls_loss": 1.77849,
+        "val/l1_loss": 0.00128
+      },
+      "validation_input_shapes": [
+        [
+          1,
+          3,
+          544,
+          672
+        ],
+        [
+          8,
+          3,
+          544,
+          672
+        ]
+      ],
+      "validation_order_sha256": "1a00a163f56c6725e8c85391d7e0b2c842f4c580b7e338d7c0885bfae0ade637",
+      "val_thresholds": {
+        "0.25": {
+          "tp": 259,
+          "fp": 55,
+          "fn": 232,
+          "images": 505,
+          "precision": 0.8248407643312102,
+          "recall": 0.5274949083503055,
+          "fp_per_image": 0.10891089108910891
+        },
+        "0.1": {
+          "tp": 320,
+          "fp": 241,
+          "fn": 171,
+          "images": 505,
+          "precision": 0.5704099821746881,
+          "recall": 0.6517311608961304,
+          "fp_per_image": 0.4772277227722772
+        },
+        "0.05": {
+          "tp": 341,
+          "fp": 476,
+          "fn": 150,
+          "images": 505,
+          "precision": 0.4173806609547124,
+          "recall": 0.6945010183299389,
+          "fp_per_image": 0.9425742574257425
+        },
+        "0.01": {
+          "tp": 369,
+          "fp": 1798,
+          "fn": 122,
+          "images": 505,
+          "precision": 0.1702814951545916,
+          "recall": 0.7515274949083504,
+          "fp_per_image": 3.5603960396039604
+        }
+      },
+      "ir_thresholds": {
+        "0.25": {
+          "tp": 83,
+          "fp": 73,
+          "fn": 217,
+          "images": 300,
+          "precision": 0.532051282051282,
+          "recall": 0.27666666666666667,
+          "fp_per_image": 0.24333333333333335
+        },
+        "0.1": {
+          "tp": 190,
+          "fp": 414,
+          "fn": 110,
+          "images": 300,
+          "precision": 0.31456953642384106,
+          "recall": 0.6333333333333333,
+          "fp_per_image": 1.38
+        },
+        "0.05": {
+          "tp": 224,
+          "fp": 688,
+          "fn": 76,
+          "images": 300,
+          "precision": 0.24561403508771928,
+          "recall": 0.7466666666666667,
+          "fp_per_image": 2.2933333333333334
+        },
+        "0.01": {
+          "tp": 267,
+          "fp": 1957,
+          "fn": 33,
+          "images": 300,
+          "precision": 0.12005395683453238,
+          "recall": 0.89,
+          "fp_per_image": 6.523333333333333
+        }
+      },
+      "ir_categories_at_conf25": {
+        "detected": 83,
+        "low_score_iou05_candidate": 215,
+        "no_iou05_raw_candidate": 1,
+        "ranking_loss": 1
+      },
+      "ir_forward_seconds": 6.19736260024365,
+      "timing_scope": "synchronized CUDA forward only batch1, not controlled benchmark/full pipeline",
+      "state_before_sha256": "719e5f9b708d77743eb13e1d22d743235bd6f1139e18a06acf820099f3848b2f",
+      "state_after_sha256": "719e5f9b708d77743eb13e1d22d743235bd6f1139e18a06acf820099f3848b2f",
+      "state_unchanged": true
+    },
+    {
+      "case": "original_b0_one2many_960",
+      "branch": "one2many",
+      "imgsz": 960,
+      "available": true,
+      "checkpoint_sha256": "03424275aeab8025a1f210200c1c072fb6f21e74d9948a287fd23d6dc178f7dc",
+      "official_metrics": {
+        "metrics/precision(B)": 0.74156,
+        "metrics/recall(B)": 0.49088,
+        "metrics/mAP50(B)": 0.57091,
+        "metrics/mAP50-95(B)": 0.2334,
+        "fitness": 0.2334,
+        "val/box_loss": 2.07249,
+        "val/cls_loss": 2.10436,
+        "val/l1_loss": 0.00129
+      },
+      "validation_input_shapes": [
+        [
+          1,
+          3,
+          800,
+          992
+        ],
+        [
+          8,
+          3,
+          800,
+          992
+        ]
+      ],
+      "validation_order_sha256": "1a00a163f56c6725e8c85391d7e0b2c842f4c580b7e338d7c0885bfae0ade637",
+      "val_thresholds": {
+        "0.25": {
+          "tp": 269,
+          "fp": 188,
+          "fn": 222,
+          "images": 505,
+          "precision": 0.5886214442013129,
+          "recall": 0.5478615071283096,
+          "fp_per_image": 0.3722772277227723
+        },
+        "0.1": {
+          "tp": 323,
+          "fp": 587,
+          "fn": 168,
+          "images": 505,
+          "precision": 0.35494505494505496,
+          "recall": 0.6578411405295316,
+          "fp_per_image": 1.1623762376237623
+        },
+        "0.05": {
+          "tp": 343,
+          "fp": 1049,
+          "fn": 148,
+          "images": 505,
+          "precision": 0.2464080459770115,
+          "recall": 0.6985743380855397,
+          "fp_per_image": 2.0772277227722773
+        },
+        "0.01": {
+          "tp": 370,
+          "fp": 3439,
+          "fn": 121,
+          "images": 505,
+          "precision": 0.09713835652402206,
+          "recall": 0.7535641547861507,
+          "fp_per_image": 6.80990099009901
+        }
+      },
+      "ir_thresholds": {
+        "0.25": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 300,
+          "images": 300,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fp_per_image": 0.0
+        },
+        "0.1": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 300,
+          "images": 300,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fp_per_image": 0.0
+        },
+        "0.05": {
+          "tp": 0,
+          "fp": 8,
+          "fn": 300,
+          "images": 300,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fp_per_image": 0.02666666666666667
+        },
+        "0.01": {
+          "tp": 6,
+          "fp": 74,
+          "fn": 294,
+          "images": 300,
+          "precision": 0.075,
+          "recall": 0.02,
+          "fp_per_image": 0.24666666666666667
+        }
+      },
+      "ir_categories_at_conf25": {
+        "detected": 0,
+        "low_score_iou05_candidate": 167,
+        "no_iou05_raw_candidate": 133,
+        "ranking_loss": 0
+      },
+      "ir_forward_seconds": 10.329966200748459,
+      "timing_scope": "synchronized CUDA forward only batch1, not controlled benchmark/full pipeline",
+      "state_before_sha256": "719e5f9b708d77743eb13e1d22d743235bd6f1139e18a06acf820099f3848b2f",
+      "state_after_sha256": "719e5f9b708d77743eb13e1d22d743235bd6f1139e18a06acf820099f3848b2f",
+      "state_unchanged": true
+    },
+    {
+      "case": "finetuned_best_one2one_320",
+      "branch": "one2one",
+      "imgsz": 320,
+      "available": true,
+      "checkpoint_sha256": "f51eae5cdb9c8dbc1c546625efedba9127c9160af5dfe5ca2f6d2e4ed2479cb0",
+      "official_metrics": {
+        "metrics/precision(B)": 0.34172,
+        "metrics/recall(B)": 0.0998,
+        "metrics/mAP50(B)": 0.08842,
+        "metrics/mAP50-95(B)": 0.03075,
+        "fitness": 0.03075,
+        "val/box_loss": 3.69591,
+        "val/cls_loss": 3.42167,
+        "val/l1_loss": 0.00339
+      },
+      "validation_input_shapes": [
+        [
+          1,
+          3,
+          288,
+          352
+        ],
+        [
+          8,
+          3,
+          288,
+          352
+        ]
+      ],
+      "validation_order_sha256": "1a00a163f56c6725e8c85391d7e0b2c842f4c580b7e338d7c0885bfae0ade637",
+      "val_thresholds": {
+        "0.25": {
+          "tp": 36,
+          "fp": 15,
+          "fn": 455,
+          "images": 505,
+          "precision": 0.7058823529411765,
+          "recall": 0.07331975560081466,
+          "fp_per_image": 0.0297029702970297
+        },
+        "0.1": {
+          "tp": 46,
+          "fp": 75,
+          "fn": 445,
+          "images": 505,
+          "precision": 0.38016528925619836,
+          "recall": 0.09368635437881874,
+          "fp_per_image": 0.1485148514851485
+        },
+        "0.05": {
+          "tp": 54,
+          "fp": 149,
+          "fn": 437,
+          "images": 505,
+          "precision": 0.2660098522167488,
+          "recall": 0.109979633401222,
+          "fp_per_image": 0.29504950495049503
+        },
+        "0.01": {
+          "tp": 67,
+          "fp": 828,
+          "fn": 424,
+          "images": 505,
+          "precision": 0.07486033519553073,
+          "recall": 0.1364562118126273,
+          "fp_per_image": 1.6396039603960395
+        }
+      },
+      "ir_thresholds": {
+        "0.25": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 300,
+          "images": 300,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fp_per_image": 0.0
+        },
+        "0.1": {
+          "tp": 9,
+          "fp": 4,
+          "fn": 291,
+          "images": 300,
+          "precision": 0.6923076923076923,
+          "recall": 0.03,
+          "fp_per_image": 0.013333333333333334
+        },
+        "0.05": {
+          "tp": 22,
+          "fp": 11,
+          "fn": 278,
+          "images": 300,
+          "precision": 0.6666666666666666,
+          "recall": 0.07333333333333333,
+          "fp_per_image": 0.03666666666666667
+        },
+        "0.01": {
+          "tp": 66,
+          "fp": 64,
+          "fn": 234,
+          "images": 300,
+          "precision": 0.5076923076923077,
+          "recall": 0.22,
+          "fp_per_image": 0.21333333333333335
+        }
+      },
+      "ir_categories_at_conf25": {
+        "detected": 0,
+        "low_score_iou05_candidate": 285,
+        "no_iou05_raw_candidate": 15,
+        "ranking_loss": 0
+      },
+      "ir_forward_seconds": 5.873726400197484,
+      "timing_scope": "synchronized CUDA forward only batch1, not controlled benchmark/full pipeline",
+      "state_before_sha256": "b3c1b19d8087f99a0c5cc4cde3fd0e766f531c41a59f7d4ca47b58235b45ffeb",
+      "state_after_sha256": "b3c1b19d8087f99a0c5cc4cde3fd0e766f531c41a59f7d4ca47b58235b45ffeb",
+      "state_unchanged": true
+    },
+    {
+      "case": "finetuned_best_one2one_640",
+      "branch": "one2one",
+      "imgsz": 640,
+      "available": true,
+      "checkpoint_sha256": "f51eae5cdb9c8dbc1c546625efedba9127c9160af5dfe5ca2f6d2e4ed2479cb0",
+      "official_metrics": {
+        "metrics/precision(B)": 0.64795,
+        "metrics/recall(B)": 0.49898,
+        "metrics/mAP50(B)": 0.55917,
+        "metrics/mAP50-95(B)": 0.23985,
+        "fitness": 0.23985,
+        "val/box_loss": 2.05305,
+        "val/cls_loss": 1.71005,
+        "val/l1_loss": 0.00125
+      },
+      "validation_input_shapes": [
+        [
+          1,
+          3,
+          544,
+          672
+        ],
+        [
+          8,
+          3,
+          544,
+          672
+        ]
+      ],
+      "validation_order_sha256": "1a00a163f56c6725e8c85391d7e0b2c842f4c580b7e338d7c0885bfae0ade637",
+      "val_thresholds": {
+        "0.25": {
+          "tp": 243,
+          "fp": 126,
+          "fn": 248,
+          "images": 505,
+          "precision": 0.6585365853658537,
+          "recall": 0.49490835030549896,
+          "fp_per_image": 0.2495049504950495
+        },
+        "0.1": {
+          "tp": 303,
+          "fp": 373,
+          "fn": 188,
+          "images": 505,
+          "precision": 0.44822485207100593,
+          "recall": 0.6171079429735234,
+          "fp_per_image": 0.7386138613861386
+        },
+        "0.05": {
+          "tp": 329,
+          "fp": 654,
+          "fn": 162,
+          "images": 505,
+          "precision": 0.3346897253306205,
+          "recall": 0.670061099796334,
+          "fp_per_image": 1.295049504950495
+        },
+        "0.01": {
+          "tp": 367,
+          "fp": 2036,
+          "fn": 124,
+          "images": 505,
+          "precision": 0.1527257594673325,
+          "recall": 0.7474541751527495,
+          "fp_per_image": 4.031683168316832
+        }
+      },
+      "ir_thresholds": {
+        "0.25": {
+          "tp": 105,
+          "fp": 78,
+          "fn": 195,
+          "images": 300,
+          "precision": 0.5737704918032787,
+          "recall": 0.35,
+          "fp_per_image": 0.26
+        },
+        "0.1": {
+          "tp": 135,
+          "fp": 217,
+          "fn": 165,
+          "images": 300,
+          "precision": 0.3835227272727273,
+          "recall": 0.45,
+          "fp_per_image": 0.7233333333333334
+        },
+        "0.05": {
+          "tp": 153,
+          "fp": 384,
+          "fn": 147,
+          "images": 300,
+          "precision": 0.2849162011173184,
+          "recall": 0.51,
+          "fp_per_image": 1.28
+        },
+        "0.01": {
+          "tp": 167,
+          "fp": 1025,
+          "fn": 133,
+          "images": 300,
+          "precision": 0.1401006711409396,
+          "recall": 0.5566666666666666,
+          "fp_per_image": 3.4166666666666665
+        }
+      },
+      "ir_categories_at_conf25": {
+        "detected": 105,
+        "low_score_iou05_candidate": 97,
+        "no_iou05_raw_candidate": 98,
+        "ranking_loss": 0
+      },
+      "ir_forward_seconds": 6.412272499408573,
+      "timing_scope": "synchronized CUDA forward only batch1, not controlled benchmark/full pipeline",
+      "state_before_sha256": "b3c1b19d8087f99a0c5cc4cde3fd0e766f531c41a59f7d4ca47b58235b45ffeb",
+      "state_after_sha256": "b3c1b19d8087f99a0c5cc4cde3fd0e766f531c41a59f7d4ca47b58235b45ffeb",
+      "state_unchanged": true
+    },
+    {
+      "case": "finetuned_best_one2one_960",
+      "branch": "one2one",
+      "imgsz": 960,
+      "available": true,
+      "checkpoint_sha256": "f51eae5cdb9c8dbc1c546625efedba9127c9160af5dfe5ca2f6d2e4ed2479cb0",
+      "official_metrics": {
+        "metrics/precision(B)": 0.66644,
+        "metrics/recall(B)": 0.50458,
+        "metrics/mAP50(B)": 0.54877,
+        "metrics/mAP50-95(B)": 0.22387,
+        "fitness": 0.22387,
+        "val/box_loss": 2.12501,
+        "val/cls_loss": 1.90719,
+        "val/l1_loss": 0.0013
+      },
+      "validation_input_shapes": [
+        [
+          1,
+          3,
+          800,
+          992
+        ],
+        [
+          8,
+          3,
+          800,
+          992
+        ]
+      ],
+      "validation_order_sha256": "1a00a163f56c6725e8c85391d7e0b2c842f4c580b7e338d7c0885bfae0ade637",
+      "val_thresholds": {
+        "0.25": {
+          "tp": 279,
+          "fp": 218,
+          "fn": 212,
+          "images": 505,
+          "precision": 0.5613682092555332,
+          "recall": 0.5682281059063137,
+          "fp_per_image": 0.4316831683168317
+        },
+        "0.1": {
+          "tp": 328,
+          "fp": 661,
+          "fn": 163,
+          "images": 505,
+          "precision": 0.3316481294236603,
+          "recall": 0.6680244399185336,
+          "fp_per_image": 1.308910891089109
+        },
+        "0.05": {
+          "tp": 356,
+          "fp": 1163,
+          "fn": 135,
+          "images": 505,
+          "precision": 0.23436471362738645,
+          "recall": 0.725050916496945,
+          "fp_per_image": 2.302970297029703
+        },
+        "0.01": {
+          "tp": 386,
+          "fp": 3800,
+          "fn": 105,
+          "images": 505,
+          "precision": 0.09221213569039656,
+          "recall": 0.7861507128309573,
+          "fp_per_image": 7.524752475247524
+        }
+      },
+      "ir_thresholds": {
+        "0.25": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 300,
+          "images": 300,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fp_per_image": 0.0
+        },
+        "0.1": {
+          "tp": 0,
+          "fp": 3,
+          "fn": 300,
+          "images": 300,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fp_per_image": 0.01
+        },
+        "0.05": {
+          "tp": 0,
+          "fp": 18,
+          "fn": 300,
+          "images": 300,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fp_per_image": 0.06
+        },
+        "0.01": {
+          "tp": 0,
+          "fp": 143,
+          "fn": 300,
+          "images": 300,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fp_per_image": 0.4766666666666667
+        }
+      },
+      "ir_categories_at_conf25": {
+        "detected": 0,
+        "low_score_iou05_candidate": 131,
+        "no_iou05_raw_candidate": 169,
+        "ranking_loss": 0
+      },
+      "ir_forward_seconds": 9.660903300857171,
+      "timing_scope": "synchronized CUDA forward only batch1, not controlled benchmark/full pipeline",
+      "state_before_sha256": "b3c1b19d8087f99a0c5cc4cde3fd0e766f531c41a59f7d4ca47b58235b45ffeb",
+      "state_after_sha256": "b3c1b19d8087f99a0c5cc4cde3fd0e766f531c41a59f7d4ca47b58235b45ffeb",
+      "state_unchanged": true
+    },
+    {
+      "case": "finetuned_best_one2many_320",
+      "branch": "one2many",
+      "imgsz": 320,
+      "available": true,
+      "checkpoint_sha256": "f51eae5cdb9c8dbc1c546625efedba9127c9160af5dfe5ca2f6d2e4ed2479cb0",
+      "official_metrics": {
+        "metrics/precision(B)": 0.31316,
+        "metrics/recall(B)": 0.10387,
+        "metrics/mAP50(B)": 0.08591,
+        "metrics/mAP50-95(B)": 0.03287,
+        "fitness": 0.03287,
+        "val/box_loss": 3.69591,
+        "val/cls_loss": 3.42167,
+        "val/l1_loss": 0.00339
+      },
+      "validation_input_shapes": [
+        [
+          1,
+          3,
+          288,
+          352
+        ],
+        [
+          8,
+          3,
+          288,
+          352
+        ]
+      ],
+      "validation_order_sha256": "1a00a163f56c6725e8c85391d7e0b2c842f4c580b7e338d7c0885bfae0ade637",
+      "val_thresholds": {
+        "0.25": {
+          "tp": 38,
+          "fp": 20,
+          "fn": 453,
+          "images": 505,
+          "precision": 0.6551724137931034,
+          "recall": 0.07739307535641547,
+          "fp_per_image": 0.039603960396039604
+        },
+        "0.1": {
+          "tp": 48,
+          "fp": 95,
+          "fn": 443,
+          "images": 505,
+          "precision": 0.3356643356643357,
+          "recall": 0.09775967413441955,
+          "fp_per_image": 0.18811881188118812
+        },
+        "0.05": {
+          "tp": 56,
+          "fp": 187,
+          "fn": 435,
+          "images": 505,
+          "precision": 0.23045267489711935,
+          "recall": 0.11405295315682282,
+          "fp_per_image": 0.3702970297029703
+        },
+        "0.01": {
+          "tp": 67,
+          "fp": 1045,
+          "fn": 424,
+          "images": 505,
+          "precision": 0.06025179856115108,
+          "recall": 0.1364562118126273,
+          "fp_per_image": 2.0693069306930694
+        }
+      },
+      "ir_thresholds": {
+        "0.25": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 300,
+          "images": 300,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fp_per_image": 0.0
+        },
+        "0.1": {
+          "tp": 8,
+          "fp": 2,
+          "fn": 292,
+          "images": 300,
+          "precision": 0.8,
+          "recall": 0.02666666666666667,
+          "fp_per_image": 0.006666666666666667
+        },
+        "0.05": {
+          "tp": 35,
+          "fp": 16,
+          "fn": 265,
+          "images": 300,
+          "precision": 0.6862745098039216,
+          "recall": 0.11666666666666667,
+          "fp_per_image": 0.05333333333333334
+        },
+        "0.01": {
+          "tp": 89,
+          "fp": 57,
+          "fn": 211,
+          "images": 300,
+          "precision": 0.6095890410958904,
+          "recall": 0.2966666666666667,
+          "fp_per_image": 0.19
+        }
+      },
+      "ir_categories_at_conf25": {
+        "detected": 0,
+        "low_score_iou05_candidate": 298,
+        "no_iou05_raw_candidate": 2,
+        "ranking_loss": 0
+      },
+      "ir_forward_seconds": 5.7437212988734245,
+      "timing_scope": "synchronized CUDA forward only batch1, not controlled benchmark/full pipeline",
+      "state_before_sha256": "b3c1b19d8087f99a0c5cc4cde3fd0e766f531c41a59f7d4ca47b58235b45ffeb",
+      "state_after_sha256": "b3c1b19d8087f99a0c5cc4cde3fd0e766f531c41a59f7d4ca47b58235b45ffeb",
+      "state_unchanged": true
+    },
+    {
+      "case": "finetuned_best_one2many_640",
+      "branch": "one2many",
+      "imgsz": 640,
+      "available": true,
+      "checkpoint_sha256": "f51eae5cdb9c8dbc1c546625efedba9127c9160af5dfe5ca2f6d2e4ed2479cb0",
+      "official_metrics": {
+        "metrics/precision(B)": 0.80208,
+        "metrics/recall(B)": 0.49084,
+        "metrics/mAP50(B)": 0.60872,
+        "metrics/mAP50-95(B)": 0.25164,
+        "fitness": 0.25164,
+        "val/box_loss": 2.05305,
+        "val/cls_loss": 1.71005,
+        "val/l1_loss": 0.00125
+      },
+      "validation_input_shapes": [
+        [
+          1,
+          3,
+          544,
+          672
+        ],
+        [
+          8,
+          3,
+          544,
+          672
+        ]
+      ],
+      "validation_order_sha256": "1a00a163f56c6725e8c85391d7e0b2c842f4c580b7e338d7c0885bfae0ade637",
+      "val_thresholds": {
+        "0.25": {
+          "tp": 265,
+          "fp": 118,
+          "fn": 226,
+          "images": 505,
+          "precision": 0.6919060052219321,
+          "recall": 0.539714867617108,
+          "fp_per_image": 0.23366336633663368
+        },
+        "0.1": {
+          "tp": 306,
+          "fp": 258,
+          "fn": 185,
+          "images": 505,
+          "precision": 0.5425531914893617,
+          "recall": 0.6232179226069247,
+          "fp_per_image": 0.5108910891089109
+        },
+        "0.05": {
+          "tp": 327,
+          "fp": 461,
+          "fn": 164,
+          "images": 505,
+          "precision": 0.4149746192893401,
+          "recall": 0.6659877800407332,
+          "fp_per_image": 0.9128712871287129
+        },
+        "0.01": {
+          "tp": 365,
+          "fp": 1510,
+          "fn": 126,
+          "images": 505,
+          "precision": 0.19466666666666665,
+          "recall": 0.7433808553971487,
+          "fp_per_image": 2.99009900990099
+        }
+      },
+      "ir_thresholds": {
+        "0.25": {
+          "tp": 170,
+          "fp": 223,
+          "fn": 130,
+          "images": 300,
+          "precision": 0.43256997455470736,
+          "recall": 0.5666666666666667,
+          "fp_per_image": 0.7433333333333333
+        },
+        "0.1": {
+          "tp": 211,
+          "fp": 630,
+          "fn": 89,
+          "images": 300,
+          "precision": 0.25089179548156954,
+          "recall": 0.7033333333333334,
+          "fp_per_image": 2.1
+        },
+        "0.05": {
+          "tp": 227,
+          "fp": 1101,
+          "fn": 73,
+          "images": 300,
+          "precision": 0.17093373493975902,
+          "recall": 0.7566666666666667,
+          "fp_per_image": 3.67
+        },
+        "0.01": {
+          "tp": 239,
+          "fp": 1938,
+          "fn": 61,
+          "images": 300,
+          "precision": 0.10978410656867249,
+          "recall": 0.7966666666666666,
+          "fp_per_image": 6.46
+        }
+      },
+      "ir_categories_at_conf25": {
+        "detected": 170,
+        "low_score_iou05_candidate": 111,
+        "no_iou05_raw_candidate": 19,
+        "ranking_loss": 0
+      },
+      "ir_forward_seconds": 6.370264199562371,
+      "timing_scope": "synchronized CUDA forward only batch1, not controlled benchmark/full pipeline",
+      "state_before_sha256": "b3c1b19d8087f99a0c5cc4cde3fd0e766f531c41a59f7d4ca47b58235b45ffeb",
+      "state_after_sha256": "b3c1b19d8087f99a0c5cc4cde3fd0e766f531c41a59f7d4ca47b58235b45ffeb",
+      "state_unchanged": true
+    },
+    {
+      "case": "finetuned_best_one2many_960",
+      "branch": "one2many",
+      "imgsz": 960,
+      "available": true,
+      "checkpoint_sha256": "f51eae5cdb9c8dbc1c546625efedba9127c9160af5dfe5ca2f6d2e4ed2479cb0",
+      "official_metrics": {
+        "metrics/precision(B)": 0.76544,
+        "metrics/recall(B)": 0.53768,
+        "metrics/mAP50(B)": 0.61433,
+        "metrics/mAP50-95(B)": 0.24814,
+        "fitness": 0.24814,
+        "val/box_loss": 2.12501,
+        "val/cls_loss": 1.90719,
+        "val/l1_loss": 0.0013
+      },
+      "validation_input_shapes": [
+        [
+          1,
+          3,
+          800,
+          992
+        ],
+        [
+          8,
+          3,
+          800,
+          992
+        ]
+      ],
+      "validation_order_sha256": "1a00a163f56c6725e8c85391d7e0b2c842f4c580b7e338d7c0885bfae0ade637",
+      "val_thresholds": {
+        "0.25": {
+          "tp": 308,
+          "fp": 235,
+          "fn": 183,
+          "images": 505,
+          "precision": 0.567219152854512,
+          "recall": 0.6272912423625254,
+          "fp_per_image": 0.46534653465346537
+        },
+        "0.1": {
+          "tp": 339,
+          "fp": 641,
+          "fn": 152,
+          "images": 505,
+          "precision": 0.34591836734693876,
+          "recall": 0.6904276985743381,
+          "fp_per_image": 1.2693069306930693
+        },
+        "0.05": {
+          "tp": 358,
+          "fp": 1092,
+          "fn": 133,
+          "images": 505,
+          "precision": 0.24689655172413794,
+          "recall": 0.7291242362525459,
+          "fp_per_image": 2.1623762376237625
+        },
+        "0.01": {
+          "tp": 385,
+          "fp": 3361,
+          "fn": 106,
+          "images": 505,
+          "precision": 0.10277629471436199,
+          "recall": 0.7841140529531568,
+          "fp_per_image": 6.655445544554455
+        }
+      },
+      "ir_thresholds": {
+        "0.25": {
+          "tp": 0,
+          "fp": 2,
+          "fn": 300,
+          "images": 300,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fp_per_image": 0.006666666666666667
+        },
+        "0.1": {
+          "tp": 0,
+          "fp": 36,
+          "fn": 300,
+          "images": 300,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fp_per_image": 0.12
+        },
+        "0.05": {
+          "tp": 0,
+          "fp": 74,
+          "fn": 300,
+          "images": 300,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fp_per_image": 0.24666666666666667
+        },
+        "0.01": {
+          "tp": 2,
+          "fp": 303,
+          "fn": 298,
+          "images": 300,
+          "precision": 0.006557377049180328,
+          "recall": 0.006666666666666667,
+          "fp_per_image": 1.01
+        }
+      },
+      "ir_categories_at_conf25": {
+        "detected": 0,
+        "low_score_iou05_candidate": 249,
+        "no_iou05_raw_candidate": 51,
+        "ranking_loss": 0
+      },
+      "ir_forward_seconds": 10.436897999374196,
+      "timing_scope": "synchronized CUDA forward only batch1, not controlled benchmark/full pipeline",
+      "state_before_sha256": "b3c1b19d8087f99a0c5cc4cde3fd0e766f531c41a59f7d4ca47b58235b45ffeb",
+      "state_after_sha256": "b3c1b19d8087f99a0c5cc4cde3fd0e766f531c41a59f7d4ca47b58235b45ffeb",
+      "state_unchanged": true
+    }
+  ],
+  "selected_operating_point": {
+    "case": "original_b0_one2many_640",
+    "imgsz": 640,
+    "confidence": 0.25,
+    "precision_floor": 0.7316556291390728,
+    "val_metrics": {
+      "tp": 259,
+      "fp": 55,
+      "fn": 232,
+      "images": 505,
+      "precision": 0.8248407643312102,
+      "recall": 0.5274949083503055,
+      "fp_per_image": 0.10891089108910891
+    }
+  },
+  "completed": true,
+  "elapsed_seconds": 383.46638464927673,
+  "artifact_verification": {
+    "complete_remote_summary_read": true,
+    "all12_case_summary_consistency_checked": true,
+    "four640_summaries_reproduce_prior_evaluation": true,
+    "full_prediction_archive_local_sha_verified": false,
+    "remote_archive_sha256": "7273ec38eabae55f7a2d7e9703ce93b34d6a3a4a3cf21821004399b35b91b9a0",
+    "remote_archive_bytes": 7335241,
+    "expected_payload_files": 41,
+    "remote_ack_confirmed": false,
+    "caution": "Complete remote summary was read successfully; full prediction archive transfer is partial. Member hashes and per-frame scoring have not yet been reverified locally for this scale experiment."
+  },
+  "deployment_default_changed": false,
+  "optimization_success_established": false
+}

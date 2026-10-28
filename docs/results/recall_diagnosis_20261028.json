@@ -1,0 +1,91 @@
+{
+  "scope": "New error analysis on previously observed IR300; local ONNX CPU inference only, not cloud result or training",
+  "thresholds": {
+    "0.25": {
+      "tp": 60,
+      "fp": 5,
+      "fn": 240,
+      "images": 300,
+      "precision": 0.9230769230769231,
+      "recall": 0.2,
+      "fp_per_image": 0.016666666666666666
+    },
+    "0.1": {
+      "tp": 159,
+      "fp": 124,
+      "fn": 141,
+      "images": 300,
+      "precision": 0.5618374558303887,
+      "recall": 0.53,
+      "fp_per_image": 0.41333333333333333
+    },
+    "0.05": {
+      "tp": 195,
+      "fp": 404,
+      "fn": 105,
+      "images": 300,
+      "precision": 0.32554257095158595,
+      "recall": 0.65,
+      "fp_per_image": 1.3466666666666667
+    },
+    "0.01": {
+      "tp": 246,
+      "fp": 1365,
+      "fn": 54,
+      "images": 300,
+      "precision": 0.1527001862197393,
+      "recall": 0.82,
+      "fp_per_image": 4.55
+    }
+  },
+  "categories_at_conf25": {
+    "detected": 60,
+    "no_iou05_raw_candidate": 28,
+    "low_score_iou05_candidate": 212,
+    "ranking_top300_loss": 0
+  },
+  "candidate_max_score_quantiles": {
+    "0": 0.0,
+    "0.1": 0.0002272091209306384,
+    "0.25": 0.022046425845474005,
+    "0.5": 0.11990715563297272,
+    "0.75": 0.22573211416602135,
+    "0.9": 0.316568273305893,
+    "1": 0.4989947974681854
+  },
+  "training_executed": false,
+  "cloud_executed": false,
+  "optimization_selected": false,
+  "caution": "IR300 is now development data; no threshold/model selection claim or independent-test result. Cloud fixed-505 validation comparison pending.",
+  "date": "2026-10-28",
+  "dataset_role": "previously observed 300-frame error-analysis/development sequence",
+  "training_set_median_uav_box_px": [
+    6.99968,
+    3.999744
+  ],
+  "ir_median_uav_box_px": [
+    30,
+    20
+  ],
+  "gpu_followup_status": "original instance unavailable: 1 required / 0 free; no boot occurred",
+  "cloud_followup_grid": {
+    "sizes": [
+      320,
+      640,
+      960
+    ],
+    "branches": [
+      "one2one",
+      "one2many_if_stored"
+    ],
+    "confidences": [
+      0.25,
+      0.1,
+      0.05,
+      0.01
+    ],
+    "selection": "fixed505val only; maximize recall at precision>=baselineconf25 minus.02"
+  },
+  "onnx_sha256": "97b802c9a83fee25ae4e0307470ad4de5e086ce17f2ccf49af9bec4d5704c8e4",
+  "source_b0_checkpoint_sha256": "03424275aeab8025a1f210200c1c072fb6f21e74d9948a287fd23d6dc178f7dc"
+}

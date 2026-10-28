@@ -521,9 +521,12 @@
     "training_weights_archive_all_sha_ack": true,
     "one2one_pair_all_sha_ack": true,
     "two_branch_evaluation_completed_and_remote_result_read": true,
-    "two_branch_full_prediction_archive_retrieval_complete": false,
+    "two_branch_full_prediction_archive_retrieval_complete": true,
     "two_branch_archive_sha256": "6b77091fca156bb888426e1b6e9facb8e1c4dfb6f5dd7fbd4a43dfacacfa7a8e",
     "two_branch_archive_expected_bytes": 2692603,
-    "caution": "Intermittent SSH/SFTP disconnects; partial local copy is not verified and no ACK has been sent for this archive. Remote complete archive is preserved."
+    "caution": "Complete archive and all17 files verified locally; all four cases contain505 validation and300 infrared prediction records; remote ACK0 confirmed.",
+    "two_branch_all17_members_sha_verified": true,
+    "two_branch_remote_ack": 0,
+    "two_branch_predictions_and_threshold_counts_verified": true
   }
 }

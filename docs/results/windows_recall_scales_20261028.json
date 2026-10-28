@@ -1468,12 +1468,17 @@
     "complete_remote_summary_read": true,
     "all12_case_summary_consistency_checked": true,
     "four640_summaries_reproduce_prior_evaluation": true,
-    "full_prediction_archive_local_sha_verified": false,
+    "full_prediction_archive_local_sha_verified": true,
     "remote_archive_sha256": "7273ec38eabae55f7a2d7e9703ce93b34d6a3a4a3cf21821004399b35b91b9a0",
     "remote_archive_bytes": 7335241,
     "expected_payload_files": 41,
-    "remote_ack_confirmed": false,
-    "caution": "Complete remote summary was read successfully; full prediction archive transfer is partial. Member hashes and per-frame scoring have not yet been reverified locally for this scale experiment."
+    "remote_ack_confirmed": true,
+    "caution": "All 42 archive members and 41 payload files were verified locally, including 505 validation and 300 IR rows per case, all fixed-threshold counts, native-coordinate ground truth, unchanged state and validation-only selection. This confirms recorded results; it does not establish optimization success.",
+    "all41_payload_member_hashes_verified": true,
+    "all12_cases_per_frame_scoring_reproduced": true,
+    "all_val_ground_truth_matches_frozen_native_source": true,
+    "four640_cases_reproduce_prior_evaluation": true,
+    "verified_date": "2026-10-29"
   },
   "deployment_default_changed": false,
   "optimization_success_established": false

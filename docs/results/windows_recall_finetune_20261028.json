@@ -1,6 +1,6 @@
 {
   "date": "2026-10-28",
-  "status": "training_in_progress",
+  "status": "training_complete_paired_evaluation_pending",
   "platform": "Windows",
   "gpu": "RTX 3060 Laptop GPU, 6GB",
   "torch": "2.7.1+cu118",
@@ -30,25 +30,33 @@
     "validation_dtype": "FP32",
     "tf32_defaults_not_separately_controlled": true
   },
-  "observed_complete_csv_epochs": 2,
+  "observed_complete_csv_epochs": 30,
   "all_observed_csv_values_finite": true,
   "validation_samples_each_observed_epoch": 505,
-  "latest_observed_epoch_metrics": {
-    "time": 210.633,
-    "train/box_loss": 1.99565,
-    "train/cls_loss": 1.04853,
-    "train/l1_loss": 0.00107,
-    "metrics/precision(B)": 0.6811,
-    "metrics/recall(B)": 0.53971,
-    "metrics/mAP50(B)": 0.60092,
-    "metrics/mAP50-95(B)": 0.2451,
-    "val/box_loss": 2.04184,
-    "val/cls_loss": 1.83509,
-    "val/l1_loss": 0.00126,
-    "lr/pg0": 0.000194,
-    "lr/pg1": 0.000194,
-    "lr/pg2": 0.000194
-  },
   "optimization_success_established": false,
-  "caution": "Early training progress only. Hardware/runtime/augmentation/precision differ from original cloud training. Same-Windows original-B0 versus final-best paired evaluation remains pending. No IR recall improvement or independent test claim."
+  "caution": "All30epochs completed with finite CSV columns and505-image FP32 validation each epoch. Hardware/runtime/augmentation/precision differ from original cloud training. Same-Windows original-B0 versus final-best paired evaluation remains pending; no IR recall improvement or independent test claim.",
+  "owner_exit_code": 0,
+  "validation_precision_records": 30,
+  "final_best_validation": {
+    "metrics": {
+      "metrics/precision(B)": 0.80208,
+      "metrics/recall(B)": 0.49084,
+      "metrics/mAP50(B)": 0.60872,
+      "metrics/mAP50-95(B)": 0.25164,
+      "val/box_loss": 2.05305,
+      "val/cls_loss": 1.71005,
+      "val/l1_loss": 0.00125
+    },
+    "samples": 505,
+    "precision": "FP32",
+    "state_unchanged": true,
+    "checkpoint_sha256": "f51eae5cdb9c8dbc1c546625efedba9127c9160af5dfe5ca2f6d2e4ed2479cb0"
+  },
+  "artifacts": {
+    "archive_sha256": "9e61ef7405937b837bcfa523707434f8bd46614a250132afca88fcf9bfc6b2f8",
+    "archive_bytes": 9731886,
+    "all18_members_sha256_verified": true,
+    "best_sha256": "f51eae5cdb9c8dbc1c546625efedba9127c9160af5dfe5ca2f6d2e4ed2479cb0",
+    "last_sha256": "7e07c424019c4d982d5b3502e5157a97b3b930e64842a65f49c30890594c2dd3"
+  }
 }

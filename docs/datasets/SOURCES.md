@@ -5,6 +5,7 @@
 | 数据集 | 来源 | 规模与标注 | 项目用途 |
 |---|---|---|---|
 | SIRST-UAVB | [PConv 论文](https://arxiv.org/abs/2412.16986)、[作者仓库与下载入口](https://github.com/JN-Yang/PConv-SDloss-Data) | 3000幅实拍红外图像，2955个UAV框、1742个鸟框 | 无人机单类主实验；鸟框用于误报分析 |
+| Anti-UAV600 | [作者README](https://github.com/ZhaoJ9014/Anti-UAV/blob/master/README.md)、[作者链接的ModelScope分发](https://modelscope.cn/datasets/ly261666/3rd_Anti-UAV) | 作者说明为IR视频版本；任务标注含UAV框与目标存在标记 | 仅作者train内经来源族排除、图像/标注/重复审核的1000帧及179训练背景裁块用于[扩充实验](../results/windows_recall_expanded_20261029.md)；官方val/test、开发IR与两保留族不训练 |
 | IRSTD-1k | [ISNet 作者页](https://github.com/RuiZhang97/ISNet)；框标注另核对 [PConv](https://github.com/JN-Yang/PConv-SDloss-Data) / [EFLNet](https://github.com/YangBo0411/infrared-small-target) | 1001幅真实图像，原像素标注及相应框标注版本 | 通用红外目标补充实验 |
 | NUDT-SIRST | [DNANet 作者页](https://github.com/YeRen123455/Infrared-Small-Target-Detection) | 1327幅合成图像，256×256，像素标注 | 单独通用target实验，核对框或生成派生框 |
 | SIRST / NUAA-SIRST | [作者数据页](https://github.com/YimianDai/sirst) | 427幅真实图像；使用匹配的框或由目标区域生成外接框 | 小样本补充实验 |
@@ -31,3 +32,5 @@ SIRST-UAVB 映射为 `uav` 单类；保留原始鸟类框用于错误归因。�
 2026-10-24 全包审计更新：3000幅图像为640×512灰度图，原标签class0/class1实测2961/1747框，无完全重复标签行。原训练/验证之间有496组像素完全相同的图像，另3组相同像素标注存在差异。去重并隔离冲突后的候选为2395train/104val，尚不构成来源序列独立的正式划分；类别语义、来源组和独立test仍待核验。未将该候选用于训练。
 
 2026-10-24 后续核验：结合论文“掩膜排除鸟类”的说明，确认class0=UAV、class1=bird。隔离标注冲突、掩膜缺失和背景边界近邻后，已固定1438train/505val；云端真实转换及独立审计通过，零像素重复。原视频编号未发布，采用明确标注的推断背景视图留出协议，没有独立test。清单、类别映射和政策依据见 [固定划分](../../configs/datasets/sirst_uavb_scene_holdout_v3/README.md)。
+
+2026-10-29 扩充来源：作者README已核验IR版本与UAV任务语义，实际选定图像均解码640×512，原xywh框保持，派生YOLO坐标单独核验；越界行和不明背景裁块排除。录制族来自保守文件名规则，不等于真实视频独立证明。项目代码MIT声明不作为媒体再分发许可，原始媒体、标签和派生裁块不进入公开仓库。

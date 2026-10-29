@@ -1,0 +1,50 @@
+{
+  "date": "2026-10-29",
+  "status": "user_provided_DAUB_checkpoint_static_audit_passed_Windows_strictload_inference_pending",
+  "checkpoint_bytes": 88141699,
+  "checkpoint_sha256": "a282aa4603ba3bf64cddcfd464e3254e46074d6974422c57c25d4799ab749f0e",
+  "ZIP_members": 417,
+  "state_metadata_entries": 415,
+  "floating_elements_checked": 22001771,
+  "all_float_storages_finite": true,
+  "single_class_head": true,
+  "temporal_neck_and_auxiliary_module_key_prefixes_present": true,
+  "no_pickle_function_execution_or_Mac_Torch_model_load": true,
+  "author_source_commit": "12e5ffffd3d6edd21127e08f4d398afac21f86da",
+  "complete_runtime_key_shape_dtype_matching": false,
+  "Windows_copy_user_reported": true,
+  "Windows_copy_byteSHA_verified": false,
+  "inference_run": false,
+  "training": false,
+  "calibration": false,
+  "deployment_changed": false,
+  "protocol": {
+    "frames": 600,
+    "role": "already observed contiguous development windows; allpositive, not independenttest/backgroundFP-hour",
+    "causal_history": "past4+current; initial missing history repeats firstframe; reset each family",
+    "shape": [
+      1,
+      3,
+      5,
+      512,
+      512
+    ],
+    "author_letterbox_and_normalization": true,
+    "score": "objectness times class probability",
+    "NMS_IoU": 0.65,
+    "primary_confidence": 0.25,
+    "descriptive_confidence": 0.5,
+    "threshold_search": false,
+    "GT_used_for_model": false,
+    "max_seconds": 900,
+    "FP32_TF32False": true,
+    "reference": "reuse same native-input verified B0 ONNX CPU prediction; preprocessing and runtime differ;43frame subset parity only"
+  },
+  "protocol_sha256": "b7f027320d56a8a7ae6af78f1aeff09d83ebdbc05839a08e9399762c25ad0e5d",
+  "limitations": [
+    "Static keys do not prove exact graph matching or effective detection.",
+    "Author DAUB pretraining data overlap with project sources is unknown.",
+    "Windows/Torch runtime differs from authors Ubuntu/Torch1.12 reference and still needs actual validation.",
+    "No SSTNet metrics yet; no strict505 or deployable improvement established."
+  ]
+}

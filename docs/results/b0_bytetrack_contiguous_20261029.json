@@ -123,5 +123,5 @@
   "output_prediction_sha256": "ab936f6c767af19b73fea8df0019ea9607fa0bcc8ad536e213c31461d43e5a99",
   "archive_sha256": "a5c7dd1a1dbc800fb0e12889d03aefe62aa4930349feaed0e67a69f48364fd54",
   "limitation": "already observed development families; positive-only; no independent test, backgroundFP/hour, fixed505 improvement or controlled speed benchmark; FP object identities unconfirmed",
-  "next_step": "verify complete SSTNet task weights when available; no additional YOLO training or tuning this temporal configuration"
+  "next_step": "user-provided SSTNet DAUB file static audit passed; strict runtime key/shape matching and fixed600 inference still pending; no new YOLO training or tuning this temporal configuration"
 }

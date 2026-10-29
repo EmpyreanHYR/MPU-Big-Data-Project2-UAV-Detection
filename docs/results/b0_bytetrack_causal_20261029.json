@@ -54,7 +54,9 @@
     "source_audit_complete": true,
     "author_eval_past4_plus_current": true,
     "repository_initialization_not_full_trained_checkpoint": true,
-    "full_author_checkpoint_available_locally": false,
-    "inference_run": false
+    "full_author_checkpoint_available_locally": true,
+    "inference_run": false,
+    "user_provided_DAUB_checkpoint_static_audit_passed": true,
+    "strict_runtime_load_passed": false
   }
 }

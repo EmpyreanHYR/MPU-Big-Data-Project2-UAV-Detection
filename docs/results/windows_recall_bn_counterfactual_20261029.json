@@ -1,0 +1,253 @@
+{
+  "status": "inference_completed_exit0_summary_read_back_full_prediction_archive_pending",
+  "training_executed": false,
+  "calibration_executed": false,
+  "loss_executed": false,
+  "mixed_checkpoint_saved": false,
+  "data": {
+    "fixed_validation_images": 505,
+    "geometry": [
+      544,
+      672
+    ],
+    "batch": 8,
+    "precision": "FP32",
+    "matmul_tf32": false,
+    "cudnn_tf32": false,
+    "branch": "one2one",
+    "external_NMS": false,
+    "primary_confidence": 0.25,
+    "IoU_matching": 0.5,
+    "IR300_held200_used": false
+  },
+  "design": {
+    "frozen_before_execution": true,
+    "references_reused_without_rerun": [
+      "original_b0",
+      "lr_only_best"
+    ],
+    "counterfactuals_only": true,
+    "swapped_state": "BatchNorm2d running_mean/running_var/num_batches_tracked only",
+    "all_affine_and_non_BN_state_exactly_preserved_by_runtime_assertions": true,
+    "module_count": 114,
+    "different_running_mean_buffers": 114,
+    "different_running_variance_buffers": 114,
+    "different_counter_buffers": 0,
+    "source_checkpoint_storage": "both serialized source states have594float16/114int64 tensors, promoted to FP32 for inference; this does not recover pre-serialization precision",
+    "new_elapsed_seconds": 13.051825284957886,
+    "same_primary_reviewer_no_second_reviewer": true
+  },
+  "references": {
+    "original_b0": {
+      "checkpoint_sha256": "03424275aeab8025a1f210200c1c072fb6f21e74d9948a287fd23d6dc178f7dc",
+      "state_sha256": "719e5f9b708d77743eb13e1d22d743235bd6f1139e18a06acf820099f3848b2f",
+      "fixed_threshold_counts": {
+        "0.25": {
+          "tp": 227,
+          "fp": 75,
+          "fn": 264,
+          "images": 505,
+          "precision": 0.7516556291390728,
+          "recall": 0.4623217922606925,
+          "fp_per_image": 0.1485148514851485
+        },
+        "0.1": {
+          "tp": 316,
+          "fp": 391,
+          "fn": 175,
+          "images": 505,
+          "precision": 0.44695898161244696,
+          "recall": 0.6435845213849287,
+          "fp_per_image": 0.7742574257425743
+        },
+        "0.05": {
+          "tp": 341,
+          "fp": 770,
+          "fn": 150,
+          "images": 505,
+          "precision": 0.3069306930693069,
+          "recall": 0.6945010183299389,
+          "fp_per_image": 1.5247524752475248
+        },
+        "0.01": {
+          "tp": 368,
+          "fp": 2380,
+          "fn": 123,
+          "images": 505,
+          "precision": 0.1339155749636099,
+          "recall": 0.7494908350305499,
+          "fp_per_image": 4.712871287128713
+        }
+      }
+    },
+    "lr_only_best": {
+      "checkpoint_sha256": "b704878fe85a0b6b5f94da60e6696af0fd933fbf61169a61c6609a3021619d63",
+      "state_sha256": "f7c08f060dddd280351122a10ad31c2ad7c1e1ea69efc45b21b98bf5ee208e0c",
+      "fixed_threshold_counts": {
+        "0.25": {
+          "tp": 192,
+          "fp": 85,
+          "fn": 299,
+          "images": 505,
+          "precision": 0.6931407942238267,
+          "recall": 0.3910386965376782,
+          "fp_per_image": 0.16831683168316833
+        },
+        "0.1": {
+          "tp": 249,
+          "fp": 400,
+          "fn": 242,
+          "images": 505,
+          "precision": 0.38366718027734975,
+          "recall": 0.5071283095723014,
+          "fp_per_image": 0.7920792079207921
+        },
+        "0.05": {
+          "tp": 277,
+          "fp": 720,
+          "fn": 214,
+          "images": 505,
+          "precision": 0.2778335005015045,
+          "recall": 0.5641547861507128,
+          "fp_per_image": 1.4257425742574257
+        },
+        "0.01": {
+          "tp": 340,
+          "fp": 1980,
+          "fn": 151,
+          "images": 505,
+          "precision": 0.14655172413793102,
+          "recall": 0.6924643584521385,
+          "fp_per_image": 3.9207920792079207
+        }
+      }
+    }
+  },
+  "counterfactual_cases": [
+    {
+      "case": "b0_params_lr_bn",
+      "learned_tensors_from": "original_b0",
+      "BN_buffers_from": "lr_only_best",
+      "rows": 505,
+      "val_thresholds": {
+        "0.25": {
+          "tp": 144,
+          "fp": 40,
+          "fn": 347,
+          "images": 505,
+          "precision": 0.782608695652174,
+          "recall": 0.29327902240325865,
+          "fp_per_image": 0.07920792079207921
+        },
+        "0.1": {
+          "tp": 224,
+          "fp": 254,
+          "fn": 267,
+          "images": 505,
+          "precision": 0.4686192468619247,
+          "recall": 0.45621181262729127,
+          "fp_per_image": 0.502970297029703
+        },
+        "0.05": {
+          "tp": 261,
+          "fp": 498,
+          "fn": 230,
+          "images": 505,
+          "precision": 0.3438735177865613,
+          "recall": 0.5315682281059063,
+          "fp_per_image": 0.9861386138613861
+        },
+        "0.01": {
+          "tp": 303,
+          "fp": 1758,
+          "fn": 188,
+          "images": 505,
+          "precision": 0.1470160116448326,
+          "recall": 0.6171079429735234,
+          "fp_per_image": 3.481188118811881
+        }
+      },
+      "state_before_sha256": "dde02efc7a5478c0afffab449bcce9f7a4524df36bbb8c106bda9b21f7f113f2",
+      "state_after_sha256": "dde02efc7a5478c0afffab449bcce9f7a4524df36bbb8c106bda9b21f7f113f2",
+      "BN_buffers_sha256": "7ab171508741916a151c0e4f89b91a5d4d7504cac731ff7cea225e0146c69937",
+      "non_BN_state_sha256": "0cbed2a1bf3e9d52413e6ab4cf35b4f451d9e89c8ac1be73c449a7192a28e32c",
+      "every_non_BN_tensor_equal_to_base": true,
+      "every_BN_buffer_equal_to_donor": true,
+      "state_unchanged_during_forward": true
+    },
+    {
+      "case": "lr_params_b0_bn",
+      "learned_tensors_from": "lr_only_best",
+      "BN_buffers_from": "original_b0",
+      "rows": 505,
+      "val_thresholds": {
+        "0.25": {
+          "tp": 230,
+          "fp": 156,
+          "fn": 261,
+          "images": 505,
+          "precision": 0.5958549222797928,
+          "recall": 0.4684317718940937,
+          "fp_per_image": 0.3089108910891089
+        },
+        "0.1": {
+          "tp": 290,
+          "fp": 562,
+          "fn": 201,
+          "images": 505,
+          "precision": 0.3403755868544601,
+          "recall": 0.5906313645621182,
+          "fp_per_image": 1.112871287128713
+        },
+        "0.05": {
+          "tp": 317,
+          "fp": 910,
+          "fn": 174,
+          "images": 505,
+          "precision": 0.25835370823145887,
+          "recall": 0.6456211812627292,
+          "fp_per_image": 1.801980198019802
+        },
+        "0.01": {
+          "tp": 356,
+          "fp": 2517,
+          "fn": 135,
+          "images": 505,
+          "precision": 0.12391228680821441,
+          "recall": 0.725050916496945,
+          "fp_per_image": 4.984158415841584
+        }
+      },
+      "state_before_sha256": "265fe88ba841fd5f82bfab30243066abd3e3118133510dad7fbd67415c10ee81",
+      "state_after_sha256": "265fe88ba841fd5f82bfab30243066abd3e3118133510dad7fbd67415c10ee81",
+      "BN_buffers_sha256": "8c2abc5bd1d464888d9eeaf93e6f9430331445e4568da0f4f00bd12119b68a4c",
+      "non_BN_state_sha256": "aeaf154b97ae455266e8dbc961bf0f298b5d27cc46de6e5b2c79d274487ae819",
+      "every_non_BN_tensor_equal_to_base": true,
+      "every_BN_buffer_equal_to_donor": true,
+      "state_unchanged_during_forward": true
+    }
+  ],
+  "artifact": {
+    "bytes": 1205393,
+    "sha256": "c784df2a7d50dd4c3d33caf2a33b1be840c5fb62f93e2dba02418336268ccd50",
+    "payload_files": 11,
+    "members": 12,
+    "remote_complete": true,
+    "local_whole_archive_verified": false,
+    "all_rows_GT_and_counts_verified": false,
+    "remote_ACK_confirmed": false
+  },
+  "conclusions": {
+    "BN_statistics_affect_fixed_parameter_predictions_in_this_counterfactual": true,
+    "BN_sole_cause_established": false,
+    "restoring_original_BN_statistics_sufficient_to_meet_precision_guardrail": false,
+    "frozen_BN_training_proven_to_work": false,
+    "deployment": "originalB0 unchanged"
+  },
+  "limitations": [
+    "Newtwo-case summary read back after successful exit; complete prediction archive/member/row verification still pending.",
+    "No official AP or validation loss computed for artificial hybrids; fixed-threshold counts only.",
+    "Artificial mixed states may disrupt learned tensor/statistic coadaptation; result does not isolate every internal cause or prove a training intervention.",
+    "Only fixed505 development analysis; no new independent test, IR evaluation or deployable hybrid weight."
+  ]
+}

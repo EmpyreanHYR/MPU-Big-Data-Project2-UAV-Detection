@@ -1,5 +1,5 @@
 {
-  "status": "training_full_SHA_ACK_complete_checkpoint_pairing_finished_prediction_archive_retrieval_pending",
+  "status": "training_and_checkpoint_pairing_full_archive_rows_verified_remote_ACK_complete",
   "model": "YOLO26n baseline, complete original B0 initialization",
   "training_data": {
     "original_core": 1438,
@@ -55,7 +55,7 @@
   },
   "selection_policy": "fixed505-only checkpoint+fixed thresholds.25/.10/.05/.01 maxR with precision>=paired originalB0@.25 minus.02; write selection before describing development sequences",
   "limitations": [
-    "Training archive and all24 payload files fully verified with remote ACK0; new checkpoint pairing finished successfully and complete summaries read back, but its full prediction archive is still partially retrieved and per-row verification/ACK are pending.",
+    "Training and evaluation complete archives/all payload files verified with remoteACK0;7x505/2x300/2x200 GT,counts,states and505-only selection reproduced without local model loading.",
     "Lower LR slightly recovered original505 metrics relative to the preceding expanded-data run; originalB0 still wins the predefined505-only precision-floor/max-recall selection.",
     "IR300 and previously held200 are already-observed development data,never training/calibration/selection from them.",
     "No optimization success or deployment replacement established.",
@@ -110,7 +110,7 @@
     "all_payload_files_verified": true
   },
   "checkpoint_pairing": {
-    "status": "finished_exit0_summaries_read_back_full_prediction_verification_pending",
+    "status": "finished_exit0_full_archive_all_rows_verified_remote_ACK_complete",
     "elapsed_seconds": 137.40336275100708,
     "training_executed": false,
     "case_count": 7,
@@ -683,11 +683,25 @@
       "payload_files": 29,
       "members": 30,
       "remote_complete": true,
-      "local_whole_archive_verified": false,
-      "all_rows_GT_and_counts_verified": false,
-      "remote_ack_confirmed": false
+      "local_whole_archive_verified": true,
+      "all_rows_GT_and_counts_verified": true,
+      "remote_ack_confirmed": true
     },
     "deployment": "originalB0 unchanged",
-    "optimization_success_established": false
+    "optimization_success_established": false,
+    "verified_per_frame_changes": {
+      "IR300": {
+        "new_detected_frames": 130,
+        "lost_detected_frames": 2,
+        "net_detected_frames": 128,
+        "counts_reproduced": true
+      },
+      "held200": {
+        "new_detected_frames": 20,
+        "lost_detected_frames": 0,
+        "net_detected_frames": 20,
+        "counts_reproduced": true
+      }
+    }
   }
 }

@@ -1,0 +1,78 @@
+{
+  "status": "training_started_not_completed",
+  "model": "YOLO26n baseline, complete original B0 initialization",
+  "training_data": {
+    "original_core": 1438,
+    "author_train_positive_frames": 1000,
+    "reviewed_train_background_crops": 179,
+    "total": 2617,
+    "fixed_validation": 505,
+    "same_manifest_as_previous_expanded_run": true,
+    "IR300_and_held200_excluded": true
+  },
+  "control": {
+    "anchor": "completed expanded20 lr1e-4 run",
+    "only_training_factor_changed": "lr0 from0.0001 to0.00001",
+    "other_train_call_keywords_AST_identical": true,
+    "epochs_cap": 20,
+    "optimizer": "AdamW",
+    "nbs": 64,
+    "imgsz": 640,
+    "batch": 4,
+    "workers": 0,
+    "seed": 42,
+    "lrf": 0.1,
+    "warmup_epochs": 1,
+    "mosaic": 0,
+    "train_precision": "FP32",
+    "validation_precision": "FP32",
+    "explicit_nms": false,
+    "validation_branch": "one2one",
+    "matmul_tf32": false,
+    "cudnn_tf32": false,
+    "best_selection": "official one2one AP50:95",
+    "periodic_actual_completed_epochs": [
+      1,
+      6,
+      11,
+      16
+    ],
+    "last_if_complete": 20
+  },
+  "evidence_at_start": {
+    "training_started_utc": "2026-10-29T02:30:02.185339+00:00",
+    "epoch": 1,
+    "batch_observed": 195,
+    "batches_per_epoch": 655,
+    "loss_values": [
+      2.594,
+      1.88,
+      0.002323
+    ],
+    "sampled_losses_finite": true,
+    "completed_epochs_verified": 0,
+    "complete_original_state_and_keys_verified": true
+  },
+  "selection_policy": "fixed505-only checkpoint+fixed thresholds.25/.10/.05/.01 maxR with precision>=paired originalB0@.25 minus.02; write selection before describing development sequences",
+  "limitations": [
+    "Only actual launch and finite training batches observed; no final metrics or improvement established.",
+    "Lower learning rate reducing forgetting is an unproven hypothesis.",
+    "IR300 and previously held200 are already-observed development data,never training or calibration.",
+    "Deployment remains original B0.",
+    "Same primary agent source review; no second reviewer claimed."
+  ],
+  "early_validation": {
+    "completed_full_epochs": 1,
+    "all655_training_batches": true,
+    "all_csv_columns_finite": true,
+    "validation_samples": 505,
+    "validation_precision": "FP32",
+    "effective_branch": "one2one",
+    "parameters_bn_unchanged": true,
+    "precision": 0.51891,
+    "recall": 0.39322,
+    "AP50": 0.40688,
+    "AP50_95": 0.15586,
+    "not_final_or_improvement_evidence": true
+  }
+}

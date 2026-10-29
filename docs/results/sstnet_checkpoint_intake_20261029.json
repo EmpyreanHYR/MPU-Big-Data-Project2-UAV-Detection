@@ -1,6 +1,6 @@
 {
   "date": "2026-10-29",
-  "status": "user_provided_DAUB_checkpoint_static_audit_passed_Windows_strictload_inference_pending",
+  "status": "user_provided_DAUB_checkpoint_static_audit_passed_cloud_migration_runtime_inference_pending",
   "checkpoint_bytes": 88141699,
   "checkpoint_sha256": "a282aa4603ba3bf64cddcfd464e3254e46074d6974422c57c25d4799ab749f0e",
   "ZIP_members": 417,
@@ -13,7 +13,7 @@
   "author_source_commit": "12e5ffffd3d6edd21127e08f4d398afac21f86da",
   "complete_runtime_key_shape_dtype_matching": false,
   "Windows_copy_user_reported": true,
-  "Windows_copy_byteSHA_verified": false,
+  "Windows_copy_byteSHA_verified": true,
   "inference_run": false,
   "training": false,
   "calibration": false,
@@ -38,13 +38,26 @@
     "GT_used_for_model": false,
     "max_seconds": 900,
     "FP32_TF32False": true,
-    "reference": "reuse same native-input verified B0 ONNX CPU prediction; preprocessing and runtime differ;43frame subset parity only"
+    "reference": "reuse same native-input verified B0 ONNX CPU prediction; preprocessing and runtime differ;43frame subset parity only",
+    "max_seconds_scope": "original unexecuted Windows preparation; frozen protocol hash retained as history"
   },
   "protocol_sha256": "b7f027320d56a8a7ae6af78f1aeff09d83ebdbc05839a08e9399762c25ad0e5d",
   "limitations": [
     "Static keys do not prove exact graph matching or effective detection.",
     "Author DAUB pretraining data overlap with project sources is unknown.",
-    "Windows/Torch runtime differs from authors Ubuntu/Torch1.12 reference and still needs actual validation.",
+    "Cloud Linux/PyTorch versions require fresh inventory and validation; no current SSTNet runtime result.",
     "No SSTNet metrics yet; no strict505 or deployable improvement established."
-  ]
+  ],
+  "Windows_experiment_execution_authorized": false,
+  "future_experiment_execution": "existing authorized cloud only",
+  "cloud_migration": {
+    "inference_source_initial_compile_passed": true,
+    "history_and_scoring_functions_unchanged": true,
+    "independent_guard_and_deployment_chain_ready": false,
+    "cloud_booted": false,
+    "inference_run": false,
+    "maximum_total_window_seconds": 600,
+    "saving_and_retrieval_reserve_seconds": 180,
+    "actual_runtime_inventory_and_strict_load_pending": true
+  }
 }

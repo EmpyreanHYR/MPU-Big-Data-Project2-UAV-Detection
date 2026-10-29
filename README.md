@@ -4,6 +4,8 @@
 
 当前优先推进[召回率优化与漏检诊断](docs/experiments/RECALL_OPTIMIZATION_20261028.md)：已完成Windows30轮微调、[扩充数据20轮与配对](docs/results/windows_recall_expanded_20261029.md)、[两保留录制族固定评价](docs/results/windows_recall_reserved_20261029.md)，成果均取回核验。扩充best在IR开发序列召回提高，但原505验证退化、新录制族召回仍低，未替换原部署模型；新的[学习率单因素对照](docs/results/windows_recall_lr_control_20261029.md)已完成20轮及7份检查点评价，训练与评价成果已完整取回并逐帧核验；固定505选点仍是原B0，尚未解决原验证集退化。[BN统计反事实](docs/results/windows_recall_bn_counterfactual_20261029.md)的两次推理也已完成，直接换回统计仍有明显误检代价，完整预测包待核验。H10后置，Mac和Pi不训练。
 
+新增[B0＋时序关联对照](docs/results/b0_bytetrack_causal_20261029.md)：已观察IR300开发序列上TP60→73、FP仍5，P/R由92.31%/20.00%变为93.59%/24.33%。只对保存检测框做单配置因果关联及逐帧核验，尚未验证跨录制族或背景误报，部署保持原B0。SSTNet源码审核完成，完整任务权重仍待取得，未执行新模型。
+
 ## 内容导航
 
 | 内容 | 位置 | 当前状态 |

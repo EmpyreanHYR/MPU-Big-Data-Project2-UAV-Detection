@@ -1,0 +1,60 @@
+{
+  "date": "2026-10-29",
+  "method": "B0 union with current-frame low-score boxes associated by pinned Ultralytics ByteTrack implementation",
+  "data_role": "already-observed 300 consecutive IR development frames, no independent test",
+  "baseline": {
+    "tp": 60,
+    "fp": 5,
+    "fn": 240,
+    "precision": 0.9230769230769231,
+    "recall": 0.2
+  },
+  "temporal_union": {
+    "tp": 73,
+    "fp": 5,
+    "fn": 227,
+    "precision": 0.9358974358974359,
+    "recall": 0.24333333333333335
+  },
+  "new_detection_frames": 13,
+  "lost_detection_frames": 0,
+  "additional_current_frame_boxes": 13,
+  "precision_preserved_and_recall_improved_on_this_sequence": true,
+  "config": {
+    "track_high_thresh": 0.25,
+    "track_low_thresh": 0.1,
+    "new_track_thresh": 0.25,
+    "track_buffer": 30,
+    "match_thresh": 0.8,
+    "fuse_score": true
+  },
+  "policy": "retain every B0 score>=.25 box unchanged; add only current low>.1<.25 associated to established activated track; suppress added box if IoU>=.5 against retained/high or earlier added",
+  "causal": true,
+  "predicted_or_coasting_boxes_emitted": false,
+  "GT_used_for_association": false,
+  "parameter_sweep": false,
+  "protocol_frozen_before_prediction": true,
+  "selftest_groups_passed": 7,
+  "all_source_and_GT_rows_verified": true,
+  "matching_recomputed_with_frozen_scorer": true,
+  "same_main_agent_no_second_reviewer": true,
+  "model_inference_reexecuted": false,
+  "training": false,
+  "no_model_import_or_deserialization": true,
+  "implementation": "NumPy-only adapter; AST-selected unmodified tracker/XYAH Kalman/LAPJV definitions, Ultralytics 8.4.184; lap0.5.13; numpy2.5.4; AGPL-3.0 upstream",
+  "protocol_sha256": "e877652545d8ad8a5d6ea230e2dfc9028b78270d633e84b7f763cd45e77fae8d",
+  "source_prediction_sha256": "15212d184b6ba059c65d2837c7693abbdcaceadf14b7cd76bc661fd93004e498",
+  "output_prediction_sha256": "cc9ec23265df590bd2c47c049cb4413a4e327cd0aacca5b27e32b0ccf632e834",
+  "deployment_changed": false,
+  "limitation": "single previously observed positive-target sequence, no independent all-background false alarms/hour, camera-motion and cross-family performance unverified; previous fixed505 single-frame results unchanged",
+  "next_step": "two already-observed held families, fixed first300 consecutive frames each, all existence states retained, same frozen config; not yet acquired/run",
+  "sstnet": {
+    "repository": "https://github.com/UESTC-nnLab/SSTNet",
+    "commit": "12e5ffffd3d6edd21127e08f4d398afac21f86da",
+    "source_audit_complete": true,
+    "author_eval_past4_plus_current": true,
+    "repository_initialization_not_full_trained_checkpoint": true,
+    "full_author_checkpoint_available_locally": false,
+    "inference_run": false
+  }
+}

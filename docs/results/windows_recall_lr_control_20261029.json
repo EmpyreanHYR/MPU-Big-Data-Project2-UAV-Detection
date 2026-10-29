@@ -1,5 +1,5 @@
 {
-  "status": "training_started_not_completed",
+  "status": "training_completed_artifact_retrieval_pending",
   "model": "YOLO26n baseline, complete original B0 initialization",
   "training_data": {
     "original_core": 1438,
@@ -55,11 +55,11 @@
   },
   "selection_policy": "fixed505-only checkpoint+fixed thresholds.25/.10/.05/.01 maxR with precision>=paired originalB0@.25 minus.02; write selection before describing development sequences",
   "limitations": [
-    "Only actual launch and finite training batches observed; no final metrics or improvement established.",
-    "Lower learning rate reducing forgetting is an unproven hypothesis.",
-    "IR300 and previously held200 are already-observed development data,never training or calibration.",
-    "Deployment remains original B0.",
-    "Same primary agent source review; no second reviewer claimed."
+    "20 full training epochs completed; complete local artifact retrieval and new checkpoint pairing still pending.",
+    "Lower LR improved AP50:95 slightly versus the preceding expanded-data run but both remain below originalB0 on the same validation path.",
+    "IR300 and previously held200 are already-observed development data,never training/calibration/selection from them.",
+    "No optimization success or deployment replacement established.",
+    "Same primary-agent source review; no second reviewer claimed."
   ],
   "early_validation": {
     "completed_full_epochs": 1,
@@ -74,5 +74,38 @@
     "AP50": 0.40688,
     "AP50_95": 0.15586,
     "not_final_or_improvement_evidence": true
+  },
+  "completed_training": {
+    "full_epochs": 20,
+    "batches_per_epoch": 655,
+    "all_csv_columns_finite": true,
+    "each_validation_samples": 505,
+    "validation_precision": "FP32",
+    "effective_branch": "one2one",
+    "parameters_bn_unchanged": true,
+    "matmul_tf32": false,
+    "cudnn_tf32": false,
+    "final_best_metrics": {
+      "metrics/precision(B)": 0.61504,
+      "metrics/recall(B)": 0.41141,
+      "metrics/mAP50(B)": 0.46464,
+      "metrics/mAP50-95(B)": 0.1818,
+      "val/box_loss": 2.08069,
+      "val/cls_loss": 2.04626,
+      "val/l1_loss": 0.00129
+    },
+    "best_sha256": "b704878fe85a0b6b5f94da60e6696af0fd933fbf61169a61c6609a3021619d63",
+    "last_sha256": "3f778290554c86c50076a0ab70c6f305f2b96d987bc9e927047d108671c365a6",
+    "original_initialization_retained": true,
+    "training_processes_exited": true
+  },
+  "artifact_preservation": {
+    "archive_bytes": 103342693,
+    "archive_sha256": "454aa6bb8ecf64cc0bbe53468b2bdd53265a071af8f77cfea3b258c64bb734e5",
+    "payload_files": 24,
+    "members": 25,
+    "remote_complete": true,
+    "local_whole_archive_verified": false,
+    "remote_ack_confirmed": false
   }
 }

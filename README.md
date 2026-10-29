@@ -6,6 +6,8 @@
 
 新增[B0＋时序关联对照](docs/results/b0_bytetrack_causal_20261029.md)：已观察IR300开发序列上TP60→73、FP仍5，P/R由92.31%/20.00%变为93.59%/24.33%。首轮只对保存检测框做单配置因果关联。后续[两个录制族连续600帧](docs/results/b0_bytetrack_contiguous_20261029.md)已完成并完整核验：TP仍2、FP22→31，没有达到精确率保持和召回提高要求。仍无独立背景误报证据，部署保持原B0。[SSTNet固定600帧云端推理](docs/results/sstnet_contiguous_20261030.md)已完成并全SHA/逐帧核验：A族96TP/157FP，B族0TP/237FP，合计P19.59%、R16.00%。每族均保持精确率并提高召回的目标未通过，部署仍原B0。
 
+新增[SSTNet Anti-UAV适配训练](docs/results/sstnet_anti_uav_adaptation_20261030.md)：已完成2487个五帧片段的1完整轮次及完整后验证，全部成果核验通过。同525个开发片段上P/R由55.56%/41.90%提高至87.24%/56.00%，两个录制族均改善。原505还未评价新SSTNet，不能把这组开发收益当成已保持原B0精确率，部署默认不变。
+
 ## 内容导航
 
 | 内容 | 位置 | 当前状态 |
@@ -52,7 +54,7 @@ python scripts/train.py --help
 
 SIRST-UAVB 通过显式原始清单、来源组和类别映射处理，支持 YOLO/VOC 框、UAV/bird 分离与跨划分重复检查，见 [数据处理流程](docs/datasets/PREPARATION.md)。实际实包已取得，类别及重复检查完成；当前固定背景视图训练/验证协议见 [数据划分](configs/datasets/sirst_uavb_scene_holdout_v3/README.md)。
 
-训练入口要求 Linux x86_64、单张 RTX 2080 Ti、通过审计的数据、本地权重、带时区的截止时间和最多8小时的单次窗口。Mac和树莓派不进行训练。以下为云端调用示例；实际运行窗口须按剩余授权时间计算：
+训练入口要求 Linux x86_64、单张 RTX 2080 Ti、通过审计的数据、本地权重、带时区的截止时间和最多8小时的单次窗口。Mac和树莓派不进行训练。以下为早期YOLO云端入口的调用示例；当前作业窗口按其独立协议确定：
 
 ```sh
 python scripts/train.py --config configs/experiments/yolo26n_baseline.json \
@@ -60,7 +62,7 @@ python scripts/train.py --config configs/experiments/yolo26n_baseline.json \
   --output outputs/baseline-seed42 --deadline "$JOB_TIMEOUT_ISO8601" --max-hours "$JOB_TIMEOUT_HOURS"
 ```
 
-训练参数中的时间窗口由每次作业的剩余预算和独立超时生成。训练操作按已有授权累计预算安排；平台强停与训练后关机由云端运行管理流程负责。2026-10-25基线限时训练已结束：92完整轮次加部分第93轮，best复验mAP50为56.2%、mAP50:95为23.2%，平台已核验关机。最终best/last已取回并匹配远端及训练结束清单SHA；真实结果及权重保存范围见[基线记录](docs/results/yolo26n_baseline_20261025.md)，下一组比较见[匹配对照协议](docs/experiments/MATCHED92.md)。PConv已完成92轮，最终mAP50为35.8%、mAP50:95为14.1%；验证损失历史检查失败后队列停止，P2未启动。两组非有限验证损失历史见[PConv实测](docs/results/yolo26n_pconv_20261026.md)。后续已完成早期EMA的AMP/FP32回放及FP32验证恢复实测，P2已按新的FP32验证恢复协议完成92轮，全部训练及验证CSV数值有限，最终AP50为47.405%、AP50:95为20.652%，已取回核验并关机；未超过B0独立FP32复验。见[数值诊断](docs/results/numerical_replay_20261028.md)及[P2实测](docs/results/yolo26n_p2_fp32_20261028.md)，比较须披露best选择精度变化。真实IR序列300帧的无梯度FP32参考已完成，P/R为92.31%/20.00%，见[序列记录](docs/results/infrared_fp32_reference_20261028.md)；已完成[FP32/ONNX对照](docs/results/onnx_fp32_parity_20261028.md)和[Pi CPU原JPEG基准](docs/results/pi_onnx_fp32_20261028.md)，300帧路径中位6.580FPS，H10仍处于[准备阶段](docs/deployment/READINESS_20261028.md)。当前进度与下一步见 [PROJECT_STATUS.md](docs/PROJECT_STATUS.md)。
+每次实验保留独立作业超时，运行管理仅处理当前实验进程；服务器开关机遵循最新授权。下文已关机状态均为当时实验的历史记录。2026-10-25基线限时训练已结束：92完整轮次加部分第93轮，best复验mAP50为56.2%、mAP50:95为23.2%，平台已核验关机。最终best/last已取回并匹配远端及训练结束清单SHA；真实结果及权重保存范围见[基线记录](docs/results/yolo26n_baseline_20261025.md)，下一组比较见[匹配对照协议](docs/experiments/MATCHED92.md)。PConv已完成92轮，最终mAP50为35.8%、mAP50:95为14.1%；验证损失历史检查失败后队列停止，P2未启动。两组非有限验证损失历史见[PConv实测](docs/results/yolo26n_pconv_20261026.md)。后续已完成早期EMA的AMP/FP32回放及FP32验证恢复实测，P2已按新的FP32验证恢复协议完成92轮，全部训练及验证CSV数值有限，最终AP50为47.405%、AP50:95为20.652%，已取回核验并关机；未超过B0独立FP32复验。见[数值诊断](docs/results/numerical_replay_20261028.md)及[P2实测](docs/results/yolo26n_p2_fp32_20261028.md)，比较须披露best选择精度变化。真实IR序列300帧的无梯度FP32参考已完成，P/R为92.31%/20.00%，见[序列记录](docs/results/infrared_fp32_reference_20261028.md)；已完成[FP32/ONNX对照](docs/results/onnx_fp32_parity_20261028.md)和[Pi CPU原JPEG基准](docs/results/pi_onnx_fp32_20261028.md)，300帧路径中位6.580FPS，H10仍处于[准备阶段](docs/deployment/READINESS_20261028.md)。当前进度与下一步见 [PROJECT_STATUS.md](docs/PROJECT_STATUS.md)。
 
 ## 提案、报告与引用
 

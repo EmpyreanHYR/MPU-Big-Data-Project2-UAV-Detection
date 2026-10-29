@@ -1,0 +1,154 @@
+{
+  "date": "2026-10-30",
+  "dataset": "Anti-UAV IR train-source adaptation; two-family development validation, 525 real five-frame clips",
+  "source_commit": "12e5ffffd3d6edd21127e08f4d398afac21f86da",
+  "initial_checkpoint_sha256": "a282aa4603ba3bf64cddcfd464e3254e46074d6974422c57c25d4799ab749f0e",
+  "trained_checkpoint_sha256": "2fa724e120fbd87463c99064fdd365b8b06f0371f3fc98d5f3f0e112661e32d7",
+  "derived_manifest_sha256": "1b41a4141debfa729692c84f0f70ec983c412f796232b0fdebe7491eff79c75b",
+  "dataset_source_images_audited": 14215,
+  "training_clips": 2487,
+  "training_positive_clips": 2316,
+  "training_reviewed_background_clips": 171,
+  "development_validation_clips": 525,
+  "completed_epochs": 1,
+  "complete_training_microbatches": 2487,
+  "optimizer_steps": 311,
+  "microbatch_size": 1,
+  "gradient_accumulation": 8,
+  "last_accumulation_denominator": 7,
+  "optimizer": {
+    "name": "AdamW",
+    "lr": 1e-05,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0.0005,
+    "schedule": "constant"
+  },
+  "seed": 42,
+  "precision": "FP32; matmul and cudnn TF32 false",
+  "input": [
+    1,
+    3,
+    5,
+    512,
+    512
+  ],
+  "temporal_input": "past four + current, genuine five-frame clips",
+  "preprocessing": "PIL BICUBIC/ImageNet normalization/actual floor512x409,padtop51/exact inverse/no prediction clamp",
+  "threshold": 0.25,
+  "NMS_IoU": 0.65,
+  "matching_IoU": 0.5,
+  "before": {
+    "3700000000002_153918_1": {
+      "tp": 45,
+      "fp": 79,
+      "fn": 190,
+      "rows": 235,
+      "precision": 0.3629032258064516,
+      "recall": 0.19148936170212766
+    },
+    "3700000000003_101808_1": {
+      "tp": 175,
+      "fp": 97,
+      "fn": 115,
+      "rows": 290,
+      "precision": 0.6433823529411765,
+      "recall": 0.603448275862069
+    },
+    "aggregate": {
+      "tp": 220,
+      "fp": 176,
+      "fn": 305,
+      "rows": 525,
+      "precision": 0.5555555555555556,
+      "recall": 0.41904761904761906
+    }
+  },
+  "after": {
+    "3700000000002_153918_1": {
+      "tp": 91,
+      "fp": 29,
+      "fn": 144,
+      "rows": 235,
+      "precision": 0.7583333333333333,
+      "recall": 0.3872340425531915
+    },
+    "3700000000003_101808_1": {
+      "tp": 203,
+      "fp": 14,
+      "fn": 87,
+      "rows": 290,
+      "precision": 0.9354838709677419,
+      "recall": 0.7
+    },
+    "aggregate": {
+      "tp": 294,
+      "fp": 43,
+      "fn": 231,
+      "rows": 525,
+      "precision": 0.8724035608308606,
+      "recall": 0.56
+    }
+  },
+  "selection": {
+    "selected_case": "epoch1",
+    "precision_floor_initial_SST_by_group": {
+      "3700000000002_153918_1": 0.3629032258064516,
+      "3700000000003_101808_1": 0.6433823529411765,
+      "aggregate": 0.5555555555555556
+    },
+    "selected_groups": {
+      "3700000000002_153918_1": {
+        "tp": 91,
+        "fp": 29,
+        "fn": 144,
+        "rows": 235,
+        "precision": 0.7583333333333333,
+        "recall": 0.3872340425531915
+      },
+      "3700000000003_101808_1": {
+        "tp": 203,
+        "fp": 14,
+        "fn": 87,
+        "rows": 290,
+        "precision": 0.9354838709677419,
+        "recall": 0.7
+      },
+      "aggregate": {
+        "tp": 294,
+        "fp": 43,
+        "fn": 231,
+        "rows": 525,
+        "precision": 0.8724035608308606,
+        "recall": 0.56
+      }
+    },
+    "deployment_B0_changed": false,
+    "original505_strict_gate_not_evaluated": true
+  },
+  "train_loop_seconds": 668.14413189888,
+  "whole_training_job_seconds": 748.0509269237518,
+  "postval_seconds": 74.51518249511719,
+  "training_archive_sha256": "01200dc8b8e66ef58b7c96bd21df7125694f4b355b67913d975808c327b12479",
+  "training_archive_bytes": 81766435,
+  "training_verified_payloads": 26,
+  "postval_archive_sha256": "82055fd2483e98c621251d1a4be65b32bdaf452d78653cf57bd52c9f4d270959",
+  "postval_archive_bytes": 470936,
+  "postval_verified_payloads": 21,
+  "all_SHA_nativeGT_history_order_counts_verified": true,
+  "full415_saved_state_strict_finite_verified": true,
+  "remote_ack_confirmed": true,
+  "already_observed_development_only": true,
+  "prior_YOLO_used_validation_families": true,
+  "DAUB_training_source_overlap_unknown": true,
+  "ten_names_not_ten_proven_independent_scenes": true,
+  "no_independent_test_or_background_FP_hour": true,
+  "strict505_goal_evaluated": false,
+  "strict505_precision_floor": 0.7516556291390728,
+  "strict505_recall_baseline": 0.4623217922606925,
+  "deployment_B0_changed": false,
+  "same_primary_reviewer_no_second_reviewer": true
+}

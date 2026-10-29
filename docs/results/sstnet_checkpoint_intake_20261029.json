@@ -56,8 +56,8 @@
     "independent_guard_and_deployment_chain_ready": false,
     "cloud_booted": false,
     "inference_run": false,
-    "maximum_total_window_seconds": 600,
-    "saving_and_retrieval_reserve_seconds": 180,
-    "actual_runtime_inventory_and_strict_load_pending": true
+    "actual_runtime_inventory_and_strict_load_pending": true,
+    "maximum_inference_job_seconds": 900,
+    "timeout_scope": "this experiment process only"
   }
 }

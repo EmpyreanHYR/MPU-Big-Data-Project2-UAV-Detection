@@ -762,7 +762,8 @@
     ],
     "completed": true,
     "elapsed_seconds": 87.50256490707397,
-    "optimization_success_established": false
+    "optimization_success_established": false,
+    "reserved_families_evaluated_note": "false refers to this initial checkpoint pairing; a later separate fixed two-model reserved-family evaluation is linked above"
   },
   "paired_artifacts": {
     "archive_sha256": "511f88a1968e958bf5c5ace8b084a5e1b4729110e046694173e46ccc21d4cbba",
@@ -781,5 +782,6 @@
     "newly_detected": 130,
     "lost": 3,
     "net_change": 127
-  }
+  },
+  "reserved_followup": "windows_recall_reserved_20261029.json"
 }

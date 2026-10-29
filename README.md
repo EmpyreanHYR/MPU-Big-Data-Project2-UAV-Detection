@@ -2,7 +2,7 @@
 
 本仓库是后续开发的统一维护入口，管理模型代码、配置、数据来源、项目提案、报告与汇报材料。项目以 YOLO26n 为基线，研究浅层 PConv 和高分辨率 P2 分支在红外小目标无人机检测中的作用。
 
-当前优先推进[召回率优化与漏检诊断](docs/experiments/RECALL_OPTIMIZATION_20261028.md)：Windows CUDA微调已完成30轮，训练与验证数值全部有限，成果已取回核验；[同环境配对](docs/results/windows_recall_paired_20261028.md)已完成，新权重尚未达到精确率约束；H10编译后置，Mac和Pi不训练。
+当前优先推进[召回率优化与漏检诊断](docs/experiments/RECALL_OPTIMIZATION_20261028.md)：已完成Windows30轮微调、[扩充数据20轮与配对](docs/results/windows_recall_expanded_20261029.md)、[两保留录制族固定评价](docs/results/windows_recall_reserved_20261029.md)，成果均取回核验。扩充best在IR开发序列召回提高，但原505验证退化、新录制族召回仍低，未替换原部署模型；H10后置，Mac和Pi不训练。
 
 ## 内容导航
 

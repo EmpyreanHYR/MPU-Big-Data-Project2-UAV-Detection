@@ -1,0 +1,187 @@
+{
+  "date": "2026-10-29",
+  "status": "fixed_two_model_evaluation_complete",
+  "training_executed": false,
+  "data": {
+    "positive_images": 200,
+    "images_per_recording_family": 100,
+    "families": [
+      "3700000000003_104005_1",
+      "wg2022_ir_010_split_01"
+    ],
+    "training_or_calibration_used": false,
+    "original505_unchanged": true,
+    "no_independent_test_claim": true,
+    "source_video_independence_proven": false,
+    "zero_exact_duplicates_and_perceptual_review_flags_against4479_prior_references": true,
+    "manual_visual_sample_count": 6,
+    "all200_labels_manually_checked": false,
+    "target_box_geometry": {
+      "3700000000003_104005_1": {
+        "n": 100,
+        "width_median": 8.0,
+        "height_median": 9.0,
+        "width_min": 5,
+        "height_min": 4,
+        "width_max": 25,
+        "height_max": 23
+      },
+      "wg2022_ir_010_split_01": {
+        "n": 100,
+        "width_median": 9.0,
+        "height_median": 6.0,
+        "width_min": 5,
+        "height_min": 3,
+        "width_max": 21,
+        "height_max": 20
+      }
+    },
+    "source_media_or_raw_labels_public": false,
+    "future_role": "observed development/error-analysis evidence, never training/calibration"
+  },
+  "protocol": {
+    "precision": "FP32",
+    "matmul_tf32": false,
+    "cudnn_tf32": false,
+    "branch": "one2one",
+    "nms": false,
+    "imgsz": 640,
+    "batch": 1,
+    "confidence": 0.25,
+    "iou": 0.5,
+    "threshold_or_checkpoint_selection": false,
+    "deployment_default_changed": false
+  },
+  "fixed_models": [
+    {
+      "case": "original_b0",
+      "checkpoint_sha256": "03424275aeab8025a1f210200c1c072fb6f21e74d9948a287fd23d6dc178f7dc",
+      "aggregate": {
+        "tp": 5,
+        "fp": 4,
+        "fn": 195,
+        "images": 200,
+        "precision": 0.5555555555555556,
+        "recall": 0.025,
+        "fp_per_image": 0.02
+      },
+      "per_sequence": {
+        "3700000000003_104005_1": {
+          "tp": 1,
+          "fp": 2,
+          "fn": 99,
+          "images": 100,
+          "precision": 0.3333333333333333,
+          "recall": 0.01,
+          "fp_per_image": 0.02
+        },
+        "wg2022_ir_010_split_01": {
+          "tp": 4,
+          "fp": 2,
+          "fn": 96,
+          "images": 100,
+          "precision": 0.6666666666666666,
+          "recall": 0.04,
+          "fp_per_image": 0.02
+        }
+      },
+      "state_unchanged": true
+    },
+    {
+      "case": "expanded_best",
+      "checkpoint_sha256": "0258721f06c27b54a67d104d3941b7a4748d63356391fb32a891c5603d7dda0a",
+      "aggregate": {
+        "tp": 17,
+        "fp": 11,
+        "fn": 183,
+        "images": 200,
+        "precision": 0.6071428571428571,
+        "recall": 0.085,
+        "fp_per_image": 0.055
+      },
+      "per_sequence": {
+        "3700000000003_104005_1": {
+          "tp": 3,
+          "fp": 6,
+          "fn": 97,
+          "images": 100,
+          "precision": 0.3333333333333333,
+          "recall": 0.03,
+          "fp_per_image": 0.06
+        },
+        "wg2022_ir_010_split_01": {
+          "tp": 14,
+          "fp": 5,
+          "fn": 86,
+          "images": 100,
+          "precision": 0.7368421052631579,
+          "recall": 0.14,
+          "fp_per_image": 0.05
+        }
+      },
+      "state_unchanged": true
+    }
+  ],
+  "miss_categories_at_conf25": {
+    "original_b0": {
+      "per_sequence_categories": {
+        "3700000000003_104005_1": {
+          "low_score_iou05_candidate": 74,
+          "no_iou05_raw_candidate": 25,
+          "detected": 1
+        },
+        "wg2022_ir_010_split_01": {
+          "low_score_iou05_candidate": 76,
+          "no_iou05_raw_candidate": 20,
+          "detected": 4
+        }
+      },
+      "aggregate_categories": {
+        "low_score_iou05_candidate": 150,
+        "no_iou05_raw_candidate": 45,
+        "detected": 5
+      }
+    },
+    "expanded_best": {
+      "per_sequence_categories": {
+        "3700000000003_104005_1": {
+          "low_score_iou05_candidate": 73,
+          "detected": 3,
+          "no_iou05_raw_candidate": 24
+        },
+        "wg2022_ir_010_split_01": {
+          "low_score_iou05_candidate": 59,
+          "no_iou05_raw_candidate": 27,
+          "detected": 14
+        }
+      },
+      "aggregate_categories": {
+        "low_score_iou05_candidate": 132,
+        "detected": 17,
+        "no_iou05_raw_candidate": 51
+      }
+    }
+  },
+  "frame_change": {
+    "newly_detected": 12,
+    "lost": 0
+  },
+  "artifacts": {
+    "archive_sha256": "fc3611264a7fe783f5b42dca7c7dfd6ed3595362106764de6006af68d5fd50e8",
+    "archive_bytes": 347713,
+    "files": 10,
+    "members": 11,
+    "all10members_verified": true,
+    "all400prediction_rows_and_source_GT_verified": true,
+    "both_models_all_fixed_counts_reproduced": true,
+    "all_parameters_BN_unchanged": true,
+    "remote_ack_confirmed": true
+  },
+  "optimization_success_established": false,
+  "limitations": [
+    "Two correlated recording-family samples do not establish broad scene or true-video independence.",
+    "All sampled frames contain annotated targets, so FP per image is not background-only false alarms per hour.",
+    "Low or zero-score raw overlap is not recognition.",
+    "No threshold or checkpoint was tuned on these results; later use is development analysis, not untouched test."
+  ]
+}

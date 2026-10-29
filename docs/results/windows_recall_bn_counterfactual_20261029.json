@@ -1,5 +1,5 @@
 {
-  "status": "inference_completed_exit0_summary_read_back_full_prediction_archive_pending",
+  "status": "inference_completed_full_archive_members_rows_verified_remote_ACK0_confirmed",
   "training_executed": false,
   "calibration_executed": false,
   "loss_executed": false,
@@ -233,9 +233,9 @@
     "payload_files": 11,
     "members": 12,
     "remote_complete": true,
-    "local_whole_archive_verified": false,
-    "all_rows_GT_and_counts_verified": false,
-    "remote_ACK_confirmed": false
+    "local_whole_archive_verified": true,
+    "all_rows_GT_and_counts_verified": true,
+    "remote_ACK_confirmed": true
   },
   "conclusions": {
     "BN_statistics_affect_fixed_parameter_predictions_in_this_counterfactual": true,
@@ -245,9 +245,10 @@
     "deployment": "originalB0 unchanged"
   },
   "limitations": [
-    "Newtwo-case summary read back after successful exit; complete prediction archive/member/row verification still pending.",
+    "Complete archive and all11payload SHA/CRC/paths,2x505GT/order/fourthreshold counts, exact reused references and runtime state-origin assertions verified; accurate archiveSHA ACK0 read back.",
     "No official AP or validation loss computed for artificial hybrids; fixed-threshold counts only.",
     "Artificial mixed states may disrupt learned tensor/statistic coadaptation; result does not isolate every internal cause or prove a training intervention.",
     "Only fixed505 development analysis; no new independent test, IR evaluation or deployable hybrid weight."
-  ]
+  ],
+  "next_step": "SSTNet complete task checkpoint intake and compatibility review; no automatic frozenBN training or extra YOLO epochs"
 }

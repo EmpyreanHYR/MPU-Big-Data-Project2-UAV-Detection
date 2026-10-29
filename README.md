@@ -2,7 +2,7 @@
 
 本仓库是后续开发的统一维护入口，管理模型代码、配置、数据来源、项目提案、报告与汇报材料。项目以 YOLO26n 为基线，研究浅层 PConv 和高分辨率 P2 分支在红外小目标无人机检测中的作用。
 
-当前优先推进[召回率优化与漏检诊断](docs/experiments/RECALL_OPTIMIZATION_20261028.md)：已完成Windows30轮微调、[扩充数据20轮与配对](docs/results/windows_recall_expanded_20261029.md)、[两保留录制族固定评价](docs/results/windows_recall_reserved_20261029.md)，成果均取回核验。扩充best在IR开发序列召回提高，但原505验证退化、新录制族召回仍低，未替换原部署模型；新的[学习率单因素对照](docs/results/windows_recall_lr_control_20261029.md)已完成20轮及7份检查点评价，训练与评价成果已完整取回并逐帧核验；固定505选点仍是原B0，尚未解决原验证集退化。[BN统计反事实](docs/results/windows_recall_bn_counterfactual_20261029.md)的两次推理也已完成，直接换回统计仍有明显误检代价，完整预测包待核验。H10后置，Mac和Pi不训练。
+当前优先推进[召回率优化与漏检诊断](docs/experiments/RECALL_OPTIMIZATION_20261028.md)：已完成Windows30轮微调、[扩充数据20轮与配对](docs/results/windows_recall_expanded_20261029.md)、[两保留录制族固定评价](docs/results/windows_recall_reserved_20261029.md)，成果均取回核验。扩充best在IR开发序列召回提高，但原505验证退化、新录制族召回仍低，未替换原部署模型；新的[学习率单因素对照](docs/results/windows_recall_lr_control_20261029.md)已完成20轮及7份检查点评价，训练与评价成果已完整取回并逐帧核验；固定505选点仍是原B0，尚未解决原验证集退化。[BN统计反事实](docs/results/windows_recall_bn_counterfactual_20261029.md)的两次推理也已完成，完整预测包已取回并逐帧核验，直接换回统计仍有明显误检代价。H10后置，Mac和Pi不训练。
 
 新增[B0＋时序关联对照](docs/results/b0_bytetrack_causal_20261029.md)：已观察IR300开发序列上TP60→73、FP仍5，P/R由92.31%/20.00%变为93.59%/24.33%。首轮只对保存检测框做单配置因果关联。后续[两个录制族连续600帧](docs/results/b0_bytetrack_contiguous_20261029.md)已完成并完整核验：TP仍2、FP22→31，没有达到精确率保持和召回提高要求。仍无独立背景误报证据，部署保持原B0。SSTNet源码审核完成，完整任务权重仍待取得，未执行新模型。
 

@@ -1,0 +1,144 @@
+{
+  "completed": true,
+  "training_executed": false,
+  "calibration": false,
+  "threshold_or_checkpoint_selection": false,
+  "deployment_changed": false,
+  "checkpoint_sha256": "a282aa4603ba3bf64cddcfd464e3254e46074d6974422c57c25d4799ab749f0e",
+  "source_commit": "12e5ffffd3d6edd21127e08f4d398afac21f86da",
+  "protocol_sha256": "b7f027320d56a8a7ae6af78f1aeff09d83ebdbc05839a08e9399762c25ad0e5d",
+  "input_manifest_sha256": "a2b325a33b8313d1d6a2b9e57fbd4bde58c1f00a33c79ad8a32c1b0cffd5a03e",
+  "state_before_sha256": "f454cc47e8f768e70531ec956e6db025a7610f520eb82b00e11d28c82adff1f8",
+  "state_after_sha256": "f454cc47e8f768e70531ec956e6db025a7610f520eb82b00e11d28c82adff1f8",
+  "groups": {
+    "3700000000003_104005_1": {
+      "0.25": {
+        "tp": 96,
+        "fp": 157,
+        "fn": 204,
+        "images": 300,
+        "precision": 0.3794466403162055,
+        "recall": 0.32
+      },
+      "0.5": {
+        "tp": 92,
+        "fp": 129,
+        "fn": 208,
+        "images": 300,
+        "precision": 0.416289592760181,
+        "recall": 0.30666666666666664
+      }
+    },
+    "wg2022_ir_010_split_01": {
+      "0.25": {
+        "tp": 0,
+        "fp": 237,
+        "fn": 300,
+        "images": 300,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "0.5": {
+        "tp": 0,
+        "fp": 167,
+        "fn": 300,
+        "images": 300,
+        "precision": 0.0,
+        "recall": 0.0
+      }
+    },
+    "aggregate": {
+      "0.25": {
+        "tp": 96,
+        "fp": 394,
+        "fn": 504,
+        "images": 600,
+        "precision": 0.19591836734693877,
+        "recall": 0.16
+      },
+      "0.5": {
+        "tp": 92,
+        "fp": 296,
+        "fn": 508,
+        "images": 600,
+        "precision": 0.23711340206185566,
+        "recall": 0.15333333333333332
+      }
+    }
+  },
+  "baseline": {
+    "3700000000003_104005_1": {
+      "tp": 1,
+      "fp": 3,
+      "fn": 299,
+      "images": 300,
+      "precision": 0.25,
+      "recall": 0.0033333333333333335,
+      "fp_per_image": 0.01
+    },
+    "wg2022_ir_010_split_01": {
+      "tp": 1,
+      "fp": 19,
+      "fn": 299,
+      "images": 300,
+      "precision": 0.05,
+      "recall": 0.0033333333333333335,
+      "fp_per_image": 0.06333333333333334
+    },
+    "aggregate": {
+      "tp": 2,
+      "fp": 22,
+      "fn": 598,
+      "images": 600,
+      "precision": 0.08333333333333333,
+      "recall": 0.0033333333333333335,
+      "fp_per_image": 0.03666666666666667
+    }
+  },
+  "strict_goal_per_group": {
+    "3700000000003_104005_1": true,
+    "wg2022_ir_010_split_01": false,
+    "aggregate": true
+  },
+  "strict_goal_all_groups_met": false,
+  "forward_seconds": 22.926491755992174,
+  "elapsed_seconds": 65.2210910320282,
+  "runtime": {
+    "opencv": "4.11.0",
+    "Pillow": "10.3.0",
+    "python": "3.10.8 (main, Nov 24 2022, 14:13:03) [GCC 11.2.0]",
+    "device": "NVIDIA GeForce RTX 2080 Ti",
+    "torch": "2.1.2+cu118",
+    "torchvision": "0.16.2+cu118",
+    "numpy": "1.26.4",
+    "precision": "FP32",
+    "matmul_tf32": false,
+    "cudnn_tf32": false,
+    "input": [
+      1,
+      3,
+      5,
+      512,
+      512
+    ],
+    "letterbox": true,
+    "NMS_IoU": 0.65
+  },
+  "already_observed_development_only": true,
+  "author_training_data_overlap_unknown": true,
+  "reference_runtime_differs_and43subset_parity_only": true,
+  "no_independent_background_FP_hour": true,
+  "date": "2026-10-30",
+  "status": "completed_full_archive_and600_nativeGT_scoring_verified_remote_ACK_confirmed",
+  "archive_sha256": "ebb5610a54d87643ebb24901d8dc102dab3abb2bfebdf2047cea381f9c9e95ca",
+  "archive_bytes": 172076,
+  "verified_payloads": 23,
+  "all600_rows_sourceSHA_nativeGT_causal_history_order_2threshold_counts_verified": true,
+  "complete415_keys_shapes_dtypes_finite_verified": true,
+  "remote_ack_confirmed": true,
+  "same_primary_reviewer_no_second_reviewer": true,
+  "timing_scope": "single run sum of GPU forward calls and whole inference job wall time; not video decode/encode pipeline, Pi or H10 benchmark",
+  "strict505_goal_evaluated": false,
+  "strict505_precision_floor": 0.7516556291390728,
+  "strict505_recall_baseline": 0.4623217922606925
+}

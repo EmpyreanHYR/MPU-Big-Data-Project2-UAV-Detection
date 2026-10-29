@@ -1,6 +1,6 @@
 {
   "date": "2026-10-29",
-  "status": "user_provided_DAUB_checkpoint_static_audit_passed_cloud_migration_runtime_inference_pending",
+  "status": "historical_static_intake_followed_by_completed_cloud600_evaluation",
   "checkpoint_bytes": 88141699,
   "checkpoint_sha256": "a282aa4603ba3bf64cddcfd464e3254e46074d6974422c57c25d4799ab749f0e",
   "ZIP_members": 417,
@@ -11,10 +11,10 @@
   "temporal_neck_and_auxiliary_module_key_prefixes_present": true,
   "no_pickle_function_execution_or_Mac_Torch_model_load": true,
   "author_source_commit": "12e5ffffd3d6edd21127e08f4d398afac21f86da",
-  "complete_runtime_key_shape_dtype_matching": false,
+  "complete_runtime_key_shape_dtype_matching": true,
   "Windows_copy_user_reported": true,
   "Windows_copy_byteSHA_verified": true,
-  "inference_run": false,
+  "inference_run": true,
   "training": false,
   "calibration": false,
   "deployment_changed": false,
@@ -43,21 +43,21 @@
   },
   "protocol_sha256": "b7f027320d56a8a7ae6af78f1aeff09d83ebdbc05839a08e9399762c25ad0e5d",
   "limitations": [
-    "Static keys do not prove exact graph matching or effective detection.",
-    "Author DAUB pretraining data overlap with project sources is unknown.",
-    "Cloud Linux/PyTorch versions require fresh inventory and validation; no current SSTNet runtime result.",
-    "No SSTNet metrics yet; no strict505 or deployable improvement established."
+    "DAUB author training data overlap remains unknown.",
+    "Cloud600 developer evaluation completed; familyB strict goal failed, no deployment change.",
+    "No original505 strict-goal evaluation or independent background FP-hour evidence."
   ],
   "Windows_experiment_execution_authorized": false,
   "future_experiment_execution": "existing authorized cloud only",
   "cloud_migration": {
     "inference_source_initial_compile_passed": true,
     "history_and_scoring_functions_unchanged": true,
-    "independent_guard_and_deployment_chain_ready": false,
-    "cloud_booted": false,
-    "inference_run": false,
-    "actual_runtime_inventory_and_strict_load_pending": true,
+    "independent_guard_and_deployment_chain_ready": true,
+    "inference_run": true,
+    "actual_runtime_inventory_and_strict_load_pending": false,
     "maximum_inference_job_seconds": 900,
-    "timeout_scope": "this experiment process only"
-  }
+    "timeout_scope": "this experiment process only",
+    "cloud_instance_observed_running": true
+  },
+  "latest_result": "sstnet_contiguous_20261030.json"
 }

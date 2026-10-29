@@ -2,7 +2,7 @@
 
 本仓库是后续开发的统一维护入口，管理模型代码、配置、数据来源、项目提案、报告与汇报材料。项目以 YOLO26n 为基线，研究浅层 PConv 和高分辨率 P2 分支在红外小目标无人机检测中的作用。
 
-当前优先推进[召回率优化与漏检诊断](docs/experiments/RECALL_OPTIMIZATION_20261028.md)：已完成Windows30轮微调、[扩充数据20轮与配对](docs/results/windows_recall_expanded_20261029.md)、[两保留录制族固定评价](docs/results/windows_recall_reserved_20261029.md)，成果均取回核验。扩充best在IR开发序列召回提高，但原505验证退化、新录制族召回仍低，未替换原部署模型；新的[学习率单因素对照](docs/results/windows_recall_lr_control_20261029.md)已完成20轮，完整成果取回和检查点配对待完成，尚未解决原验证集退化。H10后置，Mac和Pi不训练。
+当前优先推进[召回率优化与漏检诊断](docs/experiments/RECALL_OPTIMIZATION_20261028.md)：已完成Windows30轮微调、[扩充数据20轮与配对](docs/results/windows_recall_expanded_20261029.md)、[两保留录制族固定评价](docs/results/windows_recall_reserved_20261029.md)，成果均取回核验。扩充best在IR开发序列召回提高，但原505验证退化、新录制族召回仍低，未替换原部署模型；新的[学习率单因素对照](docs/results/windows_recall_lr_control_20261029.md)已完成20轮及7份检查点评价，训练成果已完整核验，评价预测包仍待完整取回核验；固定505选点仍是原B0，尚未解决原验证集退化。H10后置，Mac和Pi不训练。
 
 ## 内容导航
 

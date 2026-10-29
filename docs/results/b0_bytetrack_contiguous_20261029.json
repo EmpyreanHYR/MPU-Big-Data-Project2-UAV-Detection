@@ -1,0 +1,127 @@
+{
+  "date": "2026-10-29",
+  "method": "unchanged B0 union with fixed causal current-frame ByteTrack-associated low-score observations",
+  "data_role": "two previously observed recording families; first300 consecutive frames each; all600 annotated positive; development only",
+  "sequence_A": {
+    "baseline": {
+      "tp": 1,
+      "fp": 3,
+      "fn": 299,
+      "precision": 0.25,
+      "recall": 0.0033333333333333335
+    },
+    "temporal_union": {
+      "tp": 1,
+      "fp": 3,
+      "fn": 299,
+      "precision": 0.25,
+      "recall": 0.0033333333333333335
+    },
+    "precision_preserved_and_recall_improved": false
+  },
+  "sequence_B": {
+    "baseline": {
+      "tp": 1,
+      "fp": 19,
+      "fn": 299,
+      "precision": 0.05,
+      "recall": 0.0033333333333333335
+    },
+    "temporal_union": {
+      "tp": 1,
+      "fp": 28,
+      "fn": 299,
+      "precision": 0.034482758620689655,
+      "recall": 0.0033333333333333335
+    },
+    "precision_preserved_and_recall_improved": false
+  },
+  "aggregate": {
+    "baseline": {
+      "tp": 2,
+      "fp": 22,
+      "fn": 598,
+      "precision": 0.08333333333333333,
+      "recall": 0.0033333333333333335
+    },
+    "temporal_union": {
+      "tp": 2,
+      "fp": 31,
+      "fn": 598,
+      "precision": 0.06060606060606061,
+      "recall": 0.0033333333333333335
+    },
+    "precision_preserved_and_recall_improved": false
+  },
+  "new_detection_frames": 0,
+  "lost_detection_frames": 0,
+  "additional_current_frame_boxes": 9,
+  "additional_TP": 0,
+  "additional_FP_IoU05": 9,
+  "all_added_boxes_IoU_to_annotated_UAV": 0.0,
+  "strict_goal_all_groups_met": false,
+  "config": {
+    "track_high_thresh": 0.25,
+    "track_low_thresh": 0.1,
+    "new_track_thresh": 0.25,
+    "track_buffer": 30,
+    "match_thresh": 0.8,
+    "fuse_score": true
+  },
+  "same_frozen_adapter_as_IR300": true,
+  "reset_at_each_sequence": true,
+  "all_original_high_score_boxes_retained": true,
+  "GT_or_future_used_for_association": false,
+  "coasting_or_predicted_boxes_emitted": false,
+  "parameter_search": false,
+  "training": false,
+  "calibration": false,
+  "deployment_changed": false,
+  "runtime": {
+    "provider": [
+      "CPUExecutionProvider"
+    ],
+    "onnxruntime": "1.23.2",
+    "numpy": "2.2.4",
+    "opencv": "4.12.0",
+    "threads": 1,
+    "nice_increment": 10,
+    "TF32": "not_applicable_CPU"
+  },
+  "runtime_change_disclosed_before_execution": true,
+  "overlap_parity": {
+    "frames": 43,
+    "thresholds": [
+      {
+        "value": 0.1,
+        "strict": true
+      },
+      {
+        "value": 0.25,
+        "strict": false
+      }
+    ],
+    "max_box_error_px": 6.103515625e-05,
+    "max_score_error": 5.066394805908203e-07,
+    "scope": "subset only, not full600 cross-runtime parity"
+  },
+  "verification": {
+    "all603_input_payload_SHA_verified": true,
+    "all600_remote_Pillow_OpenCV_pixel_GT_verified": true,
+    "result_payloads": 23,
+    "all600_nativeGT_sourceSHA_counts_recomputed": true,
+    "independent_single_GT_scalar_IoU_recomputation": true,
+    "archive_remote_SHA_ACK0_readback": true,
+    "own_processes_inactive": true,
+    "same_main_agent_no_second_reviewer": true
+  },
+  "inference_protocol_sha256": "9e580682221a5f48855a161a27c00bfc8009ebd7ae9b778b708e7411695fefbc",
+  "association_protocol_sha256": "3c4b50b3db04aef76206ce44d481fc8a75e8b480d1ccd20051e5e8b62a83c032",
+  "input_manifest_sha256": "a2b325a33b8313d1d6a2b9e57fbd4bde58c1f00a33c79ad8a32c1b0cffd5a03e",
+  "onnx_sha256": "97b802c9a83fee25ae4e0307470ad4de5e086ce17f2ccf49af9bec4d5704c8e4",
+  "source_prediction_sha256": "6bbd3752e5626fe7c59b4b08f04df66865b55838641b7da3ab9f73b7cd411069",
+  "output_prediction_sha256": "ab936f6c767af19b73fea8df0019ea9607fa0bcc8ad536e213c31461d43e5a99",
+  "archive_sha256": "a5c7dd1a1dbc800fb0e12889d03aefe62aa4930349feaed0e67a69f48364fd54",
+  "limitation": "already observed development families; positive-only; no independent test, backgroundFP/hour, fixed505 improvement or controlled speed benchmark; FP object identities unconfirmed",
+  "next_step": "verify complete SSTNet task weights when available; no additional YOLO training or tuning this temporal configuration"
+}

@@ -47,7 +47,7 @@
   "output_prediction_sha256": "cc9ec23265df590bd2c47c049cb4413a4e327cd0aacca5b27e32b0ccf632e834",
   "deployment_changed": false,
   "limitation": "single previously observed positive-target sequence, no independent all-background false alarms/hour, camera-motion and cross-family performance unverified; previous fixed505 single-frame results unchanged",
-  "next_step": "two already-observed held families, fixed first300 consecutive frames each, all existence states retained, same frozen config; not yet acquired/run",
+  "next_step": "follow-up two previously-observed first300 consecutive windows completed; TP2 unchanged, FP22 to31, strict goal failed; see b0_bytetrack_contiguous_20261029.json",
   "sstnet": {
     "repository": "https://github.com/UESTC-nnLab/SSTNet",
     "commit": "12e5ffffd3d6edd21127e08f4d398afac21f86da",

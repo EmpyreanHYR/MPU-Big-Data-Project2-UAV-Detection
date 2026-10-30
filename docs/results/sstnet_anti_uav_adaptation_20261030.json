@@ -146,9 +146,31 @@
   "DAUB_training_source_overlap_unknown": true,
   "ten_names_not_ten_proven_independent_scenes": true,
   "no_independent_test_or_background_FP_hour": true,
-  "strict505_goal_evaluated": false,
+  "strict505_goal_evaluated": true,
   "strict505_precision_floor": 0.7516556291390728,
   "strict505_recall_baseline": 0.4623217922606925,
   "deployment_B0_changed": false,
-  "same_primary_reviewer_no_second_reviewer": true
+  "same_primary_reviewer_no_second_reviewer": true,
+  "subsequent_original505_evaluation": {
+    "result_file": "sstnet_original505_20261030.json",
+    "single_frame_fallback": true,
+    "strict_success": false,
+    "epoch1": {
+      "tp": 5,
+      "fp": 93,
+      "fn": 486,
+      "rows": 505,
+      "precision": 0.05102040816326531,
+      "recall": 0.010183299389002037
+    },
+    "B0": {
+      "tp": 227,
+      "fp": 75,
+      "fn": 264,
+      "rows": 505,
+      "precision": 0.7516556291390728,
+      "recall": 0.4623217922606925
+    },
+    "historical_selection_snapshot_predates_this_evaluation": true
+  }
 }

@@ -10,8 +10,10 @@ requires-python = ">=3.10"
 dependencies = []
 
 [project.optional-dependencies]
-model = ["ultralytics==8.4.184"]
+model = ["ultralytics==8.4.193"]
 data = ["pillow>=10,<14"]
+evaluation = ["numpy>=1.26,<3", "pillow>=10,<14"]
+edge = ["numpy>=1.26,<3", "pillow>=10,<14", "onnxruntime==1.23.2"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

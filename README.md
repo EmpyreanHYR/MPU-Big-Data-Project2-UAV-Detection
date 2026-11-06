@@ -1,85 +1,36 @@
-# MPU Big Data Project 2 · YOLO26 红外无人机检测
+# MPU Big Data Project 2 · YOLO26红外无人机检测
 
-本仓库是后续开发的统一维护入口，管理模型代码、配置、数据来源、项目提案、报告与汇报材料。项目以 YOLO26n 为基线，研究浅层 PConv 和高分辨率 P2 分支在红外小目标无人机检测中的作用。
+最终模型为**PinP2-YOLO（从零初始化100轮）**，部署于树莓派5＋HAILO10H。H10实测部署AP50–95为24.351%、漏检率33.539%、含前后处理22.72FPS，参数量2.516M。
 
-当前优先推进[召回率优化与漏检诊断](docs/experiments/RECALL_OPTIMIZATION_20261028.md)：已完成Windows30轮微调、[扩充数据20轮与配对](docs/results/windows_recall_expanded_20261029.md)、[两保留录制族固定评价](docs/results/windows_recall_reserved_20261029.md)，成果均取回核验。扩充best在IR开发序列召回提高，但原505验证退化、新录制族召回仍低，未替换原部署模型；新的[学习率单因素对照](docs/results/windows_recall_lr_control_20261029.md)已完成20轮及7份检查点评价，训练与评价成果已完整取回并逐帧核验；固定505选点仍是原B0，尚未解决原验证集退化。[BN统计反事实](docs/results/windows_recall_bn_counterfactual_20261029.md)的两次推理也已完成，完整预测包已取回并逐帧核验，直接换回统计仍有明显误检代价。H10后置，Mac和Pi不训练。
+| 内容 | 当前文件 |
+|---|---|
+| 模型配置与实验协议 | [配置导航](configs/README.md) · [实验说明](docs/experiments/README.md) |
+| 最终模型规模与错误分析 | [125／250／500张H10实测与分组结果](docs/results/FINAL_MODEL_SCALING_ERRORS_20261105.md) |
+| 实验分组表格 | [对比／消融／训练比例／边缘部署](docs/results/EXPERIMENT_TABLES_20261105.md) · [细项CSV](docs/results/EDGE_EXTENSION_20261104.csv) · [缺项说明](docs/results/EDGE_EXTENSION_20261104.md) |
+| 最终选型 | [依据与限制](docs/results/FINAL_SELECTION_PCONV_P2_20261104.md) |
+| 实际网络结构 | [PNG](docs/results/figures/final_pconv_p2_20261104.png) · [draw.io](docs/results/figures/final_pconv_p2_20261104.drawio) · [SVG](docs/results/figures/final_pconv_p2_20261104.svg) |
+| 项目状态 | [PROJECT_STATUS.md](docs/PROJECT_STATUS.md) |
+| 评价与边缘推理程序 | [使用说明](scripts/evaluation/README.md) · [部署说明](docs/deployment/README.md) |
+| 数据来源与整理 | [来源](docs/datasets/SOURCES.md) · [处理流程](docs/datasets/PREPARATION.md) |
+| 已提交阶段的提案 | [PDF](docs/proposal/proposal.pdf) · [TeX](docs/proposal/proposal.tex) · [中文稿](docs/proposal/proposal_zh.md) |
+| 模型、数据和实验代码 | [src](src/uav_detection/) · [scripts](scripts/) · [configs](configs/) |
+| 文献与原始模板 | [BibTeX](bibliography/references.bib) · [IEEE原件](templates/ieee/README.md) |
 
-新增[B0＋时序关联对照](docs/results/b0_bytetrack_causal_20261029.md)：已观察IR300开发序列上TP60→73、FP仍5，P/R由92.31%/20.00%变为93.59%/24.33%。首轮只对保存检测框做单配置因果关联。后续[两个录制族连续600帧](docs/results/b0_bytetrack_contiguous_20261029.md)已完成并完整核验：TP仍2、FP22→31，没有达到精确率保持和召回提高要求。仍无独立背景误报证据，部署保持原B0。[SSTNet固定600帧云端推理](docs/results/sstnet_contiguous_20261030.md)已完成并全SHA/逐帧核验：A族96TP/157FP，B族0TP/237FP，合计P19.59%、R16.00%。每族均保持精确率并提高召回的目标未通过，部署仍原B0。
+SIRST-UAVB固定1999张训练、500张验证图像，验证集有486个无人机框。当前主要比较11个从零100轮模型；累计保留17组有效训练、GPU和Pi CPU各17组500图推理，以及60组四源外部评价和三段既有视频演示。7个兼容模型均完成H10真实500图；SIA、SIA＋CSP、MSF和RT-DETR保留当前导出兼容性缺口。
 
-新增[SSTNet Anti-UAV适配训练](docs/results/sstnet_anti_uav_adaptation_20261030.md)：已完成2487个五帧片段的1完整轮次及完整后验证，全部成果核验通过。同525个开发片段上P/R由55.56%/41.90%提高至87.24%/56.00%，两个录制族均改善。随后[原505单帧回退对照](docs/results/sstnet_original505_20261030.md)已完成并全量核验：新SSTNet为5TP/93FP（P5.10%、R1.02%），低于原B0的227TP/75FP（P75.17%、R46.23%），未通过严格目标。该结果不代表真实五帧视频能力，部署默认保持原B0。
+原生训练验证AP与共同部署AP分别报告。H10使用实际量化模型重新评价，不继承FP32精度。最终模型是精度、漏检、参数量和速度的综合取舍；YOLO11n的H10 AP更高、YOLOv8n漏检更低的事实保留。
 
-新增[SSTNet真实连续600帧匹配几何对照](docs/results/sstnet_real600_matched_20261030.md)已完成并完整核验：初始化105TP/385FP，Anti-UAV epoch1为100TP/435FP，合计P/R从21.43%/17.50%变为18.69%/16.67%；两模型在B族均无正确检出，未达到每族精确率保持且召回提高的目标。原505严格失败保持不变，不自动追加训练，继续保留原B0。
+新增训练数据比例实验按25%／50%／100%（500／1000／1999训练图）分别评价，固定使用同500张验证图。100%结果已核验可复用，25%和50%新训练尚未启动，表内明确NR；原125／250／500张H10实验属于推理负载补充。
 
-## 内容导航
+仓库保留当前模型代码、实验配置、适配器来源、数据协议和有效实验记录。原始数据、权重、ONNX/HEF与完整结果包保存在本地项目结果目录，受Git忽略规则保护。Mac只用于文件、文稿和NumPy指标整理；整理操作不运行训练或模型推理。
 
-| 内容 | 位置 | 当前状态 |
-|---|---|---|
-| 模型构建与训练入口 | [src/uav_detection](src/uav_detection/) / [scripts](scripts/) | 三种结构、训练器重建及检查点恢复检查通过 |
-| 实验与数据配置 | [configs](configs/) | 三份实验配置、原始清单和类别映射示例 |
-| 数据集来源与标注 | [SOURCES.md](docs/datasets/SOURCES.md) | 主数据及补充数据说明 |
-| 提案 | [TeX](docs/proposal/proposal.tex) / [PDF](docs/proposal/proposal.pdf) / [中文阅读稿](docs/proposal/proposal_zh.md) | 英文 PDF 2 页 |
-| 报告 | [TeX](docs/report/report.tex) / [PDF](docs/report/report.pdf) / [说明](docs/report/README.md) | 两页，已合并B0/B1/P2实测与数值诊断 |
-| PPT | [12页可编辑PPTX](docs/slides/YOLO26_实验汇报_20261028.pptx) / [讲稿](docs/slides/speaker_notes_zh.md) | 已含B0/B1/P2、数值诊断与IR参考；H10待实测 |
-| 参考文献 | [references.bib](bibliography/references.bib) | 统一 BibTeX 文献源 |
-| 原始 IEEE 模板 | [压缩包](templates/ieee/source.zip) / [说明](templates/ieee/README.md) | 原件及六个成员完整保留 |
-
-## 目录结构
-
-```text
-src/uav_detection/       模型构建、训练配置与训练入口逻辑
-configs/                数据集、模型和实验配置
-scripts/                构建、训练与仓库检查
-bibliography/           统一 BibTeX 文献源
-docs/proposal/          proposal.tex、proposal.pdf 和中文阅读稿
-docs/report/            report.tex 报告框架
-docs/slides/            PPT、讲稿和展示材料
-docs/research/          段落式文献分析
-docs/datasets/          数据来源、标注约定与元数据
-templates/ieee/         原始 ZIP、完整解压模板与哈希清单
-tests/                  模型结构、数据处理与训练运行条件检查
-data/                   本地数据，Git 忽略
-models/                 本地权重和导出模型，Git 忽略
-outputs/                本地实验输出，Git 忽略
-```
-
-## 模型代码
-
-Python 3.10+。模型可选依赖固定为 `ultralytics==8.4.184`，版本信息来自 PyPI；执行环境的 PyTorch/CUDA 版本随云端环境记录。
+代码及数据检查：
 
 ```sh
-python -m pip install -e '.[model]'
-python scripts/build_model.py --help
-python scripts/train.py --help
-```
-
-`scripts/build_model.py --variant baseline|pconv|p2` 构建相应结构，可用 `--weights` 读取本地权重。三份实验配置分别为 `configs/experiments/yolo26n_baseline.json`、`yolo26n_pconv.json`、`yolo26n_p2.json`。具体结构和公共前缀权重迁移策略见 [模型说明](configs/models/README.md)。
-
-SIRST-UAVB 通过显式原始清单、来源组和类别映射处理，支持 YOLO/VOC 框、UAV/bird 分离与跨划分重复检查，见 [数据处理流程](docs/datasets/PREPARATION.md)。实际实包已取得，类别及重复检查完成；当前固定背景视图训练/验证协议见 [数据划分](configs/datasets/sirst_uavb_scene_holdout_v3/README.md)。
-
-训练入口要求 Linux x86_64、单张 RTX 2080 Ti、通过审计的数据、本地权重、带时区的截止时间和最多8小时的单次窗口。Mac和树莓派不进行训练。以下为早期YOLO云端入口的调用示例；当前作业窗口按其独立协议确定：
-
-```sh
-python scripts/train.py --config configs/experiments/yolo26n_baseline.json \
-  --data data/sirst-uavb/prepared/dataset.yaml --weights models/yolo26n.pt \
-  --output outputs/baseline-seed42 --deadline "$JOB_TIMEOUT_ISO8601" --max-hours "$JOB_TIMEOUT_HOURS"
-```
-
-每次实验保留独立作业超时，运行管理仅处理当前实验进程；服务器开关机遵循最新授权。下文已关机状态均为当时实验的历史记录。2026-10-25基线限时训练已结束：92完整轮次加部分第93轮，best复验mAP50为56.2%、mAP50:95为23.2%，平台已核验关机。最终best/last已取回并匹配远端及训练结束清单SHA；真实结果及权重保存范围见[基线记录](docs/results/yolo26n_baseline_20261025.md)，下一组比较见[匹配对照协议](docs/experiments/MATCHED92.md)。PConv已完成92轮，最终mAP50为35.8%、mAP50:95为14.1%；验证损失历史检查失败后队列停止，P2未启动。两组非有限验证损失历史见[PConv实测](docs/results/yolo26n_pconv_20261026.md)。后续已完成早期EMA的AMP/FP32回放及FP32验证恢复实测，P2已按新的FP32验证恢复协议完成92轮，全部训练及验证CSV数值有限，最终AP50为47.405%、AP50:95为20.652%，已取回核验并关机；未超过B0独立FP32复验。见[数值诊断](docs/results/numerical_replay_20261028.md)及[P2实测](docs/results/yolo26n_p2_fp32_20261028.md)，比较须披露best选择精度变化。真实IR序列300帧的无梯度FP32参考已完成，P/R为92.31%/20.00%，见[序列记录](docs/results/infrared_fp32_reference_20261028.md)；已完成[FP32/ONNX对照](docs/results/onnx_fp32_parity_20261028.md)和[Pi CPU原JPEG基准](docs/results/pi_onnx_fp32_20261028.md)，300帧路径中位6.580FPS，H10仍处于[准备阶段](docs/deployment/READINESS_20261028.md)。当前进度与下一步见 [PROJECT_STATUS.md](docs/PROJECT_STATUS.md)。
-
-## 提案、报告与引用
-
-提案和报告均从用户提供 ZIP 中的 `bare_jrnl_new_sample4.tex` 建立。标题、正文和文献接口按项目填写；宏包、IEEEtran 文档类和页眉保持原样；提案与报告使用相同的四位成员姓名和学校信息。每个文档目录可以独立用 LaTeX 编辑器打开；正文直接写在对应的 `proposal.tex` 或 `report.tex` 中。
-
-文献采用 `\cite{key}` 与 `\bibliography{references}`。修改统一文献库后执行：
-
-```sh
-python scripts/build_proposal.py
-python scripts/build_report.py
-python scripts/check_references.py
 python scripts/check_repository.py
 python -m unittest discover -s tests -v
 ```
 
-提案构建使用 pdflatex、BibTeX 与 IEEEtran.bst；中间文件在临时目录生成，文档目录只保留源码和最终 PDF。文档检查不导入模型；完整测试使用 model/data 可选依赖，进行 CPU 随机权重前向、训练器构建/恢复及合成数据检查，不调用训练循环或下载权重。结构检查可通过 `python scripts/verify_models.py --output docs/checks/model_smoke_20261023.json` 记录。
+数据与评价检查使用Pillow/NumPy即可运行。模型集成测试仅在具备依赖的Linux x86_64环境执行，Mac和Pi跳过，不加载模型。边缘推理程序须在对应设备安装运行时，具体参数见其说明。
 
-本地设备、云端账号及运行记录由 `.gitignore` 排除，公开仓库保留模型、数据处理代码和课程文稿。
+课程报告仍在完善，本次仓库整理与更新不包含报告正文、报告PDF、专用图表、文献或构建脚本的改动。仓库已有的阶段文稿保留原版本，不作为当前完成稿。

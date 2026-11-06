@@ -1,9 +1,10 @@
-"""Build all three YOLO26 variants; loading never downloads a checkpoint."""
+"""Build YOLO26 baseline and factorial small-target ablations."""
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-MODEL_FILES = {"baseline": "yolo26n-baseline.yaml", "pconv": "yolo26n-pconv.yaml",
-               "p2": "yolo26n-p2.yaml"}
+MODEL_FILES = {"msf_ghost": "yolo26n-msf-ghost.yaml", "baseline": "yolo26n-baseline.yaml", "pconv": "yolo26n-pconv.yaml",
+               "p2": "yolo26n-p2.yaml", "pconv_p2": "yolo26n-pconv-p2.yaml",
+               "pf_sia": "yolo26n-pf-sia.yaml", "pf_sia_csp": "yolo26n-pf-sia-csp.yaml"}
 
 
 def model_path(variant: str) -> Path:
@@ -22,7 +23,11 @@ def build_detector(variant="baseline", weights: str | Path | None = None):
         if not checkpoint.is_file():
             raise FileNotFoundError(checkpoint)
     from .architecture import UAVYOLO, transfer_shared_prefix
-    detector = UAVYOLO(str(model_path(variant)), task="detect")
+    detector_type = UAVYOLO
+    if variant in {"pf_sia", "pf_sia_csp"}:
+        from .pf_architecture import PFYOLO
+        detector_type = PFYOLO
+    detector = detector_type(str(model_path(variant)), task="detect")
     detector.overrides["nms"] = False
     if checkpoint is not None:
         # The existing local official checkpoint is the only pretrained source.

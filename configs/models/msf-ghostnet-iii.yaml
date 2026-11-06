@@ -1,0 +1,33 @@
+# MSF-GhostNet author MSF-III.ipynb, commit 32100ed6e00da3c2fb98ea25673dd535f9b51d6b.
+# Intended parser: YOLOv5 fbe67e465375231474a2ad80a4389efc77ecff99.
+nc: 1
+depth_multiple: 0.33
+width_multiple: 0.50
+anchors: 3
+backbone:
+  [[-1, 1, Conv, [64, 6, 2, 2]],
+   [-1, 1, GhostConv, [128, 3, 2]],
+   [-1, 3, C3Ghost, [128]],
+   [-1, 1, GhostConv, [256, 3, 2]],
+   [-1, 6, C3Ghost, [256]],
+   [-1, 1, GhostConv, [512, 3, 2]],
+   [-1, 9, C3Ghost, [512]],
+   [-1, 1, GhostConv, [1024, 3, 2]],
+   [-1, 3, C3Ghost, [1024]],
+   [-1, 1, SPPF, [1024, 5]]]
+head:
+  [[-1, 1, GhostConv, [512, 1, 1]],
+   [-1, 1, nn.Upsample, [null, 2, nearest]],
+   [[-1, 6], 1, Concat, [1]],
+   [-1, 3, C3Ghost, [512, false]],
+   [-1, 1, GhostConv, [256, 1, 1]],
+   [-1, 1, nn.Upsample, [null, 2, nearest]],
+   [[-1, 4], 1, Concat, [1]],
+   [-1, 3, C3Ghost, [256, false]],
+   [-1, 1, GhostConv, [256, 3, 2]],
+   [[-1, 14], 1, Concat, [1]],
+   [-1, 3, C3Ghost, [512, false]],
+   [-1, 1, GhostConv, [512, 3, 2]],
+   [[-1, 10], 1, Concat, [1]],
+   [-1, 3, C3Ghost, [1024, false]],
+   [[17, 20, 23], 1, Detect, [nc, anchors]]]

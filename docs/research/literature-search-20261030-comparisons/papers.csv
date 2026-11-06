@@ -1,0 +1,6 @@
+method,year,source,task,decision,remaining_work
+PConv + SD Loss,2025,https://github.com/JN-Yang/PConv-SDloss-Data,infrared small targets with SIRST-UAVB,selected,SD-loss integration into YOLOv8n-P2
+MSF-GhostNet-III,2025,https://github.com/ZeeshanKaleem/MSF-GhostNet,infrared drone detection,selected,separate pinned YOLOv5 environment and training adapter
+YOLO-LIRTU,2026,https://github.com/jinxinhuo/YOLO-LIRTU,infrared UAV detection,excluded for now,missing implementation dependencies
+TY-RIST,2025,https://github.com/moured/TY-RIST,infrared small targets,excluded for now,code requires author access request
+YOLO11-AU-IR,2025,https://github.com/chen-yuzhi/YOLO11-AU-IR,infrared UAV instance segmentation,excluded from box benchmark,task and annotation mismatch

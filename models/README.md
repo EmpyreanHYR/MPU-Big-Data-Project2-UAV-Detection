@@ -1,5 +1,3 @@
-# 模型文件
+# 当前模型入口
 
-本地预训练、训练所得权重及 ONNX/HEF/HAR 放在此目录。每个版本记录来源、配置、SHA256、对应数据清单和实验编号；大文件由 Git 忽略。
-
-代码和结构配置分别位于 [src](../src/uav_detection/) 与 [configs/models](../configs/models/README.md)。
+`trained/yolo26n-pconv-p2-sirst-scratch100-best.pt`指向最终从零100轮组合模型；`deployment`指向该模型经哈希核验的ONNX、HEF、架构和推理程序。`pretrained`保留原始官方初始化权重作为来源。模型数据不纳入Git。

@@ -1,0 +1,30 @@
+{
+  "status": "cloud_cpu_check_passed_and_waiter_started",
+  "experiment": "baseline_coco_pretrained",
+  "queue_position": 11,
+  "initialization": "official COCO yolo26n.pt; GitHub assets v8.4.0 digest and size verified",
+  "compatible_tensors_verified": 696,
+  "cpu_check": {
+    "epochs": 1,
+    "imgsz": 128,
+    "train_images": 2,
+    "val_images": 2,
+    "formal_accuracy_result": false
+  },
+  "formal_training": {
+    "epochs": 150,
+    "imgsz": 640,
+    "batch": 32,
+    "seed": 42,
+    "amp": false,
+    "resume": false,
+    "status": "waiting_previous_ten"
+  },
+  "script_sha256": "66e6fc1f5e6baa0eb487696102e2f042c7c2243094cc5527bba4245d2354d5bb",
+  "checks": [
+    "three pure-Python queue tests",
+    "cloud checkpoint migration and trainer reconstruction",
+    "cloud CPU one-epoch train and best checkpoint validation",
+    "repository references and diff checks"
+  ]
+}

@@ -11,7 +11,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", required=True)
     parser.add_argument("--data", required=True, help="Local dataset YAML")
-    parser.add_argument("--weights", required=True, help="Local official YOLO26n weights")
+    parser.add_argument("--weights", help="Optional local weights; omit for the scratch protocol")
     parser.add_argument("--output", required=True)
     parser.add_argument("--deadline", required=True, help="Per-job budget safety deadline, ISO8601 with timezone")
     parser.add_argument("--max-hours", type=float, required=True)

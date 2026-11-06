@@ -1,0 +1,47 @@
+{
+  "required": 3,
+  "status": "completed",
+  "date": "2026-11-03",
+  "model": "pf_sia_csp",
+  "role": "previously observed development demonstration only",
+  "replay_fps": 25,
+  "original_capture_fps_verified": false,
+  "videos": [
+    {
+      "id": "demo_1",
+      "source_dataset": "Anti-UAV600",
+      "source_sequence": "3700000000003_104005_1",
+      "frames": 300,
+      "source_sha256": "a542c8de310fff76a4fd310d889383d4b7c084701096c09e44919dba0a643ebe",
+      "output_sha256": "02e6ce09bd94e016cc93d063da3ff68bff64cde356fb5e16ad89c3e5e6a0fefa",
+      "pipeline_fps": 36.73547393545904,
+      "status": "completed",
+      "training_or_model_selection_use": false,
+      "independent_test_claim": false
+    },
+    {
+      "id": "demo_2",
+      "source_dataset": "Anti-UAV600",
+      "source_sequence": "wg2022_ir_010_split_01",
+      "frames": 300,
+      "source_sha256": "ce983c5596ad71b9d5a7812fe795914495b0a128e3ee05e31998577e850fdbbe",
+      "output_sha256": "e2d6163973f2877a086a2826b1f4e99029440f814e1c7724088b9ab5f5e6d834",
+      "pipeline_fps": 33.812989434086994,
+      "status": "completed",
+      "training_or_model_selection_use": false,
+      "independent_test_claim": false
+    },
+    {
+      "id": "demo_3",
+      "source_dataset": "Anti-UAV600",
+      "source_sequence": "validation_01_2192",
+      "frames": 300,
+      "source_sha256": "836f96d7046f3ef911969ac9d7c9ecd5e0e80a19ce1701fa77d4b26e34435324",
+      "output_sha256": "8dc2e982ee7dee1e02cdd7ee579d4851cb553361f6f4745f60abc4df7d991d3d",
+      "pipeline_fps": 32.701048701060536,
+      "status": "completed",
+      "training_or_model_selection_use": false,
+      "independent_test_claim": false
+    }
+  ]
+}

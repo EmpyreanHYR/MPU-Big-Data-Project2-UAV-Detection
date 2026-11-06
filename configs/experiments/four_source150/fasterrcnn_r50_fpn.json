@@ -1,0 +1,55 @@
+{
+  "id": "fasterrcnn_r50_fpn",
+  "backend": "torchvision",
+  "initialization": "random",
+  "training": {
+    "epochs": 150,
+    "imgsz": 640,
+    "seed": 42,
+    "pretrained": false,
+    "weights": null,
+    "weights_backbone": null,
+    "resume": false,
+    "workers": 8,
+    "amp": false,
+    "nbs": 32,
+    "optimizer": "AdamW",
+    "weight_decay": 0.0005,
+    "lrf": 0.01,
+    "patience": 0,
+    "dataset_protocol": "four_source_uav_scratch150",
+    "batch": 2,
+    "lr0": 0.001
+  },
+  "model": {
+    "id": "fasterrcnn_r50_fpn",
+    "family": "two-stage RPN + RoI",
+    "backend": "torchvision",
+    "constructor": "fasterrcnn_resnet50_fpn",
+    "constructor_kwargs": {
+      "weights": null,
+      "weights_backbone": null,
+      "num_classes": 2,
+      "min_size": 640,
+      "max_size": 640,
+      "trainable_backbone_layers": 5,
+      "box_score_thresh": 0.001,
+      "box_detections_per_img": 300,
+      "box_nms_thresh": 0.7
+    },
+    "batch": 2,
+    "gradient_accumulation": 16,
+    "lr0": 0.001,
+    "repository": "https://github.com/pytorch/vision",
+    "version": "0.16.2+cu118",
+    "class_id_mapping": {
+      "background": 0,
+      "uav": 1
+    },
+    "status": "cloud_cpu_backward_reload_and_one_epoch_integration_passed",
+    "training_entry": "scripts/train_pending_adapter.py",
+    "recipe_note": "Scratch BatchNorm; letterbox+horizontal flip; no Mosaic/EMA; batch2 accumulation16; family-specific native losses.",
+    "formal_batch_vram_status": "pending_formal_job_start"
+  },
+  "status": "cloud_cpu_backward_reload_and_one_epoch_integration_passed"
+}

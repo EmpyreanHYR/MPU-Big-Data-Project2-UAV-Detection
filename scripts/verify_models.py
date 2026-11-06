@@ -17,13 +17,15 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output",required=True)
     args=parser.parse_args()
+    if platform.system() != "Linux" or platform.machine().lower() not in {"x86_64", "amd64"}:
+        raise RuntimeError("Run model checks only on the authorized cloud host, never on Mac/Pi")
     import torch
     from uav_detection.modeling import build_detector
     torch.set_num_threads(2)
     report={"kind":"random-weight CPU inference, no training", "platform":platform.system(),
             "python":platform.python_version(),"torch":version("torch"),
             "ultralytics":version("ultralytics"),"input_shape":[1,3,640,640],"variants":{}}
-    for name in ("baseline","pconv","p2"):
+    for name in ("baseline","pconv","p2","pconv_p2"):
         torch.manual_seed(42)
         model=build_detector(name).model.cpu().eval()
         with torch.inference_mode():

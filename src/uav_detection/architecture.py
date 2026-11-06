@@ -11,7 +11,7 @@ from ultralytics.models.yolo.detect import DetectionTrainer
 from ultralytics.utils import YAML, RANK
 from .pconv import PConv
 
-PINNED_VERSION = "8.4.184"
+PINNED_VERSION = "8.4.193"
 
 
 def check_backend_version():

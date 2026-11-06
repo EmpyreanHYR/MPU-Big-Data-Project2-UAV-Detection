@@ -1,0 +1,54 @@
+{
+  "date": "2026-10-31",
+  "device": "authorized_cloud_cpu",
+  "formal_training_started_for_these_models": false,
+  "formal_protocol": {
+    "train": 5800,
+    "val": 1450,
+    "test": 2048,
+    "epochs": 150,
+    "imgsz": 640,
+    "seed": 42,
+    "pretrained": false,
+    "resume": false,
+    "amp": false
+  },
+  "checks": {
+    "fasterrcnn_r50_fpn": [
+      "positive_and_negative_backward",
+      "optimizer_step",
+      "checkpoint_exact_reload",
+      "native_nms_and_ap_metrics",
+      "one_epoch_cpu_fixture",
+      "val_csv_and_best_last"
+    ],
+    "pconv_sdloss_yolov8n_p2": [
+      "exact_author_sdiou_forward_and_gradient",
+      "pconv_and_sd_and_dfl_backward",
+      "trainer_rebuild",
+      "checkpoint_exact_outputs",
+      "one_epoch_cpu_fixture",
+      "val_csv_and_best_last"
+    ],
+    "msf_ghostnet_iii": [
+      "notebook_graph_exact_match",
+      "ghost_graph_strides",
+      "native_yolov5_backward_optimizer",
+      "ap95_only_fitness",
+      "nms_and_exact_reload",
+      "one_epoch_cpu_fixture",
+      "val_csv_and_best_last"
+    ]
+  },
+  "limits": [
+    "CPU integration used two train and two validation images at128; not formal results.",
+    "MSF autoanchor disabled only for two-image fixture; formal training retains train-only native autoanchor.",
+    "Formal batch VRAM and throughput unmeasured; errors stop, no fallback.",
+    "Faster augmentation and EMA differ from YOLO native pipelines; family-specific recipes recorded."
+  ],
+  "source_commits": {
+    "PConv-SDloss": "a801f043c83f73aa9af9ab2f689e59ebef928fc4",
+    "MSF": "32100ed6e00da3c2fb98ea25673dd535f9b51d6b",
+    "YOLOv5": "fbe67e465375231474a2ad80a4389efc77ecff99"
+  }
+}

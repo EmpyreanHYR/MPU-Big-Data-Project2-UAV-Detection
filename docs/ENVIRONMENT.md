@@ -1,11 +1,9 @@
-# 环境记录
+# 环境与运行边界
 
-模型代码使用 Python3.10+，可选依赖固定为 `ultralytics==8.4.184`。版本在2026-10-23从 [PyPI官方元数据](https://pypi.org/pypi/ultralytics/json)核对；[YOLO26官方文档](https://docs.ultralytics.com/models/yolo26/)和[配置说明](https://docs.ultralytics.com/usage/cfg/)作为模型及训练参数依据。
+模型代码要求Python3.10+，运行适配器固定为`ultralytics==8.4.193`，与`pyproject.toml`及`architecture.py`一致。`third_party/ultralytics-yolo26.yaml`保留来源标签v8.4.184的原始配置用于结构核对，不改写原件。
 
-云端执行时另存Python、Ultralytics、PyTorch、CUDA、驱动、GPU名称和代码提交号。目前已完成下述本地 CPU 检查，GPU运行环境尚待实际核验。
+已保存的YOLO训练/GPU评价环境为PyTorch2.1.2＋cu118、RTX2080Ti、FP32。MSF-GhostNet使用单独的作者YOLOv5适配环境，附加依赖见[环境配置](../configs/environments/msf-adapter-extra.txt)。模型家族的参数和初始化分组见[实验说明](experiments/README.md)。
 
-训练入口的 `time` 参数提供应用层时间限制；平台强制截止、累计费用/开机时长和训练后关机由云端管理流程执行。仓库整理期间不启动该流程。
+树莓派CPU评价使用ONNX Runtime1.23.2、CPUExecutionProvider和4线程；H10程序需要设备配套的HailoRT Python运行时，不提供CPU替代结果。数据与已保存预测的指标核验只需要Pillow/NumPy，不加载模型。
 
-2026-10-23 更新：本地在 Git 忽略的 `.venv` 安装检查环境并完成 CPU 验证：macOS arm64、Python3.12.14、Ultralytics8.4.184、PyTorch2.14.1、torchvision0.29.1、Pillow13.0.0。新增数据可选依赖 `pillow>=10,<14`。本地仅构建、无梯度前向和临时合成检查点测试，没有训练。实际 GPU/CUDA 环境需另行核验，不能用本地 CPU 检查替代。
-
-训练入口在模型构建前按配置 seed 初始化随机状态，保存实际迁移张量及摘要。三个模型需使用同一经过核验的预训练来源和来源隔离的数据清单。模型适配器严格检查 Ultralytics8.4.184，其他版本应先适配和重新检查。
+Mac仅执行文件、数据、指标和文档检查。模型构建/加载及GPU实验在明确指定的Linux GPU环境执行；Pi只执行设备推理，不训练。此仓库的整理与测试不启动训练、远端设备或历史控制队列。

@@ -1,34 +1,30 @@
-# YOLO26n 模型配置
+# YOLO26模型配置
 
-三个配置固定 `ultralytics==8.4.184`，`nc=1`、`scale=n`、`end2end=true`、`reg_max=1`。来源和许可见 [third_party](../../third_party/README.md)。构建必须经过 `uav_detection.modeling.build_detector`，保留自定义模块和训练器；不要直接用通用 YOLO CLI 读取 PConv 配置。
+主消融使用`ultralytics==8.4.193`、`nc=1`、`scale=n`、`end2end=true`及`reg_max=1`。通过`uav_detection.modeling.build_detector`构建，保留自定义模块和训练器；不使用通用YOLO CLI直接读取PConv配置。
 
-| 变体 | 配置 | 修改位置 | 输出步长 | 完整双头参数量 |
-|---|---|---|---|---|
-| B0 baseline | [yolo26n-baseline.yaml](yolo26n-baseline.yaml) | 官方 n 尺度，单类 | 8/16/32 | 2,504,190 |
-| B1 pconv | [yolo26n-pconv.yaml](yolo26n-pconv.yaml) | 第二个 backbone Conv，层1 | 8/16/32 | 2,504,478 |
-| B2 p2 | [yolo26n-p2.yaml](yolo26n-p2.yaml) | 新增 stride4 路径，Detect 接19/22/25/28 | 4/8/16/32 | 2,515,976 |
+| 变体 | 配置 | 结构变化 | 输出步长 | 参数量 |
+|---|---|---|---|---:|
+| baseline | [yolo26n-baseline.yaml](yolo26n-baseline.yaml) | 原YOLO26n | 8/16/32 | 2,504,190 |
+| pconv | [yolo26n-pconv.yaml](yolo26n-pconv.yaml) | 层1替换为PConv | 8/16/32 | 2,504,478 |
+| p2 | [yolo26n-p2.yaml](yolo26n-p2.yaml) | 增加P2分支 | 4/8/16/32 | 2,515,976 |
+| pconv_p2 / PinP2-YOLO | [yolo26n-pconv-p2.yaml](yolo26n-pconv-p2.yaml) | 浅层PConv与P2组合 | 4/8/16/32 | 2,516,264 |
 
-参数量是 nc=1、融合前、保留 one-to-many 与 one-to-one 的模型构建统计；部署融合后的统计另记。B1、B2 分别与 B0 比较，当前未实现组合变体。
+参数量为nc=1、融合前、保留one-to-many及one-to-one分支的实际结构统计。部署融合后的大小另列。当前匹配从零100轮设置见[配置导航](../README.md)，预训练150轮结果单独保留。
 
-## 构建与模块
+在指定GPU环境安装模型依赖后，可用以下入口检查结构；Mac不运行模型构建或前向：
 
 ```sh
 python -m pip install -e '.[model,data]'
 python scripts/build_model.py --variant baseline
 python scripts/build_model.py --variant pconv
 python scripts/build_model.py --variant p2
+python scripts/build_model.py --variant pconv_p2
 ```
 
-PConv 使用四个不对称补零方向，两个水平方向共享卷积、两个垂直方向共享卷积，再拼接融合。替换层保持下采样倍率及输出通道；输入需满足该层步长整除条件，YOLO 的 stride32 补齐可满足此约束。源码参考作者固定 commit，保留 MIT 许可。
+PConv采用四个非对称补零方向，水平两支共享卷积、垂直两支共享卷积，再拼接融合。替换层保持输出通道和下采样倍率。P2在公共前缀后增加高分辨率融合路径，Detect连接19/22/25/28层。自定义训练器从模型YAML恢复PConv/P2结构，不修改Ultralytics全局parser。
 
-适配器先用版本固定的官方 parser 构建通道和图，再按 `pconv_layers` 元数据替换层1。`UAVDetectionTrainer.get_model` 会从保存的 YAML 恢复该替换，避免训练器重建时丢失 PConv。没有修改 Ultralytics 全局 parser。检查点恢复使用 `UAVYOLO`，且需安装本仓库 Python 包，才能反序列化自定义类。
+当前从零100轮协议不传入权重，`pretrained=false`，不恢复其他实验检查点。显式传入本地权重时，通用适配器只迁移0—16层的同名同形参数；替换的PConv层跳过，分叉后路径重新初始化，不能称为完整COCO迁移。历史预训练基准的完整兼容加载与改进模型的公共前缀策略分别记录。
 
-P2 在原0–16层公共图之后，从浅层2接入 P2 融合路径，再回到 P3/P4/P5，保留 YOLO26 双头结构。适配器显式启用端到端预测，`nms=False`；三种模型使用相同输出分支。
+另外保留[SIA](yolo26n-pf-sia.yaml)、[SIA＋CSP](yolo26n-pf-sia-csp.yaml)的PF启发适配；它们是YOLO中的局部迁移，不是完整PF-RPN。[msf_ghost](yolo26n-msf-ghost.yaml)是未形成有效完成训练的支线配置，不计入17组完成记录。兼容性和实测结果见[当前对比](../../docs/results/EDGE_EXTENSION_20261104.md)。
 
-## 初始化与训练入口
-
-`--weights` 仅接受已有本地 YOLO26 检查点，不自动下载。三种条件采用同一迁移策略：只拷贝层0–16的同名同形张量；PConv 的层1跳过；层17及之后的预测路径均重新初始化。这防止 P2 层编号移动后意外加载形状相同但语义不同的张量。不能据此称全部 COCO 权重都已加载。迁移明细、数据清单与权重摘要写入 `initialization.json`。
-
-三份实验配置位于 [configs/experiments](../experiments/)。云端调用示例见 [README](../../README.md)，本地构建及测试均不训练。训练器会保留已迁移的模型参数，按相同自定义类重建；测试覆盖此过程和检查点恢复。
-
-CPU 随机权重前向检查使用640×640输入（单元测试另含128×128、128×160），结果见 [model_smoke_20261023.json](../../docs/checks/model_smoke_20261023.json)。它只验证结构、步长和有限输出，不代表模型检测能力、GPU训练兼容或H10可部署性。
+保留的[早期结构检查](../../docs/checks/model_smoke_20261023.json)只证明对应版本的结构和有限输出，不代表检测精度或H10可部署性。来源、固定提交及许可见[third_party](../../third_party/README.md)。

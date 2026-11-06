@@ -1,0 +1,433 @@
+{
+  "device_order": [
+    "GPU",
+    "Pi CPU",
+    "Pi H10"
+  ],
+  "missing_codes": {
+    "E1": "Current raw-head export / numerical-or-decoding verification gate not passed; no validated own-weight HEF device result.",
+    "E2": "Current validated H10 raw-head export adapter does not cover RT-DETR; no own-weight HEF device result.",
+    "NR": "Not run or measured in the stated experiment; not zero.",
+    "NA": "Metric is not defined for this stratum."
+  },
+  "tables": {
+    "comparison": {
+      "header": [
+        "Model",
+        "Params M",
+        "P%",
+        "R%",
+        "F1%",
+        "AP50%",
+        "AP95%"
+      ],
+      "rows": [
+        [
+          "YOLO26n",
+          "2.504",
+          "71.32",
+          "60.39",
+          "65.40",
+          "65.76",
+          "27.95"
+        ],
+        [
+          "YOLO11n",
+          "2.590",
+          "80.26",
+          "65.23",
+          "71.97",
+          "68.14",
+          "27.04"
+        ],
+        [
+          "YOLOv8n",
+          "3.011",
+          "83.82",
+          "66.08",
+          "73.90",
+          "71.43",
+          "26.63"
+        ],
+        [
+          "PConv + SD (YOLOv8n-P2)",
+          "2.928",
+          "84.13",
+          "70.17",
+          "76.52",
+          "76.58",
+          "32.93"
+        ],
+        [
+          "MSF-GhostNet-III",
+          "3.685",
+          "85.19",
+          "66.46",
+          "74.67",
+          "71.16",
+          "27.34"
+        ],
+        [
+          "RT-DETR-L",
+          "32.808",
+          "79.17",
+          "62.55",
+          "69.88",
+          "68.77",
+          "27.49"
+        ],
+        [
+          "YOLO26n + SIA",
+          "2.523",
+          "73.86",
+          "53.29",
+          "61.91",
+          "60.42",
+          "24.88"
+        ],
+        [
+          "YOLO26n + SIA + CSP",
+          "2.523",
+          "79.03",
+          "58.23",
+          "67.05",
+          "66.91",
+          "28.58"
+        ],
+        [
+          "PinP2-YOLO",
+          "2.516",
+          "82.49",
+          "62.03",
+          "70.81",
+          "69.61",
+          "31.27"
+        ]
+      ]
+    },
+    "ablation": {
+      "header": [
+        "Config",
+        "PConv",
+        "P2",
+        "Batch",
+        "Params M",
+        "P%",
+        "R%",
+        "F1%",
+        "AP50%",
+        "AP95%",
+        "Delta AP95 pp"
+      ],
+      "rows": [
+        [
+          "B0",
+          "0",
+          "0",
+          "32",
+          "2.504",
+          "71.32",
+          "60.39",
+          "65.40",
+          "65.76",
+          "27.95",
+          "+0.000"
+        ],
+        [
+          "B1",
+          "1",
+          "0",
+          "32",
+          "2.504",
+          "71.16",
+          "56.79",
+          "63.17",
+          "61.85",
+          "24.38",
+          "-3.571"
+        ],
+        [
+          "B3",
+          "1",
+          "1",
+          "8",
+          "2.516",
+          "82.49",
+          "62.03",
+          "70.81",
+          "69.61",
+          "31.27",
+          "+3.322"
+        ],
+        [
+          "B2",
+          "0",
+          "1",
+          "8",
+          "2.516",
+          "78.61",
+          "64.20",
+          "70.67",
+          "69.13",
+          "29.98",
+          "+2.023"
+        ]
+      ]
+    },
+    "training_ratio": {
+      "header": [
+        "Train fraction",
+        "Train images",
+        "P%",
+        "R%",
+        "F1%",
+        "AP50%",
+        "AP95%",
+        "GPU AP95/Miss%",
+        "Status"
+      ],
+      "rows": [
+        [
+          "25\\%",
+          "500",
+          "NR",
+          "NR",
+          "NR",
+          "NR",
+          "NR",
+          "NR",
+          "NR"
+        ],
+        [
+          "50\\%",
+          "1000",
+          "NR",
+          "NR",
+          "NR",
+          "NR",
+          "NR",
+          "NR",
+          "NR"
+        ],
+        [
+          "100\\%",
+          "1999",
+          "82.49",
+          "62.03",
+          "70.81",
+          "69.61",
+          "31.27",
+          "25.19/32.51",
+          "Reused"
+        ]
+      ]
+    },
+    "edge": {
+      "header": [
+        "Model",
+        "Params M",
+        "AP95 G/P/H%",
+        "Miss G/P/H%",
+        "FPS G/P/H",
+        "Size ONNX/HEF MiB",
+        "RSS PiCPU/H10 MiB"
+      ],
+      "rows": [
+        [
+          "YOLO26n",
+          "2.504",
+          "20.84/20.84/15.20",
+          "36.21/36.21/35.39",
+          "47.38/6.51/30.06",
+          "9.32/4.92",
+          "165.9/85.3"
+        ],
+        [
+          "YOLO11n",
+          "2.590",
+          "27.37/27.37/26.07",
+          "32.10/32.10/34.36",
+          "53.01/5.68/18.54",
+          "10.09/4.91",
+          "163.5/84.2"
+        ],
+        [
+          "YOLOv8n",
+          "3.011",
+          "25.63/25.63/24.81",
+          "30.86/30.86/30.45",
+          "64.22/5.53/18.85",
+          "11.69/4.57",
+          "149.0/85.4"
+        ],
+        [
+          "YOLO26n + PConv",
+          "2.504",
+          "17.46/17.46/15.32",
+          "40.74/40.74/45.88",
+          "46.54/6.08/27.82",
+          "9.35/3.69",
+          "164.5/83.0"
+        ],
+        [
+          "YOLO26n + P2",
+          "2.516",
+          "20.94/20.94/17.73",
+          "31.69/31.69/33.13",
+          "39.95/4.35/24.54",
+          "9.93/4.86",
+          "250.4/87.9"
+        ],
+        [
+          "PinP2-YOLO",
+          "2.516",
+          "25.19/25.19/24.35",
+          "32.51/32.51/33.54",
+          "38.59/4.13/22.72",
+          "9.96/4.02",
+          "250.4/86.3"
+        ],
+        [
+          "YOLO26n + SIA",
+          "2.523",
+          "18.56/18.56/E1",
+          "40.95/40.95/E1",
+          "38.26/6.07/E1",
+          "9.46/E1",
+          "166.4/E1"
+        ],
+        [
+          "YOLO26n + SIA + CSP",
+          "2.523",
+          "22.20/22.20/E1",
+          "36.42/36.42/E1",
+          "31.00/6.02/E1",
+          "9.50/E1",
+          "167.4/E1"
+        ],
+        [
+          "PConv + SD (YOLOv8n-P2)",
+          "2.928",
+          "28.24/28.24/18.13",
+          "26.95/26.95/26.75",
+          "56.24/2.90/7.17",
+          "11.90/4.45",
+          "218.0/108.7"
+        ],
+        [
+          "MSF-GhostNet-III",
+          "3.685",
+          "20.80/20.80/E1",
+          "27.57/27.57/E1",
+          "46.86/4.22/E1",
+          "14.53/E1",
+          "189.9/E1"
+        ],
+        [
+          "RT-DETR-L",
+          "32.808",
+          "8.88/8.88/E2",
+          "26.95/26.95/E2",
+          "18.81/0.57/E2",
+          "125.66/E2",
+          "525.6/E2"
+        ]
+      ]
+    }
+  },
+  "historical_records": [
+    {
+      "model": "baseline",
+      "group": "pretrained150",
+      "epochs": 150,
+      "native_metrics": {
+        "Precision": 0.88054,
+        "Recall": 0.71605,
+        "F1": 0.7898216411226425,
+        "mAP50": 0.77342,
+        "mAP50_95": 0.33473
+      },
+      "GPU500": "completed",
+      "PiCPU500": "completed",
+      "H10": "NR: outside current scratch100 H10 comparison"
+    },
+    {
+      "model": "pconv",
+      "group": "pretrained150",
+      "epochs": 150,
+      "native_metrics": {
+        "Precision": 0.80795,
+        "Recall": 0.6893,
+        "F1": 0.7439237735849057,
+        "mAP50": 0.76106,
+        "mAP50_95": 0.32072
+      },
+      "GPU500": "completed",
+      "PiCPU500": "completed",
+      "H10": "NR: outside current scratch100 H10 comparison"
+    },
+    {
+      "model": "p2",
+      "group": "pretrained150",
+      "epochs": 150,
+      "native_metrics": {
+        "Precision": 0.83716,
+        "Recall": 0.70165,
+        "F1": 0.7634383894047999,
+        "mAP50": 0.74677,
+        "mAP50_95": 0.32822
+      },
+      "GPU500": "completed",
+      "PiCPU500": "completed",
+      "H10": "NR: outside current scratch100 H10 comparison"
+    },
+    {
+      "model": "pconv_p2",
+      "group": "pretrained150",
+      "epochs": 150,
+      "native_metrics": {
+        "Precision": 0.79524,
+        "Recall": 0.70576,
+        "F1": 0.7478328879413725,
+        "mAP50": 0.74424,
+        "mAP50_95": 0.31735
+      },
+      "GPU500": "completed",
+      "PiCPU500": "completed",
+      "H10": "NR: outside current scratch100 H10 comparison"
+    },
+    {
+      "model": "yolo11n",
+      "group": "scratch",
+      "epochs": 150,
+      "native_metrics": {
+        "Precision": 0.80074,
+        "Recall": 0.68313,
+        "F1": 0.7372741765788109,
+        "mAP50": 0.70939,
+        "mAP50_95": 0.29593
+      },
+      "GPU500": "completed",
+      "PiCPU500": "completed",
+      "H10": "NR: outside current scratch100 H10 comparison"
+    },
+    {
+      "model": "yolov8n",
+      "group": "scratch",
+      "epochs": 150,
+      "native_metrics": {
+        "Precision": 0.76223,
+        "Recall": 0.65964,
+        "F1": 0.7072339907305167,
+        "mAP50": 0.68625,
+        "mAP50_95": 0.26371
+      },
+      "GPU500": "completed",
+      "PiCPU500": "completed",
+      "H10": "NR: outside current scratch100 H10 comparison"
+    }
+  ],
+  "current_completed_models": 11,
+  "training_ratio_new_status": "pending",
+  "note": "Inference125/250/500 and training25/50/100% are distinct experiments; native and deployment metrics are not interchangeable."
+}

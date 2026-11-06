@@ -1,0 +1,157 @@
+{
+  "id": "four_source_uav_scratch150",
+  "recorded_date": "2026-10-30",
+  "state": "serial_running",
+  "task": "infrared_uav_bounding_box_detection",
+  "class_names": {
+    "0": "uav"
+  },
+  "train_validation": {
+    "datasets": [
+      "SIRST-UAVB",
+      "UAV-CB",
+      "Tri-Modal Anti-UAV",
+      "AUVD-Seg300"
+    ],
+    "ratio": [
+      8,
+      2
+    ],
+    "seed": 42,
+    "unit": "source_video_or_capture_group",
+    "deduplicate_before_split": true,
+    "keep_bird_only_images_as_negatives": true,
+    "actual_counts": {
+      "train": 5800,
+      "val": 1450,
+      "by_source": {
+        "SIRST-UAVB": [
+          2008,
+          491
+        ],
+        "UAV-CB": [
+          2702,
+          689
+        ],
+        "Tri-Modal Anti-UAV": [
+          850,
+          210
+        ],
+        "AUVD-Seg300": [
+          240,
+          60
+        ]
+      }
+    },
+    "require_complete_upload_and_audit": true,
+    "preliminary_candidate_counts": {
+      "SIRST-UAVB": 2499,
+      "UAV-CB": 3391,
+      "Tri-Modal Anti-UAV": 1060,
+      "AUVD-Seg300": 300
+    }
+  },
+  "test": {
+    "requested_dataset": "Anti-UAV-detection",
+    "repository": "https://github.com/SSDIC-CV/Anti-UAV-detection",
+    "source_benchmark": "Anti-UAV410",
+    "role": "external_infrared_uav_detection_test",
+    "annotation": "native YOLO boxes converted from IR_label.json; class0 drone mapped to uav",
+    "file_selection": "repository root JPG/TXT pairs only; exclude TransFuse arrays and generated masks",
+    "use_entire_selected_dataset_as_test": true,
+    "respect_filename_train_val_test_as_source_provenance_only": true,
+    "in_training": false,
+    "used_for_checkpoint_selection": false,
+    "uav_identity": "native drone annotations audited",
+    "report_as_uav_accuracy_after_audit": true,
+    "expected_images_from_readme": 2050,
+    "expected_source_sequences_from_readme": 410,
+    "actual_counts": {
+      "images": 2048,
+      "boxes": 2017,
+      "negative_images": 31,
+      "source_images": 2050,
+      "quarantined_invalid_annotations": 2
+    },
+    "status": "prepared_and_hash_verified",
+    "keep_empty_labels_as_negatives": true,
+    "require_cross_source_exact_and_near_duplicate_audit": true,
+    "require_source_sequence_disjoint_from_train_validation": true,
+    "overlap_resolution": "keep test fixed; exclude all matching source-sequence groups from train/validation before 8:2 split",
+    "semantic_resolution": "user_replaced_irstd_with_anti_uav_detection",
+    "excluded_datasets": [
+      "IRSTD-1k"
+    ],
+    "local_original_audit_counts": {
+      "images": 2050,
+      "boxes": 2019,
+      "negative_images": 31
+    }
+  },
+  "training": {
+    "epochs": 150,
+    "pretrained": false,
+    "backbone_pretrained": false,
+    "resume": false,
+    "imgsz": 640,
+    "seed": 42,
+    "amp": false,
+    "automatic_batch_fallback": false,
+    "checkpoint_selection": "validation_box_map_50_95"
+  },
+  "videos": {
+    "required": 3,
+    "selection": "held-out infrared UAV sequences: small distant UAV, clutter/bird distractors, UAV entering/leaving frame",
+    "status": "waiting_for_original_files",
+    "exclude_source_groups_from_train_validation": true,
+    "manufacture_videos_from_still_images": false
+  },
+  "authorization": {
+    "configure_models": true,
+    "search_repositories": true,
+    "start_training": true,
+    "auto_resume": false,
+    "user_instruction": "完成数据集整理就可以开启串行实验了"
+  },
+  "data_intake": {
+    "required_ir_payload_verified_on_cloud": true,
+    "repaired_payload_files": 13006,
+    "repaired_payload_sha256": "11377fc4874937c20abfffea61a73ddaf31c7e6ad8fedefbb0253c3bb20730d9",
+    "original_partial_archives_preserved": true
+  },
+  "prepared_export_id": "IR-UAV-DET-20261030-v1",
+  "prepared_export_zip_sha256": "2d9000e6a4465f082d345c355d1031201feff23fa5636582d9fb0b5cdf655ed",
+  "grouping_limitation": "No verified original video IDs for every source; inferred groups and fixed near-identical screening passed; full video/location independence is not established.",
+  "execution": {
+    "id": "IR-UAV-EXP-20261030-scratch150",
+    "current_job_observed": "baseline",
+    "observed_epoch": 1,
+    "jobs": [
+      "baseline",
+      "pconv",
+      "p2",
+      "pconv_p2",
+      "yolo11n",
+      "yolov8n",
+      "rtdetr_l"
+    ],
+    "pending_adapters": [],
+    "max_job_seconds": 86400,
+    "retry": false,
+    "batch_fallback": false,
+    "continuation": {
+      "id": "IR-UAV-PENDING-EXP-20261031-scratch150",
+      "models": [
+        "fasterrcnn_r50_fpn",
+        "pconv_sdloss_yolov8n_p2",
+        "msf_ghostnet_iii"
+      ],
+      "status": "validated_waiting_existing_queue",
+      "checks": "cloud_cpu_backward_reload_one_epoch",
+      "formal_batch_vram": "pending_job_start",
+      "pretrained": false,
+      "resume": false,
+      "epochs": 150
+    }
+  }
+}

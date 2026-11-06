@@ -1,6 +1,7 @@
 """CPU construction/inference tests only: no loss, backward, optimizer or training."""
 import importlib.util
 import os
+import platform
 from pathlib import Path
 import sys
 import tempfile
@@ -12,7 +13,8 @@ sys.path.insert(0, str(ROOT/"src"))
 os.environ.setdefault("YOLO_AUTOINSTALL", "false")
 os.environ.setdefault("YOLO_CONFIG_DIR", str(ROOT/".venv/yolo-settings"))
 os.environ.setdefault("MPLCONFIGDIR", str(ROOT/".venv/matplotlib"))
-AVAILABLE = all(importlib.util.find_spec(name) for name in ("torch", "ultralytics"))
+AVAILABLE = (platform.system() == "Linux" and platform.machine().lower() in {"x86_64", "amd64"}
+             and all(importlib.util.find_spec(name) for name in ("torch", "ultralytics")))
 
 
 @unittest.skipUnless(AVAILABLE, "Install the model optional dependency for CPU integration checks")
@@ -25,7 +27,8 @@ class ModelIntegration(unittest.TestCase):
     def test_shapes_and_no_state_updates(self):
         import torch
         from uav_detection.modeling import build_detector
-        for variant, expected in [("baseline", [8,16,32]), ("pconv", [8,16,32]), ("p2", [4,8,16,32])]:
+        for variant, expected in [("baseline", [8,16,32]), ("pconv", [8,16,32]),
+                                  ("p2", [4,8,16,32]), ("pconv_p2", [4,8,16,32])]:
             with self.subTest(variant=variant):
                 model = build_detector(variant).model.cpu().eval()
                 self.assertEqual(model.stride.tolist(), expected)
@@ -61,7 +64,7 @@ class ModelIntegration(unittest.TestCase):
         from uav_detection.modeling import build_detector
         from uav_detection.architecture import UAVDetectionTrainer
         from uav_detection.pconv import PConv
-        original = build_detector("pconv").model
+        original = build_detector("pconv_p2").model
         original.names = {0:"uav"}
         with torch.no_grad():
             original.model[1].horizontal.conv.weight.fill_(0.125)
@@ -73,6 +76,7 @@ class ModelIntegration(unittest.TestCase):
         self.assertTrue(torch.equal(rebuilt.model[1].horizontal.conv.weight,
                                     original.model[1].horizontal.conv.weight))
         self.assertTrue(rebuilt.end2end)
+        self.assertEqual(rebuilt.stride.tolist(), [4,8,16,32])
 
     def test_transfer_excludes_reindexed_heads(self):
         import torch

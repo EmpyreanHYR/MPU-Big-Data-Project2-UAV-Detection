@@ -1,0 +1,38 @@
+{
+  "id": "rtdetr_l",
+  "backend": "ultralytics",
+  "initialization": "random",
+  "training": {
+    "epochs": 150,
+    "imgsz": 640,
+    "seed": 42,
+    "pretrained": false,
+    "weights": null,
+    "weights_backbone": null,
+    "resume": false,
+    "workers": 8,
+    "amp": false,
+    "nbs": 32,
+    "optimizer": "AdamW",
+    "weight_decay": 0.0005,
+    "lrf": 0.01,
+    "patience": 0,
+    "dataset_protocol": "four_source_uav_scratch150",
+    "batch": 4,
+    "lr0": 0.0001
+  },
+  "model": {
+    "id": "rtdetr_l",
+    "family": "Transformer set prediction",
+    "backend": "ultralytics",
+    "constructor": "RTDETR",
+    "model": "rtdetr-l.yaml",
+    "batch": 4,
+    "lr0": 0.0001,
+    "repository": "https://github.com/lyuwenyu/RT-DETR",
+    "implementation_repository": "https://github.com/ultralytics/ultralytics",
+    "version": "8.4.193",
+    "status": "cloud_scratch_constructor_passed"
+  },
+  "status": "cloud_scratch_constructor_passed"
+}

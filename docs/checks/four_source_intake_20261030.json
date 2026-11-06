@@ -1,0 +1,50 @@
+{
+  "stage": "preliminary_local_original_archive_audit",
+  "training_started": false,
+  "selection": "infrared only; native labels preserved",
+  "candidate_training_pool": {
+    "SIRST-UAVB": {
+      "candidate_images_after_exact_dedup_and_conflict_quarantine": 2499,
+      "uav_boxes_or_polygons": 2466,
+      "uav_negative_images": 35
+    },
+    "UAV-CB": {
+      "candidate_images_after_exact_dedup_and_conflict_quarantine": 3391,
+      "uav_boxes_or_polygons": 3391,
+      "uav_negative_images": 0
+    },
+    "Tri-Modal Anti-UAV": {
+      "candidate_images_after_exact_dedup_and_conflict_quarantine": 1060,
+      "uav_boxes_or_polygons": 2602,
+      "uav_negative_images": 0
+    },
+    "AUVD-Seg300": {
+      "candidate_images_after_exact_dedup_and_conflict_quarantine": 300,
+      "uav_boxes_or_polygons": 300,
+      "uav_negative_images": 0
+    }
+  },
+  "test": {
+    "dataset": "Anti-UAV-detection",
+    "images": 2050,
+    "boxes": 2019,
+    "negative_images": 31
+  },
+  "cross_dataset_exact_pixel_duplicate_clusters": 0,
+  "duplicate_annotation_conflicts": {
+    "SIRST-UAVB": 3,
+    "UAV-CB": 1
+  },
+  "limits": [
+    "Counts precede source-sequence/near-duplicate review and final 8:2 assignment.",
+    "dHash similarity alone is not a duplicate criterion for uniform thermal backgrounds.",
+    "YOLO segmentation polygons and LabelMe rectangles still require unified bbox export."
+  ],
+  "cloud_transfer": {
+    "parts_verified": 62,
+    "files_verified": 13006,
+    "archive_sha256": "11377fc4874937c20abfffea61a73ddaf31c7e6ad8fedefbb0253c3bb20730d9",
+    "complete": true,
+    "original_partial_uploads_preserved": true
+  }
+}

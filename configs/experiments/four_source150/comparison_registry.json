@@ -1,0 +1,149 @@
+{
+  "protocol": "four_source_uav_scratch150",
+  "common": {
+    "epochs": 150,
+    "imgsz": 640,
+    "seed": 42,
+    "pretrained": false,
+    "weights": null,
+    "weights_backbone": null,
+    "resume": false,
+    "workers": 8,
+    "amp": false,
+    "nbs": 32,
+    "optimizer": "AdamW",
+    "weight_decay": 0.0005,
+    "lrf": 0.01,
+    "patience": 0,
+    "dataset_protocol": "four_source_uav_scratch150"
+  },
+  "models": [
+    {
+      "id": "yolo26n",
+      "family": "YOLO26 end-to-end",
+      "backend": "uav_adapter",
+      "variant": "baseline",
+      "config": "configs/experiments/four_source150/baseline.json",
+      "repository": "https://github.com/ultralytics/ultralytics",
+      "version": "8.4.193",
+      "status": "cloud_structure_and_adapter_checks_passed"
+    },
+    {
+      "id": "yolo11n",
+      "family": "YOLO CNN",
+      "backend": "ultralytics",
+      "constructor": "YOLO",
+      "model": "yolo11n.yaml",
+      "batch": 32,
+      "lr0": 0.001,
+      "repository": "https://github.com/ultralytics/ultralytics",
+      "version": "8.4.193",
+      "status": "cloud_scratch_constructor_passed"
+    },
+    {
+      "id": "yolov8n",
+      "family": "YOLO CNN",
+      "backend": "ultralytics",
+      "constructor": "YOLO",
+      "model": "yolov8n.yaml",
+      "batch": 32,
+      "lr0": 0.001,
+      "repository": "https://github.com/ultralytics/ultralytics",
+      "version": "8.4.193",
+      "status": "cloud_scratch_constructor_passed"
+    },
+    {
+      "id": "fasterrcnn_r50_fpn",
+      "family": "two-stage RPN + RoI",
+      "backend": "torchvision",
+      "constructor": "fasterrcnn_resnet50_fpn",
+      "constructor_kwargs": {
+        "weights": null,
+        "weights_backbone": null,
+        "num_classes": 2,
+        "min_size": 640,
+        "max_size": 640,
+        "trainable_backbone_layers": 5,
+        "box_score_thresh": 0.001,
+        "box_detections_per_img": 300,
+        "box_nms_thresh": 0.7
+      },
+      "batch": 2,
+      "gradient_accumulation": 16,
+      "lr0": 0.001,
+      "repository": "https://github.com/pytorch/vision",
+      "version": "0.16.2+cu118",
+      "class_id_mapping": {
+        "background": 0,
+        "uav": 1
+      },
+      "status": "cloud_cpu_backward_reload_and_one_epoch_integration_passed",
+      "training_entry": "scripts/train_pending_adapter.py",
+      "recipe_note": "Scratch BatchNorm; letterbox+horizontal flip; no Mosaic/EMA; batch2 accumulation16; family-specific native losses.",
+      "formal_batch_vram_status": "pending_formal_job_start"
+    },
+    {
+      "id": "rtdetr_l",
+      "family": "Transformer set prediction",
+      "backend": "ultralytics",
+      "constructor": "RTDETR",
+      "model": "rtdetr-l.yaml",
+      "batch": 4,
+      "lr0": 0.0001,
+      "repository": "https://github.com/lyuwenyu/RT-DETR",
+      "implementation_repository": "https://github.com/ultralytics/ultralytics",
+      "version": "8.4.193",
+      "status": "cloud_scratch_constructor_passed"
+    },
+    {
+      "id": "pconv_sdloss_yolov8n_p2",
+      "family": "recent infrared small-target method with SIRST-UAVB evidence",
+      "year": 2025,
+      "venue": "AAAI 2025",
+      "backend": "external_adapter",
+      "repository": "https://github.com/JN-Yang/PConv-SDloss-Data",
+      "paper": "https://ojs.aaai.org/index.php/AAAI/article/view/32996",
+      "base_model": "yolov8n-p2.yaml",
+      "modules": [
+        "PConv",
+        "SD bbox loss"
+      ],
+      "batch": 8,
+      "lr0": 0.001,
+      "status": "cloud_cpu_backward_reload_and_one_epoch_integration_passed",
+      "reproduction_note": "Project integration of author PConv and complete SDB loss in YOLOv8n-P2; shallow positions0/1 fixed explicitly; not a claim to exactly reproduce the paper training recipe.",
+      "training_entry": "scripts/train_pending_adapter.py",
+      "commit": "a801f043c83f73aa9af9ab2f689e59ebef928fc4",
+      "integration": {
+        "pconv_layers": [
+          0,
+          1
+        ],
+        "sd_delta": 0.5,
+        "sdb_coordinates": "native_feature_grid",
+        "dfl": "retained_native"
+      },
+      "formal_batch_vram_status": "pending_formal_job_start"
+    },
+    {
+      "id": "msf_ghostnet_iii",
+      "family": "recent infrared drone CNN detector",
+      "year": 2025,
+      "venue": "IEEE JSTARS 18:3840-3851",
+      "backend": "external_yolov5",
+      "repository": "https://github.com/ZeeshanKaleem/MSF-GhostNet",
+      "commit": "32100ed6e00da3c2fb98ea25673dd535f9b51d6b",
+      "notebook": "MSF-III.ipynb",
+      "base_repository": "https://github.com/ultralytics/yolov5",
+      "base_commit": "fbe67e465375231474a2ad80a4389efc77ecff99",
+      "paper": "https://doi.org/10.1109/JSTARS.2024.3524379",
+      "batch": 16,
+      "lr0": 0.001,
+      "status": "cloud_cpu_backward_reload_and_one_epoch_integration_passed",
+      "reproduction_note": "Author notebook structure, separately patched pinned YOLOv5. 640/150/scratch, FP32 train+val, nbs32, AP95-only selection; no notebook data/credential cells executed.",
+      "training_entry": "scripts/train_pending_adapter.py",
+      "formal_batch_vram_status": "pending_formal_job_start"
+    }
+  ],
+  "automatic_run": false
+}

@@ -1,5 +1,3 @@
 # 本地数据
 
-图像、框标注、划分清单和本地 dataset YAML 放在本目录。来源与处理约定见 [数据来源](../docs/datasets/SOURCES.md)，配置示例见 [SIRST-UAVB](../configs/datasets/sirst_uavb.example.yaml)。
-
-主数据使用 `uav` 单类映射；保留原标签作为只读副本，转换输出单独存放。此目录的实验数据被 Git 忽略，仓库中只保留本说明。
+原始数据与已解码源文件用于来源复核；原始压缩包保持在课程项目的`datasets`目录。当前SIRST清单为1999训练／500验证，验证486个UAV框。源图和开发视频材料不因目录日期较早而当作无用文件删除。[当前数据处理协议](../docs/datasets/PREPARATION.md)说明实际使用的划分。

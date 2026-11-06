@@ -1,0 +1,6 @@
+# Normalize published CSV newlines without rewriting local experiment originals.
+*.csv text eol=lf
+
+# The supplied template sources and archive retain their original bytes.
+/templates/ieee/original/** -text
+/templates/ieee/source.zip -text

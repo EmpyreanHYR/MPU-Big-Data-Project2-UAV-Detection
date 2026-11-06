@@ -1,0 +1,55 @@
+{
+  "id": "pconv_sdloss_yolov8n_p2",
+  "backend": "external_adapter",
+  "initialization": "random",
+  "training": {
+    "epochs": 150,
+    "imgsz": 640,
+    "seed": 42,
+    "pretrained": false,
+    "weights": null,
+    "weights_backbone": null,
+    "resume": false,
+    "workers": 8,
+    "amp": false,
+    "nbs": 32,
+    "optimizer": "AdamW",
+    "weight_decay": 0.0005,
+    "lrf": 0.01,
+    "patience": 0,
+    "dataset_protocol": "four_source_uav_scratch150",
+    "batch": 8,
+    "lr0": 0.001
+  },
+  "model": {
+    "id": "pconv_sdloss_yolov8n_p2",
+    "family": "recent infrared small-target method with SIRST-UAVB evidence",
+    "year": 2025,
+    "venue": "AAAI 2025",
+    "backend": "external_adapter",
+    "repository": "https://github.com/JN-Yang/PConv-SDloss-Data",
+    "paper": "https://ojs.aaai.org/index.php/AAAI/article/view/32996",
+    "base_model": "yolov8n-p2.yaml",
+    "modules": [
+      "PConv",
+      "SD bbox loss"
+    ],
+    "batch": 8,
+    "lr0": 0.001,
+    "status": "cloud_cpu_backward_reload_and_one_epoch_integration_passed",
+    "reproduction_note": "Project integration of author PConv and complete SDB loss in YOLOv8n-P2; shallow positions0/1 fixed explicitly; not a claim to exactly reproduce the paper training recipe.",
+    "training_entry": "scripts/train_pending_adapter.py",
+    "commit": "a801f043c83f73aa9af9ab2f689e59ebef928fc4",
+    "integration": {
+      "pconv_layers": [
+        0,
+        1
+      ],
+      "sd_delta": 0.5,
+      "sdb_coordinates": "native_feature_grid",
+      "dfl": "retained_native"
+    },
+    "formal_batch_vram_status": "pending_formal_job_start"
+  },
+  "status": "cloud_cpu_backward_reload_and_one_epoch_integration_passed"
+}

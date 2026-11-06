@@ -43,3 +43,4 @@ dist/
 /docs/cloud/
 /docs/datasets/SIRST_UAVB_INTAKE_20261024.md
 /tests/test_cloud_limits.py
+/tests/test_cloud_followup_limits.py

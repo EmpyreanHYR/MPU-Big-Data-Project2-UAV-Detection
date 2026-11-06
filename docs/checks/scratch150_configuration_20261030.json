@@ -1,0 +1,98 @@
+{
+  "date": "2026-10-30",
+  "kind": "configuration validation only; no training or real-data evaluation",
+  "observed_via": "authorized cloud terminal",
+  "ultralytics": "8.4.193",
+  "torch": "2.1.2+cu118",
+  "input_shape": [
+    1,
+    3,
+    640,
+    640
+  ],
+  "yolo26": {
+    "baseline": {
+      "parameters_full_dual_head": 2504190,
+      "strides": [
+        8,
+        16,
+        32
+      ],
+      "finite": true
+    },
+    "pconv": {
+      "parameters_full_dual_head": 2504478,
+      "strides": [
+        8,
+        16,
+        32
+      ],
+      "finite": true
+    },
+    "p2": {
+      "parameters_full_dual_head": 2515976,
+      "strides": [
+        4,
+        8,
+        16,
+        32
+      ],
+      "finite": true
+    },
+    "pconv_p2": {
+      "parameters_full_dual_head": 2516264,
+      "strides": [
+        4,
+        8,
+        16,
+        32
+      ],
+      "finite": true
+    }
+  },
+  "integration": {
+    "test_count": 5,
+    "passed": true,
+    "runtime_seconds": 9.151,
+    "scope": [
+      "four-variant finite outputs",
+      "PConv geometry",
+      "combined trainer rebuild",
+      "synthetic prefix transfer exclusion",
+      "synthetic checkpoint roundtrip"
+    ],
+    "official_pretrained_weights_loaded": false
+  },
+  "comparison_constructors": {
+    "yolo11n": {
+      "passed": true,
+      "constructor_parameters_before_dataset_class_override": 2624080
+    },
+    "yolov8n": {
+      "passed": true,
+      "constructor_parameters_before_dataset_class_override": 3157200
+    },
+    "rtdetr_l": {
+      "passed": true,
+      "constructor_parameters_before_dataset_class_override": 32970476
+    },
+    "fasterrcnn_r50_fpn": {
+      "passed": true,
+      "constructor_parameters_before_dataset_class_override": 41352281
+    }
+  },
+  "local_checks": {
+    "scratch_protocol": 5,
+    "training_guards": 15,
+    "repository_templates_and_links": "passed",
+    "references": "passed",
+    "public_files_path_privacy": "passed"
+  },
+  "limits": [
+    "Constructor parameter counts of stock YOLO/RTDETR precede nc=1 dataset override; do not compare them as final trained counts.",
+    "No backward/optimizer steps, memory benchmark or detection accuracy measured.",
+    "Recent-method training adapters and Faster R-CNN loop remain pending."
+  ],
+  "current_test_dataset": "Anti-UAV-detection",
+  "current_protocol_revision": "user replaced IRSTD-1k on 2026-10-30"
+}

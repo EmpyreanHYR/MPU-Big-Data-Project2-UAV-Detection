@@ -8,7 +8,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--variant", choices=["baseline", "pconv", "p2"], default="baseline")
+    parser.add_argument("--variant", choices=["baseline", "pconv", "p2", "pconv_p2"], default="baseline")
     parser.add_argument("--weights", help="Optional local YOLO26n checkpoint")
     args = parser.parse_args()
     from uav_detection.modeling import build_detector

@@ -1,0 +1,155 @@
+{
+  "image": "images/val/sirst__2859.jpg",
+  "image_sha256": "5674d1033138be91ff6bbbbb3ea4079ca59e8ebf0ca151461ec3ca32f94c290b",
+  "annotations_sha256": "947fe8223011dbbbf241604273f0b2fae86ec3d1a9cc42abfc1124abddd4960d",
+  "predictions_sha256": "0dec258663078c1e741d569e458ddc906cee7e1134e65bf0d5010611151203cc",
+  "script_sha256": "5d9f7a6e1fda134cf42528d14478dd739fc67706df4fda40959ba3c9ea819417",
+  "crop_xyxy": [
+    269,
+    233,
+    317,
+    265
+  ],
+  "confidence": 0.25,
+  "source_prediction_pair_IoU": 0.4677731692790985,
+  "UAV_boxes": [
+    [
+      284.00030517578125,
+      242.9998016357422,
+      303.0,
+      255.00006103515625
+    ]
+  ],
+  "panels": [
+    {
+      "nms_iou": null,
+      "kept_source_indices": [
+        0,
+        1
+      ],
+      "boxes_xyxy_score_class": [
+        [
+          285.3409423828125,
+          243.83978271484375,
+          303.2199401855469,
+          254.13265991210938,
+          0.5950303673744202,
+          0.0
+        ],
+        [
+          283.6205139160156,
+          242.24102783203125,
+          299.60296630859375,
+          251.1247100830078,
+          0.3316645920276642,
+          0.0
+        ]
+      ],
+      "TP": 1,
+      "FP": 1,
+      "FN": 0
+    },
+    {
+      "nms_iou": 0.3,
+      "kept_source_indices": [
+        0
+      ],
+      "boxes_xyxy_score_class": [
+        [
+          285.3409423828125,
+          243.83978271484375,
+          303.2199401855469,
+          254.13265991210938,
+          0.5950303673744202,
+          0.0
+        ]
+      ],
+      "TP": 1,
+      "FP": 0,
+      "FN": 0
+    },
+    {
+      "nms_iou": 0.4,
+      "kept_source_indices": [
+        0
+      ],
+      "boxes_xyxy_score_class": [
+        [
+          285.3409423828125,
+          243.83978271484375,
+          303.2199401855469,
+          254.13265991210938,
+          0.5950303673744202,
+          0.0
+        ]
+      ],
+      "TP": 1,
+      "FP": 0,
+      "FN": 0
+    },
+    {
+      "nms_iou": 0.5,
+      "kept_source_indices": [
+        0,
+        1
+      ],
+      "boxes_xyxy_score_class": [
+        [
+          285.3409423828125,
+          243.83978271484375,
+          303.2199401855469,
+          254.13265991210938,
+          0.5950303673744202,
+          0.0
+        ],
+        [
+          283.6205139160156,
+          242.24102783203125,
+          299.60296630859375,
+          251.1247100830078,
+          0.3316645920276642,
+          0.0
+        ]
+      ],
+      "TP": 1,
+      "FP": 1,
+      "FN": 0
+    },
+    {
+      "nms_iou": 0.7,
+      "kept_source_indices": [
+        0,
+        1
+      ],
+      "boxes_xyxy_score_class": [
+        [
+          285.3409423828125,
+          243.83978271484375,
+          303.2199401855469,
+          254.13265991210938,
+          0.5950303673744202,
+          0.0
+        ],
+        [
+          283.6205139160156,
+          242.24102783203125,
+          299.60296630859375,
+          251.1247100830078,
+          0.3316645920276642,
+          0.0
+        ]
+      ],
+      "TP": 1,
+      "FP": 1,
+      "FN": 0
+    }
+  ],
+  "selection": "The only validation image whose retained count differs between IoU0.4 and0.5; selected to illustrate the decision boundary, not as a representative accuracy sample.",
+  "image_processing": "Original RGB pixels and aspect ratios; identical48x32 crops; nearest-neighbor display; no intensity/contrast edits, no synthetic predictions.",
+  "display": "No footer. Orange/red solid boxes retain source score identity; cyan dashed box is UAV ground truth. Original-image white rectangle marks the crop.",
+  "outputs": {
+    "nms_same_image.pdf": "da6cfe0956b92310fc272baafc6185ba9f36c350392a2e726c9f48652a9cf7d2",
+    "nms_same_image.png": "6b2f1104babe5c438a9fae72cf8892822ff28a1378c993c4c3743ab95bab610b",
+    "nms_same_image.svg": "bdf36d881d9438e8e1ed1ef0d5fec51484375e048568c340f8eccf21853dc030"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "figure": "NMS deployment threshold selection",
+  "destination": "course IEEE report, provisional general scientific figure; not publisher compliance certification",
+  "size_inches": [
+    7.0,
+    2.35
+  ],
+  "PNG_DPI": 300,
+  "sources": {
+    "summary_sha256": "55d3a95143357fe00dff0333a96a39c469d747f9bb7a5279b17053f3d39dbc19",
+    "runs_sha256": "1f7700c45689ae2b400473ba6f3d387ba704a2875e3036a3652cf2d54c0fa277"
+  },
+  "script_sha256": "887a06a563b74d4c19f8342ddbe02d3bd9a599f132b8bd8e09faa6e0914db425",
+  "matplotlib_version": "3.11.2",
+  "numpy_version": "2.5.4",
+  "transformations": "AP fraction multiplied by100; no smoothing, normalization, exclusions or interpolation. All8 settings included.",
+  "uncertainty": "FPS arithmetic mean \u00b1 sample SD across3 independently launched500-image runs; black points show each run. No inferential accuracy error bars from repeated identical predictions.",
+  "axes": "All bar axes start at0; no dual axes. Off is a categorical no-NMS control, not IoU=0.",
+  "default_encoding": "orange bar plus hatch, bold tick and legend; not color alone",
+  "raw_table": "docs/results/NMS_HARDWARE_20261115.csv",
+  "outputs": {
+    "nms_selection.pdf": "8237f7cc42f45ddf7eacab776e261f6c17180118a13ba384602fb3e85ea0d353",
+    "nms_selection.svg": "48a61a3fd440ce95e16c698598d952ffde2730c61fd74a42ccb25423657b0b4d",
+    "nms_selection.png": "a898e7951ce5602b527d4f8ba5d1e57c4bac753750b686be9db4e53a8190758c"
+  }
+}

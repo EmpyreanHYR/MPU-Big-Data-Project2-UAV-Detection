@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Compile the IEEE report with BibTeX in a temporary directory."""
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import tempfile
@@ -13,7 +14,7 @@ PROJECT = ROOT / 'docs/report'
 
 def main():
     canonical = ROOT / 'bibliography/references.bib'
-    if (PROJECT / 'references.bib').read_bytes() != canonical.read_bytes():
+    if not (PROJECT / 'references.bib').exists() or (PROJECT / 'references.bib').read_bytes() != canonical.read_bytes():
         shutil.copy2(canonical, PROJECT / 'references.bib')
     with tempfile.TemporaryDirectory(prefix='uav-report-build-') as temporary:
         work = Path(temporary)
@@ -31,6 +32,9 @@ def main():
         log = (work / 'report.log').read_text()
         if 'undefined' in log or 'Overfull' in log:
             raise RuntimeError('Unresolved references or overflowing text:\n' + log)
+        pages = re.search(r'Output written on report\.pdf \((\d+) pages?', log)
+        if not pages or int(pages.group(1)) > 10:
+            raise RuntimeError('Report exceeds the assignment limit of 10 pages')
         pending = PROJECT / 'report.pdf.tmp'
         shutil.copy2(work / 'report.pdf', pending)
         pending.replace(PROJECT / 'report.pdf')

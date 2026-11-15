@@ -190,24 +190,24 @@
         [
           "25\\%",
           "500",
-          "NR",
-          "NR",
-          "NR",
-          "NR",
-          "NR",
-          "NR",
-          "NR"
+          "55.95",
+          "44.95",
+          "49.85",
+          "43.90",
+          "16.35",
+          "7.08/57.61",
+          "Completed"
         ],
         [
           "50\\%",
           "1000",
-          "NR",
-          "NR",
-          "NR",
-          "NR",
-          "NR",
-          "NR",
-          "NR"
+          "71.03",
+          "56.38",
+          "62.86",
+          "61.87",
+          "24.54",
+          "13.79/43.00",
+          "Completed"
         ],
         [
           "100\\%",
@@ -428,6 +428,6 @@
     }
   ],
   "current_completed_models": 11,
-  "training_ratio_new_status": "pending",
+  "training_ratio_new_status": "completed100+100; same500 GPU and local backup verified",
   "note": "Inference125/250/500 and training25/50/100% are distinct experiments; native and deployment metrics are not interchangeable."
 }

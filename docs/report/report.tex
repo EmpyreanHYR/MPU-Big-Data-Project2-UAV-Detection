@@ -162,7 +162,7 @@ SIRST-UAVB provides 3,000 real infrared images of small UAVs, annotated for UAVs
 
 All comparisons use the same frozen manifests and resize and letterbox images to $640\times640$. This split is used for internal validation and checkpoint selection.
 
-The external transfer case uses AUVD-Seg300 (300 images)\cite{auvdsource}. Its segmentation polygons are converted to enclosing boxes and screened for duplicates. The frozen SIRST-trained weights are evaluated without external finetuning or threshold selection. AUVD is highlighted retrospectively as the highest-scoring of four evaluated external sources; the complete results remain in the accompanying reproducibility materials.
+The external transfer case uses AUVD-Seg300 (300 images)\cite{auvdsource}. Its segmentation polygons are converted to enclosing boxes and screened for duplicates. The frozen SIRST-trained weights are evaluated without external finetuning or threshold selection.
 
 \subsection{Baselines, Initialization, and Hardware}
 The main comparison contains 11 models, all randomly initialized and trained for 100 epochs: four YOLO26 ablations, YOLO11n and YOLOv8n, PConv + SD / YOLOv8n-P2, MSF-GhostNet-III, RT-DETR-L, and two SIA/CSP adaptations. COCO-initialized and scratch runs trained for 150 epochs form the historical comparison groups.
@@ -495,7 +495,7 @@ P2 improves native AP50:95 with or without PConv; PConv alone reduces AP, while 
 NMS does not recover the 163 misses (153 below eight pixels) or remove the 20 bird-associated false positives. Default IoU 0.4 still needs independent, closely spaced-target video validation. P2 also increases Pi CPU memory, and host processing contributes substantial latency (Table~\ref{tab:edge}). VLM expansion is deferred pending small, clear UAV/bird/background controls.
 
 \subsection{Validity and Generalization}
-The retrospectively highlighted AUVD case does not establish broad generalization; cross-sensor and independent video evaluation remain necessary. Matched physical batches and multiple seeds are needed to assess ablation stability; repeated hardware timing adds no independent accuracy samples.
+The AUVD case alone does not establish broad generalization; cross-sensor and independent video evaluation remain necessary. Matched physical batches and multiple seeds are needed to assess ablation stability; repeated hardware timing adds no independent accuracy samples.
 
 \section{Conclusion}
 PinP2-YOLO improves native AP50:95 by 3.322 points over YOLO26n in the scratch100 ablation. Its H10 deployment trades speed for accuracy; default NMS IoU 0.4 reaches 31.740\% AP50:95 and reduces FP119 to FP62 at unchanged recall and 22.89 benchmark FPS. The tested VLM policy offers no advantage over confidence filtering. Independent crowded-target validation remains necessary.

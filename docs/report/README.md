@@ -28,3 +28,5 @@
 修改 `report.tex`，同步中文稿；使用 `python scripts/build_report.py` 编译PDF，检查未定义引用、排版溢出与10页上限。需要pdfLaTeX和BibTeX。随后执行 `python scripts/check_project.py` 核对模板、引用、链接和公开测试。
 
 原始IEEE模板与[原件](../../templates/ieee/README.md)保持一致，提案与报告作者信息一致。编辑图时保留draw.io源并更新相关导出；涉及实验数值时从结果表核对，不依据图片估读。
+
+最新正文范围：外部实验仅保留AUVD-Seg300的设置、结果及单一来源验证限制；中英文均已移除四源比较、其他测试结果及正文中的补充结果指引。历史原始实验记录未改动。

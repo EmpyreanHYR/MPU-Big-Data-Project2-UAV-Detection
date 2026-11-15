@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "model_id": "scratch100__pconv_p2",
+  "family": "e2e",
+  "weights_sha256": "1ce66dfab5a953ec9d6e20da068ae73287898d6e2fd14570fc64a3e993234d54",
+  "hef_sha256": "ad2d561f768bb31262ddad49b1a5b55a0d05fba8a339bc4860df8fcd9d730c15",
+  "input_size": 640,
+  "confidence": 0.25,
+  "nms_enabled": true,
+  "nms_iou": 0.4,
+  "max_detections": 300,
+  "nms_coordinate_space": "original_image_after_clipping",
+  "selection_scope": "internal_validation_engineering_choice; independent crowded-target validation pending"
+}

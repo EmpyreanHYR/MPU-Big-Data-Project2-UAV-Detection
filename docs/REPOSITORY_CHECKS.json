@@ -1,40 +1,118 @@
 {
-  "checked_utc": "2026-10-23T12:54:10.248128+00:00",
-  "repository": "MPU-Big-Data-Project2-UAV-Detection",
-  "checks": {
-    "original_zip_and_six_members": "PASS",
-    "english_chinese_proposal_report_protected_prefix_and_class": "PASS",
-    "upstream_source_hashes": "PASS",
-    "Markdown_local_links": "PASS",
-    "proposal_bilingual_13_citation_keys_and_identical_order": "PASS",
-    "report_3_existing_citation_keys": "PASS",
-    "BibTeX_warnings": 0,
-    "model_integration_tests_passed": 5,
-    "data_pipeline_tests_passed": 12,
-    "training_guard_tests_passed": 6,
-    "total_unittests_passed": 23,
-    "640_square_random_weight_CPU_inference": "PASS",
-    "train_build_data_help": "PASS",
-    "english_TeX_pdflatex_bibtex": "PASS",
-    "english_PDF_pages": 3,
-    "english_PDF_all_pages_visually_reviewed": true,
-    "english_TeX_undefined_citations": 0,
-    "english_TeX_overfull_boxes": 0
+  "time": "2026-11-15T15:27:18.682903+08:00",
+  "repository": "passed",
+  "references": "passed",
+  "cleanup_verification": "passed",
+  "formal_report_pages": 10,
+  "formal_architecture_pages": [
+    2
+  ],
+  "metrics_rows": 11,
+  "valid_training_records": 19,
+  "H10_models_verified": 7,
+  "model_inference_or_training_run": "cloud two fresh100; no model execution on Mac",
+  "module_mechanism_pages": [
+    2
+  ],
+  "method_name": "PinP2-YOLO",
+  "module_subscript_typography": "passed",
+  "assignment_compliance": {
+    "overall": "not fully compliant",
+    "LLM_component": "VLM E0-E4 completed; negative result documented; expansion paused",
+    "three_sizes": "inference workload completed; training fractions500/1000/1999 completed, full-data result reused",
+    "work_contribution_and_attachments": "deferred by user",
+    "review": "docs/report/REVIEW_CHECKLIST.md",
+    "error_stratification": "passed descriptive size/background/bird analysis"
   },
-  "execution": {
-    "model_imported_or_built": true,
-    "synthetic_checkpoint_roundtrip": true,
-    "training_started": false,
-    "cloud_started": false,
-    "actual_dataset_or_pretrained_weights_downloaded": false,
-    "GPU_or_H10_tested": false
+  "final_H10_scaling_trials": 9,
+  "error_stratification_checked": true,
+  "model_inference_scope": "9 authorized frozen-model Pi5/H10 inference trials; no Mac model inference",
+  "new_training_run": false,
+  "table_categories": 4,
+  "training_fraction_new_runs": 2,
+  "training_fraction_status": "completed100+100, saved GPU500 predictions independently audited",
+  "image_examples": {
+    "time": "2026-11-05T16:11:27.934532+08:00",
+    "status": "completed",
+    "training_images": 4,
+    "validation_images": 2,
+    "configurations": 4,
+    "prediction_panels": 8,
+    "training_page": 4,
+    "qualitative_page": 7,
+    "new_model_inference_runs": 0,
+    "training_or_power_actions": false
   },
-  "deliverables": {
-    "proposal": "English TeX/PDF and bilingual reading copies V4; Chinese preserved",
-    "report": "chapter framework",
-    "slides": "outline",
-    "code": "baseline, PConv, P2; model/trainer adapter; YOLO/VOC data conversion and audits"
+  "image_label_font_pt_min": 8.075769424438477,
+  "latest_document_update": "10-page report, NMS0.4 deployment and VLM negative result; grouped local Git commits",
+  "module_details_integrated_in_Figure1": true,
+  "Chinese_correspondence": {
+    "time": "2026-11-05T17:22:01.771208+08:00",
+    "status": "completed",
+    "architecture_page": 2,
+    "module_insets_page": 2,
+    "module_insets_in_Figure1": true,
+    "standalone_module_figure_removed": true,
+    "main_network_unchanged": true,
+    "main_sections": 7,
+    "equations": 26,
+    "tables": 6,
+    "figures": 3,
+    "references": 26,
+    "new_model_or_device_actions": false,
+    "source_tex_sha256": "af667ce27f194881a0ceab25ebde271ca52142b9e0f05232a47da3324b20f8f1",
+    "Chinese_MD_sha256": "aab272097a5ec1bd65f5b7ad6d7e59fec114b9e2f8d539c7a8e7818a57c57030"
   },
-  "original_archive_sha256": "6c315c3b6729bd7b96a6a0e7d3bb6342023413a4cd4d113fb4a193019af1c603",
-  "git_state": "Validation snapshot before this implementation commit; Git history and remote branch record synchronization."
+  "nature_humanizer_revision": {
+    "time": "2026-11-05T17:22:01.771208+08:00",
+    "status": "completed",
+    "skills": [
+      "nature-polishing",
+      "humanizer",
+      "nature-reviewer"
+    ],
+    "reviewers": 3,
+    "isolated_contexts": true,
+    "reports_frozen_before_synthesis": true,
+    "metrics_words_before": 383,
+    "metrics_words_after": 193,
+    "metrics_reduction_percent": 49.608355091383814,
+    "pages_before": 10,
+    "pages_after": 9,
+    "main_graph_unchanged": true,
+    "equations": 26,
+    "metric_equations": 16,
+    "tables": 6,
+    "figures": 3,
+    "references": 26,
+    "architecture_page": 2,
+    "copyright_retained_and_clear": true,
+    "new_experiments": false,
+    "open_evidence_limits": [
+      "native-to-common-FP32 AP gap unattributed",
+      "single seed and physical batch differences",
+      "public reproducibility incomplete",
+      "25/50 training fractions not run; user-deferred coursework items remain"
+    ]
+  },
+  "commit_validation": {
+    "date": "2026-11-15",
+    "repository": "passed",
+    "references": {
+      "proposal": 13,
+      "report": 24,
+      "missing": 0
+    },
+    "report_build": "passed; no undefined references or overflowing text; at most10 pages",
+    "public_tests": {
+      "run": 65,
+      "passed": 57,
+      "skipped": 8,
+      "failures": 0,
+      "skip_reason": "model integration checks excluded on Mac"
+    },
+    "private_ignored_tests": "full discovery encountered10 errors from missing historical private billing fixtures; excluded from public suite",
+    "python_syntax": "passed",
+    "model_or_device_execution": false
+  }
 }

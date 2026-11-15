@@ -1,40 +1,54 @@
-# MPU Big Data Project 2 · YOLO26红外无人机检测
+# MPU Big Data Project 2 · 红外无人机检测
 
-最终模型为**PinP2-YOLO（从零初始化100轮）**，树莓派5＋HAILO10H默认部署NMS IoU=0.4。AP50:95为31.740%、漏检率33.539%，三轮阈值基准22.89±0.01 FPS，参数2.516M；[实际部署入口](scripts/deployment/README.md)已通过500图验收。原无NMS AP24.351%／22.72 FPS保留历史口径。
+本项目研究小型红外无人机的检测与边缘部署。在YOLO26n上加入浅层风车卷积（PConv）和高分辨率P2检测分支，形成 **PinP2-YOLO**，并在树莓派5＋HAILO10H上完成实际推理测试。
 
-| 内容 | 当前文件 |
+## 组员从哪里开始
+
+1. 阅读[项目进展与待办](docs/PROJECT_STATUS.md)，了解已做工作、结论和仍需补充的内容。
+2. 阅读[中文报告](docs/report/report_zh.md)；汇报与提交以[英文报告PDF](docs/report/report.pdf)为准。
+3. 做PPT时使用[当前网络图](docs/report/figures/final_pconv_p2.pdf)和[实验结果导航](docs/results/README.md)，引用时保留评价口径。
+4. 修改代码前查看[环境说明](docs/ENVIRONMENT.md)、[配置导航](configs/README.md)和[部署入口](scripts/deployment/README.md)。
+
+## 已完成什么
+
+| 工作 | 结果与入口 |
 |---|---|
-| 模型配置与实验协议 | [配置导航](configs/README.md) · [实验说明](docs/experiments/README.md) |
-| 最终模型规模与错误分析 | [125／250／500张H10实测与分组结果](docs/results/FINAL_MODEL_SCALING_ERRORS_20261105.md) |
-| 实验分组表格 | [对比／消融／训练比例／边缘部署](docs/results/EXPERIMENT_TABLES_20261105.md) · [细项CSV](docs/results/EDGE_EXTENSION_20261104.csv) · [缺项说明](docs/results/EDGE_EXTENSION_20261104.md) |
-| 最终选型 | [依据与限制](docs/results/FINAL_SELECTION_PCONV_P2_20261104.md) |
-| 实际网络结构 | [PNG](docs/results/figures/final_pconv_p2_20261104.png) · [draw.io](docs/results/figures/final_pconv_p2_20261104.drawio) · [SVG](docs/results/figures/final_pconv_p2_20261104.svg) |
-| 项目状态 | [PROJECT_STATUS.md](docs/PROJECT_STATUS.md) |
-| 评价与边缘推理程序 | [使用说明](scripts/evaluation/README.md) · [部署说明](docs/deployment/README.md) |
-| 数据来源与整理 | [来源](docs/datasets/SOURCES.md) · [处理流程](docs/datasets/PREPARATION.md) |
-| 已提交阶段的提案 | [PDF](docs/proposal/proposal.pdf) · [TeX](docs/proposal/proposal.tex) · [中文稿](docs/proposal/proposal_zh.md) |
-| 模型、数据和实验代码 | [src](src/uav_detection/) · [scripts](scripts/) · [configs](configs/) |
-| 文献与原始模板 | [BibTeX](bibliography/references.bib) · [IEEE原件](templates/ieee/README.md) |
+| 数据整理 | SIRST-UAVB固定1999张训练／500张验证，验证集486个UAV框；[来源与标注](docs/datasets/SOURCES.md) |
+| 模型比较与消融 | 主比较11个从零100轮模型，累计19个有效权重；[四类实验表](docs/results/EXPERIMENT_TABLES_20261105.md) |
+| 训练比例 | 500／1000／1999张训练图，统一500张验证；[三档实测](docs/results/TRAINING_FRACTIONS_20261107.md) |
+| 边缘测试 | GPU19组、Pi CPU17组、H10兼容模型7组；[设备结果](docs/results/EDGE_EXTENSION_20261104.md) |
+| 后处理改进 | NMS IoU0.4使H10误报119→62，检出323、漏检163不变；[审计与硬件实测](docs/results/NMS_VLM_AUDIT_20261115.md) |
+| VLM候选复核 | 已完成负面结果分析，当前策略未优于相同召回率的置信度阈值对照；后续扩展暂停 |
+| 报告与图表 | [10页IEEE报告、中文稿及可编辑图源](docs/report/README.md) |
 
-SIRST-UAVB固定1999张训练、500张验证图像，验证集有486个无人机框。当前主要比较11个从零100轮模型；累计保留19个有效权重、GPU19组和Pi CPU17组500图推理，以及60组四源外部评价和三段既有视频演示。7个兼容模型均完成H10真实500图；SIA、SIA＋CSP、MSF和RT-DETR保留当前导出兼容性缺口。
+当前PinP2/H10默认部署的AP50:95为 **31.740%**，三轮阈值基准为 **22.89±0.01 FPS**。这些是内部验证集上的部署结果；原生训练验证、FP32、无NMS和NMS后的指标分别记录。最终模型是综合取舍，不能声称所有精度和速度指标都最优。
 
-原生训练验证AP与共同部署AP分别报告。H10使用实际量化模型重新评价，不继承FP32精度。最终模型是精度、漏检、参数量和速度的综合取舍；YOLO11n的H10 AP更高、YOLOv8n漏检更低的事实保留。
+## 目录怎么用
 
-新增训练数据比例实验按25%／50%／100%（500／1000／1999训练图）分别评价，固定使用同500张验证图。100%结果已核验可复用，25%和50%已于2026年11月7日各完成100轮、统一GPU500及备份核验；服务器已正常关机，报告本地稿与结果表已补充；原125／250／500张H10实验属于推理负载补充。
+| 目录 | 内容 |
+|---|---|
+| `src/uav_detection/` | 模型结构、训练适配、数据处理 |
+| `configs/` | 当前模型与部署参数，以及有日期说明的历史实验配置 |
+| `scripts/` | 数据准备、训练入口、指标复算、部署、文档构建与检查 |
+| `experiments/` | NMS审计和VLM候选复核的分析代码 |
+| `docs/report/` | 当前报告、图表及复现说明 |
+| `docs/results/` | 当前结果入口与有来源的历史对照证据 |
+| `docs/proposal/` | 已提交提案，保留当时计划，不作为当前实验参数 |
+| `bibliography/`、`templates/`、`third_party/` | 统一文献、原始模板及第三方来源与许可 |
 
-仓库保留当前模型代码、实验配置、适配器来源、数据协议和有效实验记录。原始数据、权重、ONNX/HEF与完整结果包保存在本地项目结果目录，受Git忽略规则保护。Mac只用于文件、文稿和NumPy指标整理；整理操作不运行训练或模型推理。
+原始数据、权重、ONNX/HEF、逐图预测和设备运行记录不在Git中。需要复核完整实验时，应向项目维护者获取对应私有结果包，按[复现说明](docs/report/REPRODUCIBILITY_NOTES.md)核对版本与哈希。
 
-代码及数据检查：
+## 本地检查与报告构建
+
+使用Python3.10+，在自己的虚拟环境中执行：
 
 ```sh
-python scripts/check_repository.py
-python -m unittest discover -s tests -v
+python -m pip install -e '.[evaluation]'
+python scripts/check_project.py
 ```
 
-数据与评价检查使用Pillow/NumPy即可运行。模型集成测试仅在具备依赖的Linux x86_64环境执行，Mac和Pi跳过，不加载模型。边缘推理程序须在对应设备安装运行时，具体参数见其说明。
+检查入口只收集Git跟踪的公开测试，不会收集本地私有云端脚本测试。Mac/Pi跳过模型集成测试；模型检查仅在已配置依赖的Linux x86_64环境进行。训练和设备部署须按对应环境与操作说明执行，不属于本地文档检查。
 
-报告已同步本次默认阈值及可视化，本次分批提交包含中英文报告、图表与复现说明；贡献与提交附件仍待填写。
+安装pdfLaTeX和BibTeX后，可用 `python scripts/build_report.py` 编译报告；提案构建使用 `python scripts/build_proposal.py`。文献修改以 `bibliography/references.bib` 为准，同步副本后运行检查。
 
-[新增三档训练比例实测](docs/results/TRAINING_FRACTIONS_20261107.md)已完成，GPU结果与原生训练验证分别报告。新增两个权重没有Pi/H10实测，不沿用完整数据权重的硬件精度。
-
-[2026-11-15后处理补充](docs/results/NMS_VLM_AUDIT_20261115.md)：最终采用NMS IoU0.4，FP119→62，TP323／FN163不变。500图部署验收实际抑制57框，逐框匹配重放。内部选点不代表独立最优阈值，密集目标和视频仍待验证。VLM作为负面结果保留，暂停扩展。
+贡献说明、个人反思和提交附件仍待组员补齐。仓库清理范围与旧文件恢复方法见[维护记录](docs/REPOSITORY_MAINTENANCE.md)。

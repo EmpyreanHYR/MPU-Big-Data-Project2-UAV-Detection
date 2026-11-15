@@ -25,6 +25,6 @@ PConv采用四个非对称补零方向，水平两支共享卷积、垂直两支
 
 当前从零100轮协议不传入权重，`pretrained=false`，不恢复其他实验检查点。显式传入本地权重时，通用适配器只迁移0—16层的同名同形参数；替换的PConv层跳过，分叉后路径重新初始化，不能称为完整COCO迁移。历史预训练基准的完整兼容加载与改进模型的公共前缀策略分别记录。
 
-另外保留[SIA](yolo26n-pf-sia.yaml)、[SIA＋CSP](yolo26n-pf-sia-csp.yaml)的PF启发适配；它们是YOLO中的局部迁移，不是完整PF-RPN。[msf_ghost](yolo26n-msf-ghost.yaml)是未形成有效完成训练的支线配置，不计入17组完成记录。兼容性和实测结果见[当前对比](../../docs/results/EDGE_EXTENSION_20261104.md)。
+另外保留[SIA](yolo26n-pf-sia.yaml)、[SIA＋CSP](yolo26n-pf-sia-csp.yaml)的PF启发适配；它们是YOLO中的局部迁移，不是完整PF-RPN。[msf_ghost](yolo26n-msf-ghost.yaml)是未形成有效完成训练的支线配置，不计入19组有效训练记录。兼容性和实测结果见[当前对比](../../docs/results/EDGE_EXTENSION_20261104.md)。
 
 保留的[早期结构检查](../../docs/checks/model_smoke_20261023.json)只证明对应版本的结构和有限输出，不代表检测精度或H10可部署性。来源、固定提交及许可见[third_party](../../third_party/README.md)。

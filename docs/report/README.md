@@ -1,46 +1,30 @@
 # 当前结项报告
 
-- [正式LaTeX报告PDF](report.pdf)：10页A4，采用提供的IEEE模板；完整网络结构图仅在第2页。
-- [LaTeX正文](report.tex)及[BibTeX](references.bib)：正式报告的维护源。
-- [中文对应全文](report_zh.md)：与当前英文稿逐节对应，保留26个公式、8张表、4张图及24条参考文献。
+| 材料 | 用途 |
+|---|---|
+| [英文PDF](report.pdf) | 当前10页A4 IEEE报告，用于阅读和提交核对 |
+| [LaTeX正文](report.tex)、[参考文献](references.bib) | 正式报告维护源；文献主本在 `bibliography/references.bib` |
+| [中文对应稿](report_zh.md) | 组员理解方法、结果和准备讲稿 |
+| [复现说明](REPRODUCIBILITY_NOTES.md) | 原生／部署评价口径、四源外部结果及公开材料的复现范围 |
+| [核查清单](REVIEW_CHECKLIST.md) | 课程要求与仍未完成的贡献、反思和附件 |
 
-- [完整11模型对比](../results/COMPLETE_MODEL_TABLE_20261104.md)：GPU、Pi CPU及H10统一比较。
-- [最终选型依据](../results/FINAL_SELECTION_PCONV_P2_20261104.md)：PinP2-YOLO，树莓派5＋HAILO10H。
+当前稿包含26个公式、8张表、4幅图和24条参考文献。贡献与个人反思仍是占位内容，不能视为已经填写完成。
 
-正式PDF第2页是一张完整、跨双栏的单页矢量网络图，保留实际30个模块和39条来源连接，并在上方留白合入PConv和P2融合的两个细节图。正文不再单独放置模块图。图文件位于[报告图目录](figures/)，含PDF、draw.io、SVG和PNG。
+## 图表怎么取用
 
-运行`python scripts/build_report.py`，使用pdfLaTeX与BibTeX编译正式IEEE报告，检查未定义引用、排版溢出和10页上限；不执行模型推理。
+| 图 | 内容 | 文件 |
+|---|---|---|
+| 图1 | 实际30模块网络、39条主连接，合入PConv与P2细节；第2页 | [PDF](figures/final_pconv_p2.pdf) · [PNG](figures/final_pconv_p2.png) · [draw.io](figures/final_pconv_p2.drawio) |
+| 图2 | 4张训练图与真实标注 | [PDF](figures/training_examples.pdf) · [PNG](figures/training_examples.png) |
+| 图3 | 同图四配置真实保存预测 | [PDF](figures/qualitative_comparison.pdf) · [PNG](figures/qualitative_comparison.png) |
+| 图4 | 同一验证图的无NMS及不同IoU检测框 | [PDF](figures/nms_same_image.pdf) · [PNG](figures/nms_same_image.png) · [来源](figures/nms_same_image.provenance.json) |
 
-贡献附录按用户要求列出四位成员姓名，实际贡献和个人反思留作填写占位。IEEE原模板保存在[templates/ieee](../../templates/ieee/README.md)，课程提案保留在[proposal](../proposal/README.md)。
+[模块可编辑源](figures/pinp2_modules.drawio)保留作图1的维护素材；独立模块图导出已删除，避免与合并后的图1混淆。[NMS统计图](figures/nms_selection.pdf)及[来源](figures/nms_selection.provenance.json)是结果分析补充，不是报告图4。
 
-[逐项核查清单](REVIEW_CHECKLIST.md)：125／250／500张H10推理负载和三类错误分析已完成；训练数据25%／50%／100%实验已完成，其中100%档复用既有结果。VLM已完成负面结果分析，后续扩展暂停；贡献和附件暂缓，示例刊头保留。
+四类实验和设备指标见[结果导航](../results/README.md)。历史无NMS结果与当前NMS0.4部署分开呈现。外部评价正文聚焦事后选出的AUVD-Seg300案例，其余三源完整结果保留在复现说明中。
 
-PinP2-YOLO全称为Pinwheel-enhanced P2 Fusion YOLO，对应既有浅层PConv与P2融合的YOLO26n权重。正式稿按介绍、相关工作、方法、数据集与实验设置、结果分析、讨论、总结组织，含24条文献与26个编号公式。图1在第2页同时展示完整网络与PConv/P2模块细节，训练标注样例在第4页；第6页为基线、消融和训练比例表，第7页为设备对比表与同图检测对比，第8页为推理负载和错误分组表。
+## 修改与构建
 
-[4张训练标注样例](figures/training_examples.pdf)和[同图四配置检测对比](figures/qualitative_comparison.pdf)。后者在同两张验证图上并排展示基线GPU、PinP2-YOLO GPU、基线Pi/H10、PinP2-YOLO Pi/H10的真实保存预测；统一置信度0.25，所有达阈值预测均保留。局部放大使用相同原始像素，保留原图纵横比。样例用于定性展示，整体优劣仍以500图统计为准。
+修改 `report.tex`，同步中文稿；使用 `python scripts/build_report.py` 编译PDF，检查未定义引用、排版溢出与10页上限。需要pdfLaTeX和BibTeX。随后执行 `python scripts/check_project.py` 核对模板、引用、链接和公开测试。
 
-[按四类实验组织的完整结果](../results/EXPERIMENT_TABLES_20261105.md)及[表格JSON](../results/EXPERIMENT_TABLES_20261105.json)是当前表格入口。设备指标斜杠顺序固定GPU／Pi CPU／Pi H10；四个H10缺项的原因和六组历史记录均单独列出。
-
-[新增结果与计时口径](../results/FINAL_MODEL_SCALING_ERRORS_20261105.md)包含各组样本量、AP、FN/FP及解释边界。背景是训练图确定的梯度纹理代理，分组相关性不等于因果关系。
-
-[评价口径与复现材料说明](REPRODUCIBILITY_NOTES.md)区分原生与部署指标、列出最终权重的四源结果及既有导出检查，并说明当前公开材料的复现范围。
-
-2026年11月7日稿补齐训练比例三档及结果分析，当时为9页；图1第2页，表III第6页、设备表与检测效果图第7页。当前10页稿及配套材料纳入本次分批提交。
-
-2026年11月15日依据中文修订版与修订说明同步更新中英文措辞，精简重复辩护和免责表述，修复删句后的标点与衔接。公式、图表和实验数值保持不变；PDF重新编译为9页A4，并通过引用、模板和版面检查。
-
-2026年11月15日完成NMS审计、7档IoU扫描与8档×3轮硬件测速，最终默认采用NMS IoU0.4。图4已按用户要求改为同一验证图在无NMS及IoU0.3／0.4／0.5／0.7下的真实检测框对比，默认0.4标题加粗；原硬件全表保留于[结果分析](../results/NMS_VLM_AUDIT_20261115.md)。表VII为NMS精度，表VIII为VLM负面结果，原跨模型表保持历史无NMS口径。
-
-最终默认采用NMS IoU0.4（conf0.25、max300）：H10 TP323／FP62／FN163、AP50:95 31.740%。三轮阈值基准为22.89±0.01 FPS、43.70±0.02毫秒／图，NMS26.3±0.1微秒／图；新无NMS对照22.86±0.02 FPS。选择0.4是因为它是召回不变且达到最低FP的测试阈值中较大的一档；0.3仅多0.0026个百分点AP，0.5多1个FP，不用微小速度差异作为选点依据。
-
-新的PinP2/H10部署入口实际在原图坐标还原及裁剪后调用NMS，绑定权重与HEF身份。500图默认策略验收未传入阈值覆盖，实际调用500次，442→385个候选（抑制57框），低分AP候选6969→4368；框、分数、顺序与冻结重放逐一相同，指标独立复算通过。20261115-nms04已发布为该PinP2部署的current版本。验收单次22.56 FPS／44.33毫秒，单列且不并入阈值基准三次重复；未安装摄像头常驻服务。
-
-所选阈值与模型复用同500图验证集，属于内部工程选择；只有1张双UAV图且真值不重叠，密集目标行为未验证。163个漏检和20个鸟类关联FP没有改善。3次硬件重复不构成新增精度样本；当前少量候选的NMS成本不代表密集场景、独立视频或长期摄像头性能。
-
-[图4：PDF矢量](figures/nms_same_image.pdf) · [PNG](figures/nms_same_image.png) · [SVG](figures/nms_same_image.svg) · [数据及绘图来源](figures/nms_same_image.provenance.json)。
-
-最终版面复查：10页A4；图1第2页、表VII第8页、图4与VLM表VIII第9页。全部页面缩略图及首页／第8、9页完整渲染已检查，无裁切或重叠；构建、模板、链接与24条引用检查通过。
-
-本轮修订：全部4幅图和8张表采用简短题注；颜色、局部放大、指标单位及统计口径移入相邻正文。图4没有底部说明小字。原AP／FP／FPS柱状图仅保留为结果分析中的补充材料，不再作为报告图4。
-
-外部结果的正文范围现聚焦AUVD-Seg300迁移案例；其余三组的名称、逐项成绩及正文专用引用已移出。正文保留“已测四源中事后选作重点”的说明；完整四源结果仍在复现说明和原始结果表中。未将AUVD原生指标改写为H10或NMS0.4实测。
+原始IEEE模板与[原件](../../templates/ieee/README.md)保持一致，提案与报告作者信息一致。编辑图时保留draw.io源并更新相关导出；涉及实验数值时从结果表核对，不依据图片估读。

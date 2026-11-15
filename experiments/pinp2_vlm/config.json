@@ -1,0 +1,12 @@
+{
+  "experiment": "pinp2_candidate_vlm_20261115", "seed": 42,
+  "vlm_model": "Qwen/Qwen2.5-VL-3B-Instruct", "vlm_temperature": 0,
+  "vlm_max_new_tokens": 16, "base_confidence": 0.25,
+  "vlm_gate_low": 0.25, "vlm_gate_high": 0.60, "max_vlm_calls_per_image": 2,
+  "crop_scale": 4.0, "crop_min_side": 64, "crop_resize": 448,
+  "local_scale": 1.5, "local_min_side": 16, "match_iou": 0.5,
+  "invalid_response": "UNCERTAIN", "unknown_action": "keep", "negative_action": "reject",
+  "prompt_version": "v1_plan_exact", "precision": "float16", "batch_size": 1,
+  "ap_policy": "retain original scores and all unreviewed predictions down to 0.001; remove reviewed negative candidates only",
+  "analysis_design": "frozen protocol, all 500 internal validation images; descriptive retrospective analysis, no tuning or independent-test claim"
+}

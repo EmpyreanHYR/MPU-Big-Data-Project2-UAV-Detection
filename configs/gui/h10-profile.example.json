@@ -1,0 +1,22 @@
+{
+  "host": "your-pi-ssh-alias",
+  "identity_file": "~/.ssh/your_existing_key",
+  "remote_python": "python3",
+  "remote_root": "/path/to/existing/project-directory-on-pi",
+  "model_dir": "/path/to/verified-release/model",
+  "shared_lock": "/path/to/existing-shared-hardware.lock",
+  "additional_lock": "/path/to/existing-second-shared-hardware.lock",
+  "max_seconds": 1800,
+  "timestamp_filter": false,
+  "timestamp_profiles": {},
+  "gui_config": {
+    "kind": "video",
+    "source": "/path/to/local/thermal-video.avi",
+    "labels": "",
+    "transport": "png",
+    "display_fps": 30,
+    "output_root": "outputs/gui",
+    "save_images": false,
+    "save_video": false
+  }
+}

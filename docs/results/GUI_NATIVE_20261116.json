@@ -1,0 +1,79 @@
+{
+  "date": "2026-11-16",
+  "status": "passed",
+  "model_id": "scratch100__pconv_p2",
+  "hef_sha256": "ad2d561f768bb31262ddad49b1a5b55a0d05fba8a339bc4860df8fcd9d730c15",
+  "backend": "local_memory_HAILO10H",
+  "qt_platform": "wayland",
+  "desktop_resolution": [
+    1920,
+    1080
+  ],
+  "screen_refresh_hz": 60,
+  "recording_enabled": false,
+  "session_seconds": 300.23941076899064,
+  "processed_frames": 4942,
+  "painted_frames": 4941,
+  "paint_fps": 16.510553933362456,
+  "paint_scope": "Unique detection frames after actual viewport paintEvent; not monitor scanout or capture FPS.",
+  "first_60s_paint_fps": 16.476272031748437,
+  "last_60s_paint_fps": 16.57491396097219,
+  "p95_frame_gap_ms": 68.53672104625731,
+  "max_frame_gap_ms": 102.87341300863773,
+  "mean_h10_pipeline_ms": 53.823632343244974,
+  "mean_local_call_ms": 57.092460470833856,
+  "network_upload_bytes_per_frame": 0,
+  "max_temperature_c": 60.6,
+  "throttled_flags": "throttled=0x0",
+  "mature_rss_mib_min": 344.421875,
+  "mature_rss_mib_max": 361.390625,
+  "rss_mib_mean_seconds30_60": 358.23229166666664,
+  "rss_mib_mean_last30seconds": 358.91979166666664,
+  "errors": null,
+  "locks": [
+    "available",
+    "available"
+  ],
+  "hailo_fuser_returncode": 1,
+  "recorded_video_files": 0,
+  "prediction_equivalence": {
+    "frames": 30,
+    "identical_predictions": 30,
+    "comparison": "Native direct H10 vs previous lossless-PNG H10 video; identical boxes and scores"
+  },
+  "unit_tests": {
+    "mac": {
+      "run": 31,
+      "passed": 31
+    },
+    "pi": {
+      "run": 31,
+      "passed": 30,
+      "skipped": 1
+    }
+  },
+  "validated_run_source_sha256": {
+    "src/uav_detection/__init__.py": "cf0e75ebbe6305a7339f3a475a4138a90d400c5c1c8e841add40bae058492daf",
+    "src/uav_detection/gui/__init__.py": "928007dbefdb7bcee04892baa0a27b302ff5b7d8f402e0a2567a91bd7567735d",
+    "src/uav_detection/gui/app.py": "2aa2974ac89a8741338164d786dfc7199b09a0eb72b0530038accccdb15e50ec",
+    "src/uav_detection/gui/qt.py": "3937a7925ff006a2ffe3c8d8d1c11613672d8145df8829689c042ccc66437f95",
+    "src/uav_detection/gui/local.py": "5ae84fc2a7f5e47bcd42861b27942db5d8ccfec992db2eaf433c800cdabe2ebb",
+    "src/uav_detection/gui/core.py": "f05e092c2ca35637ea5e4febd38929ce023f83bdd7a96d6423e38ff67f18a75d",
+    "src/uav_detection/gui/worker.py": "4ffb8053efc82f406ff218766291ffa8b9ef36fc47272f769b34e33e6ce1040b",
+    "scripts/run_pi_gui.py": "a3c5a0d434d33dc6926cd9a3839054db5b30014dbef5e6e448ef5dd585d7d431",
+    "scripts/run_gui.py": "0e0186c2067cf3371716c63e4bad25b7cee59fb9a468fbd2373ecfa66a228fb0",
+    "scripts/evaluation/detection_eval.py": "4ce59eabea390503e36bf5078642d7f29b9f50f73256558c17e8f3d90ec6e87a",
+    "scripts/evaluation/raw_head_decode.py": "27a2d52a5c27ffc54df9a1bc9ac1ca34f63828d70d90785b59653e8c8b0fec7d",
+    "scripts/deployment/pinp2_postprocess.py": "aba33761cb6315a4eab7e8e10f47b019e32538327b2379f9d2f3da91d0a42f06",
+    "scripts/deployment/serve_gui.py": "4a666c382cf7806bbc7320bbb316c5902a8580d731874dfef6bb430815c7d2d3",
+    "configs/deployment/pinp2_h10.json": "50c406bc9b275d63ebd0d0378fb7ec4904dc91ca3c8ef74d9e61c450f5dae8ec",
+    "tests/test_gui.py": "26ff82b5e11e3a0cd203455608afa3a8e6f8f533bef83d59c25186bf03d9963f"
+  },
+  "scope_limits": [
+    "Five-minute loop of a cached 30-frame image-sequence clip; not long-term camera or independent video accuracy acceptance.",
+    "Unique Qt viewport paint completions, not physical monitor scanout or screen-recording sampling.",
+    "One final processed frame was saved but not painted during stop.",
+    "Large 47 MB first upload was cancelled due to slow relay; incomplete cache was never used.",
+    "Final release hides irrelevant codec controls and labels local-memory transport explicitly; these cosmetic/metadata edits followed the timed run."
+  ]
+}

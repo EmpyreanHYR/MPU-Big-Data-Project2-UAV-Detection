@@ -1,0 +1,319 @@
+{
+  "status": "completed",
+  "date": "2026-11-16",
+  "model_id": "scratch100__pconv_p2",
+  "weights_sha256": "1ce66dfab5a953ec9d6e20da068ae73287898d6e2fd14570fc64a3e993234d54",
+  "comparison_scope": {
+    "external_unique_recording_frames": 30,
+    "internal_export_control_images": 8,
+    "same_source_pixels": true,
+    "hardware": "Raspberry Pi5; frozen FP32 ONNX CPU versus HAILO10H",
+    "no_training": true,
+    "Mac_model_inference": false,
+    "original_results_preserved": true
+  },
+  "metrics": {
+    "fp32": {
+      "external": {
+        "images": 30,
+        "GT": 30,
+        "TP": 0,
+        "FP": 25,
+        "FN": 30,
+        "miss_rate": 1.0,
+        "Precision_fixed": 0.0,
+        "Recall_fixed": 0.0,
+        "F1_fixed": 0.0,
+        "mAP50_deployment": 0.0011201666615648493,
+        "mAP50_95_deployment": 0.00016523852653745823,
+        "AP_by_IoU": [
+          0.0011201666615648493,
+          0.0005322186038097331,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "FP_per_image": 0.8333333333333334,
+        "negative_images": 0,
+        "negative_images_with_FP": 0,
+        "negative_FP_count": 0,
+        "confidence": 0.25,
+        "match_IoU": 0.5,
+        "AP_confidence_floor": 0.001,
+        "fixed_matching": "confidence filter first, then original IoU-first one-to-one matching",
+        "matching": "IoU-first one-to-one; 10 IoUs .50:.05:.95; 101-point precision-envelope trapezoid AP"
+      },
+      "internal_control": {
+        "images": 8,
+        "GT": 8,
+        "TP": 6,
+        "FP": 2,
+        "FN": 2,
+        "miss_rate": 0.25,
+        "Precision_fixed": 0.75,
+        "Recall_fixed": 0.75,
+        "F1_fixed": 0.75,
+        "mAP50_deployment": 0.765378494623656,
+        "mAP50_95_deployment": 0.3628986820276498,
+        "AP_by_IoU": [
+          0.765378494623656,
+          0.765378494623656,
+          0.765378494623656,
+          0.6673425499231951,
+          0.4840468509984639,
+          0.16547714285714282,
+          0.01598479262672811,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "FP_per_image": 0.25,
+        "negative_images": 0,
+        "negative_images_with_FP": 0,
+        "negative_FP_count": 0,
+        "confidence": 0.25,
+        "match_IoU": 0.5,
+        "AP_confidence_floor": 0.001,
+        "fixed_matching": "confidence filter first, then original IoU-first one-to-one matching",
+        "matching": "IoU-first one-to-one; 10 IoUs .50:.05:.95; 101-point precision-envelope trapezoid AP"
+      }
+    },
+    "h10": {
+      "external": {
+        "images": 30,
+        "GT": 30,
+        "TP": 0,
+        "FP": 18,
+        "FN": 30,
+        "miss_rate": 1.0,
+        "Precision_fixed": 0.0,
+        "Recall_fixed": 0.0,
+        "F1_fixed": 0.0,
+        "mAP50_deployment": 0.0006035177214773211,
+        "mAP50_95_deployment": 0.00012070354429546421,
+        "AP_by_IoU": [
+          0.0006035177214773211,
+          0.0006035177214773211,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "FP_per_image": 0.6,
+        "negative_images": 0,
+        "negative_images_with_FP": 0,
+        "negative_FP_count": 0,
+        "confidence": 0.25,
+        "match_IoU": 0.5,
+        "AP_confidence_floor": 0.001,
+        "fixed_matching": "confidence filter first, then original IoU-first one-to-one matching",
+        "matching": "IoU-first one-to-one; 10 IoUs .50:.05:.95; 101-point precision-envelope trapezoid AP"
+      },
+      "internal_control": {
+        "images": 8,
+        "GT": 8,
+        "TP": 6,
+        "FP": 1,
+        "FN": 2,
+        "miss_rate": 0.25,
+        "Precision_fixed": 0.8571428571428571,
+        "Recall_fixed": 0.75,
+        "F1_fixed": 0.7999999999999999,
+        "mAP50_deployment": 0.7919440476190477,
+        "mAP50_95_deployment": 0.3452482023809524,
+        "AP_by_IoU": [
+          0.7919440476190477,
+          0.7919440476190477,
+          0.7919440476190477,
+          0.49131249999999993,
+          0.3984375,
+          0.1696475,
+          0.01725238095238095,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "FP_per_image": 0.125,
+        "negative_images": 0,
+        "negative_images_with_FP": 0,
+        "negative_FP_count": 0,
+        "confidence": 0.25,
+        "match_IoU": 0.5,
+        "AP_confidence_floor": 0.001,
+        "fixed_matching": "confidence filter first, then original IoU-first one-to-one matching",
+        "matching": "IoU-first one-to-one; 10 IoUs .50:.05:.95; 101-point precision-envelope trapezoid AP"
+      }
+    }
+  },
+  "checks": {
+    "analytic_coordinate_cases": 72,
+    "analytic_max_error_px": 2.929687502728484e-05,
+    "actual_coordinate_cases": 76,
+    "actual_max_error_px": 3.0517578125e-05,
+    "demo_scale": 1,
+    "padding_left_top": [
+      0,
+      64
+    ],
+    "historical_per_image_bit_equal_comparisons": 46,
+    "label_conversion": {
+      "images": 300,
+      "boxes": 300,
+      "all_LabelMe_rectangle_minmax_exactly_equal_audit_GT": true,
+      "image_size": [
+        640,
+        512
+      ],
+      "normalized_xywh_roundtrip_8decimals_max_error_px": 4.720442007055681e-06,
+      "note": "No independent relabeling; confirms unit/format conversion, not semantic annotation tightness."
+    },
+    "original_source_files_unchanged": 20
+  },
+  "annotation_size_summary": {
+    "recording30": {
+      "width_px": [
+        20.580108642578125,
+        25.600006103515625,
+        38.29999542236328
+      ],
+      "height_px": [
+        20.300003051757812,
+        25.138118743896484,
+        36.69998550415039
+      ],
+      "area_px2": [
+        465.97469329833984,
+        671.1051940917969,
+        1381.0396118164062
+      ],
+      "aspect_w_h": [
+        0.9500004053115845,
+        1.0291250944137573,
+        1.1165873110294342
+      ]
+    },
+    "jpeg300": {
+      "width_px": [
+        21.546966552734375,
+        25.03094482421875,
+        35.600006103515625
+      ],
+      "height_px": [
+        21.460227966308594,
+        24.86187744140625,
+        32.133140563964844
+      ],
+      "area_px2": [
+        471.51778411865234,
+        629.1019897460938,
+        1173.7421264648438
+      ],
+      "aspect_w_h": [
+        0.9545459002256393,
+        1.0253207087516785,
+        1.1137982308864594
+      ]
+    },
+    "internal500": {
+      "width_px": [
+        6.9996795654296875,
+        6.99969482421875,
+        8.0
+      ],
+      "height_px": [
+        3.999725341796875,
+        3.999755859375,
+        5.00018310546875
+      ],
+      "area_px2": [
+        23.99853515625,
+        28.99908447265625,
+        35.99908447265625
+      ],
+      "aspect_w_h": [
+        1.5001029968261719,
+        1.7500438690185547,
+        2.0001296997070312
+      ]
+    }
+  },
+  "example_frame4": {
+    "GT_width_height_px": [
+      14.4,
+      14.8
+    ],
+    "FP32_width_height_px": [
+      9.198486328125,
+      4.055145263671875
+    ],
+    "H10_width_height_px": [
+      9.678497314453125,
+      4.3465576171875
+    ],
+    "FP32_IoU": 0.17502424120903015,
+    "H10_IoU": 0.19739165902137756,
+    "head_stride": 4,
+    "head_reg_max": 1,
+    "head_decoded_height_px": 4.346575736999512
+  },
+  "conclusion": {
+    "deployment_coordinate_bug_found": false,
+    "small_boxes_already_present_in_FP32": true,
+    "quantization_changes_candidates": true,
+    "annotation_units_consistent": true,
+    "annotation_extent_and_shape_differ": true,
+    "generalization_vs_annotation_tightness_contributions_separated": false,
+    "independent_annotation_review_pending": true,
+    "no_GUI_or_default_policy_change": true
+  },
+  "new_run_receipts": {
+    "fp32": {
+      "identity": {
+        "backend": "FP32 ONNX CPU",
+        "onnxruntime": "1.23.2",
+        "weights_sha256": "1ce66dfab5a953ec9d6e20da068ae73287898d6e2fd14570fc64a3e993234d54",
+        "onnx_sha256": "36308f334e8f26b55a08361c015bb82531bac55b12863c180d9d13b6bb7234af"
+      },
+      "predictions_sha256": "0f2a68aaf51923a4fc648dc6815c6f81f44d47e8a5a8fdd0b5d44046251353fa"
+    },
+    "h10": {
+      "identity": {
+        "protocol": "pinp2-demo-v1",
+        "backend": "HAILO10H",
+        "runtime": "5.1.1",
+        "H10_used": true,
+        "service_sha256": "4a666c382cf7806bbc7320bbb316c5902a8580d731874dfef6bb430815c7d2d3",
+        "model_id": "scratch100__pconv_p2",
+        "weights_sha256": "1ce66dfab5a953ec9d6e20da068ae73287898d6e2fd14570fc64a3e993234d54",
+        "hef_sha256": "ad2d561f768bb31262ddad49b1a5b55a0d05fba8a339bc4860df8fcd9d730c15",
+        "policy": {
+          "schema_version": 1,
+          "model_id": "scratch100__pconv_p2",
+          "family": "e2e",
+          "weights_sha256": "1ce66dfab5a953ec9d6e20da068ae73287898d6e2fd14570fc64a3e993234d54",
+          "hef_sha256": "ad2d561f768bb31262ddad49b1a5b55a0d05fba8a339bc4860df8fcd9d730c15",
+          "input_size": 640,
+          "confidence": 0.25,
+          "nms_enabled": true,
+          "nms_iou": 0.4,
+          "max_detections": 300,
+          "nms_coordinate_space": "original_image_after_clipping",
+          "selection_scope": "internal_validation_engineering_choice; independent crowded-target validation pending"
+        },
+        "confidence_floor": 0.25,
+        "warmup_frames": 0
+      },
+      "predictions_sha256": "5ba92c0093476906c68b984b7678183640c1894dc8aa60c136b748f9d84d02cc"
+    }
+  },
+  "hardware_released": true
+}

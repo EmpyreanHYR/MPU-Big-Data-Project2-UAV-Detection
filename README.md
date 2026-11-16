@@ -2,12 +2,26 @@
 
 本项目研究小型红外无人机的检测与边缘部署。在YOLO26n上加入浅层风车卷积（PConv）和高分辨率P2检测分支，形成 **PinP2-YOLO**，并在树莓派5＋HAILO10H上完成实际推理测试。
 
+## 快速复现GUI
+
+完整步骤见[GUI复现指南](docs/GUI_REPRODUCIBILITY.md)。使用Python3.12+，在仓库根目录执行：
+
+```sh
+python3 -m venv .venv-gui
+.venv-gui/bin/python -m pip install -e '.[gui]' -c constraints/gui-desktop-20261116.txt
+.venv-gui/bin/python scripts/prepare_gui_smoke_demo.py
+.venv-gui/bin/python scripts/run_gui.py --config outputs/gui_smoke/demo.json
+```
+
+这个入口生成明确标注的合成图片和预测，用于检查界面，不代表模型效果。真实图片／视频检测还需树莓派5＋HAILO10H及匹配的模型包；配置模板位于[configs/gui](configs/gui/README.md)。自动检查运行 `python scripts/check_gui.py`，不加载模型或连接设备。
+
 ## 组员从哪里开始
 
 1. 阅读[项目进展与待办](docs/PROJECT_STATUS.md)，了解已做工作、结论和仍需补充的内容。
 2. 阅读[中文报告](docs/report/report_zh.md)；汇报与提交以[英文报告PDF](docs/report/report.pdf)为准。
 3. 做PPT时使用[当前网络图](docs/report/figures/final_pconv_p2.pdf)和[实验结果导航](docs/results/README.md)，引用时保留评价口径。
 4. 修改代码前查看[环境说明](docs/ENVIRONMENT.md)、[配置导航](configs/README.md)和[部署入口](scripts/deployment/README.md)。
+5. 课堂演示使用 [PyQt6 检测工作台](docs/GUI.md)：真实实验结果回放、H10 实时检测客户端、图片／视频导出和实验结果对比。Mac 可双击 `启动检测演示.command`；真机演示使用 [启动H10实时检测.command](启动H10实时检测.command)（先安装 GUI 依赖并准备私有连接配置）。树莓派显示器演示使用 [启动树莓派本机演示.command](启动树莓派本机演示.command)，素材缓存一次、本机检测；[演示与录制说明](docs/DEMO_REHEARSAL.md)。新版为 [3分46秒英文配音演示](docs/results/GUI_NARRATED_20261116.md)，含双语字幕、操作放大和时间文字过滤；[原始完整录屏](docs/results/GUI_RECORDING_20261116.md)保留。已完成 [图片与视频H10联调](docs/results/GUI_H10_20261116.md)。
 
 ## 已完成什么
 

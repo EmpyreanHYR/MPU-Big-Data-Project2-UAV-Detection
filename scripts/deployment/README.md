@@ -1,5 +1,7 @@
 # PinP2 H10 default deployment
 
+For the PyQt6 demonstration client and the bounded, authenticated H10 HTTP service, see [GUI guide](../../docs/GUI.md) and [serve_gui.py](serve_gui.py). Video/camera frames are captured by the client. The HTTP path passed real H10 image and video acceptance; see [GUI integration results](../../docs/results/GUI_H10_20261116.md) for scope and measured transport latency. Physical camera capture remains untested. The image/folder CLI evidence below is a separate measurement.
+
 The frozen scratch100 PinP2 model uses **NMS IoU=0.4**, confidence0.25 and max300. [Policy](../../configs/deployment/pinp2_h10.json) pins the exact weights and HEF hashes. [Postprocessor](pinp2_postprocess.py) calls greedy NMS after raw decoding, original-coordinate restoration and clipping; it does not rely on the historical metadata field. Stable score ordering and unchanged coordinates/scores are retained. Disabling NMS is rejected.
 
 [pinp2_h10.py](pinp2_h10.py) is the current image/folder deployment entry point. Run on Raspberry Pi5 with HailoRT5.1.1, HAILO10H, NumPy and Pillow. No CPU fallback. Example (replace paths with the existing device paths):

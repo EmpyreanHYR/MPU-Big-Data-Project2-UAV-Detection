@@ -1,0 +1,20 @@
+{
+  "backend": "local",
+  "kind": "video",
+  "source": "/path/to/media-on-pi.avi",
+  "labels": "",
+  "local_model_dir": "/path/to/verified-release/model",
+  "local_locks": [
+    "/path/to/existing-shared-hardware.lock",
+    "/path/to/existing-second-shared-hardware.lock"
+  ],
+  "confidence": 0.25,
+  "display_fps": 30,
+  "max_seconds": 1800,
+  "loop_video": true,
+  "output_root": "outputs/gui",
+  "save_images": false,
+  "save_video": false,
+  "timestamp_filter": false,
+  "timestamp_profiles": {}
+}

@@ -1,0 +1,60 @@
+{
+  "date": "2026-11-16",
+  "capture_location": "Raspberry Pi 5 native Wayland desktop",
+  "accelerator": "HAILO10H",
+  "model_id": "scratch100__pconv_p2",
+  "hef_sha256": "ad2d561f768bb31262ddad49b1a5b55a0d05fba8a339bc4860df8fcd9d730c15",
+  "recording": {
+    "duration_seconds": 412.92,
+    "width": 1920,
+    "height": 1080,
+    "capture_fps": 25,
+    "audio": false,
+    "editing": "Uncut full workflow. Original captured on Pi and SHA256 verified after transfer; delivery MP4 re-encoded locally with no cuts, speed change, or frame insertion."
+  },
+  "operations": [
+    "select image",
+    "run H10 image detection",
+    "select video",
+    "start realtime H10 video detection",
+    "pause",
+    "resume",
+    "stop"
+  ],
+  "video_run": {
+    "processed_frames": 826,
+    "painted_frames": 825,
+    "error": null,
+    "status": "stopped",
+    "mean_local_call_ms": 87.02750117194905,
+    "active_display_fps": 10.107984450865727,
+    "display_fps_including_pause": 5.865239866713373,
+    "active_p95_gap_ms": 130.73509899550118,
+    "pause_gap_seconds": 59.067930792007246,
+    "pause_frame_count": 403,
+    "network_bytes_per_inference_frame": 0,
+    "metric_scope": "Distinct Qt paintEvent frames. Active display FPS excludes exactly the single 59.07s pause gap, not other slow frames. Capture FPS is not detector FPS."
+  },
+  "source": {
+    "image": "SIRST-UAVB sirst__10.jpg",
+    "video": "30-frame thermal clip constructed from real UAV-CB images ordered by published filenames, looped; not independently verified continuous camera footage."
+  },
+  "validation": {
+    "full_decode": "ffmpeg completed with exit 0 and no decode errors",
+    "visual_review_seconds": [
+      30,
+      85,
+      210,
+      250,
+      310,
+      350
+    ],
+    "pause_resume": "Paused at 403 frames, then resumed and stopped at 826 frames",
+    "hardware_locks_released": true,
+    "transfer": "Original Pi recording SHA256 matched; delivery MP4 encoded and fully decoded locally.",
+    "delivery_full_decode_passed": true
+  },
+  "raw_sha256": "9d24ef62a4bfa61c1540abb8f3700203d1deb1a1f13ed273b5948d5e62e4699d",
+  "delivery_sha256": "8e216aebdccc118e123f5c7493ece8115910fff6c1234f567e3848d6008dc102",
+  "delivery_size_bytes": 24730194
+}

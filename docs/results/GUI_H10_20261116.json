@@ -1,0 +1,195 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-16",
+  "status": "passed_with_documented_scope",
+  "hardware": "Raspberry Pi 5 / HAILO10H",
+  "hailort": "5.1.1",
+  "model_id": "scratch100__pconv_p2",
+  "hef_sha256": "ad2d561f768bb31262ddad49b1a5b55a0d05fba8a339bc4860df8fcd9d730c15",
+  "weights_sha256": "1ce66dfab5a953ec9d6e20da068ae73287898d6e2fd14570fc64a3e993234d54",
+  "policy": {
+    "confidence": 0.25,
+    "nms_iou": 0.4,
+    "max_detections": 300
+  },
+  "mac_inference": false,
+  "mac_torch_imported": false,
+  "mac_gui_scenarios": [
+    {
+      "scenario": "single_image",
+      "frames": 1,
+      "status": "passed",
+      "reference_identical_images": 1,
+      "wall_seconds_including_pause": 2.1035173750133254,
+      "mean_client_ms": 1256.4675000030547,
+      "p95_client_ms": 1256.4675000030547,
+      "mean_server_ms": 49.81090700312052,
+      "transport": "original_image/jpeg",
+      "detections": 1,
+      "model_id": "scratch100__pconv_p2",
+      "hef_sha256": "ad2d561f768bb31262ddad49b1a5b55a0d05fba8a339bc4860df8fcd9d730c15",
+      "predictions_sha256": "890f21c9e95c05a3eab0808ce735ab8567c6224bb7db2ad46789c78069935271",
+      "pause_resume_12s": false
+    },
+    {
+      "scenario": "image_folder64",
+      "frames": 64,
+      "status": "passed",
+      "reference_identical_images": 64,
+      "wall_seconds_including_pause": 94.89857787499204,
+      "mean_client_ms": 1459.364538299269,
+      "p95_client_ms": 2286.7462313064602,
+      "mean_server_ms": 46.117015436038855,
+      "transport": "original_image/jpeg",
+      "detections": 47,
+      "model_id": "scratch100__pconv_p2",
+      "hef_sha256": "ad2d561f768bb31262ddad49b1a5b55a0d05fba8a339bc4860df8fcd9d730c15",
+      "predictions_sha256": "5ac91d0faf23180d5993049665fdf521d4a46083ea3f4649881f106d6800d1ec",
+      "pause_resume_12s": false
+    },
+    {
+      "scenario": "video_png30",
+      "frames": 30,
+      "status": "passed",
+      "wall_seconds_including_pause": 101.01488058397081,
+      "mean_client_ms": 3303.4419514103015,
+      "p95_client_ms": 5242.307308004818,
+      "mean_server_ms": 46.0420141001426,
+      "transport": "png_lossless",
+      "detections": 18,
+      "model_id": "scratch100__pconv_p2",
+      "hef_sha256": "ad2d561f768bb31262ddad49b1a5b55a0d05fba8a339bc4860df8fcd9d730c15",
+      "predictions_sha256": "80ccee1206191e1fdba5b329666c670862431a9b64983257152ac1c42466c7c3",
+      "pause_resume_12s": false
+    },
+    {
+      "scenario": "video_jpeg300",
+      "frames": 300,
+      "status": "passed",
+      "wall_seconds_including_pause": 671.4221199160093,
+      "mean_client_ms": 2185.9871804487193,
+      "p95_client_ms": 3962.7868815296147,
+      "mean_server_ms": 45.80485895683523,
+      "transport": "jpeg_quality95",
+      "detections": 204,
+      "model_id": "scratch100__pconv_p2",
+      "hef_sha256": "ad2d561f768bb31262ddad49b1a5b55a0d05fba8a339bc4860df8fcd9d730c15",
+      "predictions_sha256": "333992ab4fd2c24461c915188dd1abad9aa4a902b51793ab6df7c2ab2da1e7fa",
+      "pause_resume_12s": true
+    }
+  ],
+  "pi_local_gui": {
+    "frames": 30,
+    "reference_identical_frames": 30,
+    "exported_video_frames": 30,
+    "end_to_end_wall_seconds": 4.908834772009868,
+    "end_to_end_fps": 6.111429981522241,
+    "mean_server_ms": 42.173556232107025,
+    "mean_client_ms": 52.63928756564079,
+    "scope": "Pi GUI offscreen: source decode, lossless PNG loopback H10 requests, actual Qt updates and MJPG export; includes a screenshot; not physical display FPS"
+  },
+  "native_mac_gui": {
+    "status": "passed",
+    "native_controls": [
+      "start",
+      "pause",
+      "resume",
+      "stop",
+      "view_experiments",
+      "quit"
+    ],
+    "processed_frames": 9,
+    "exported_video_frames": 9,
+    "window_outcome": "stopped",
+    "gui_exit_code": 0,
+    "qt": "6.12.0",
+    "pyqt": "6.12.1",
+    "native_accessibility_scans": "passed after rich-text table replacement",
+    "cleanup": {
+      "locks": [
+        {
+          "name": "shared_lock",
+          "available": true
+        },
+        {
+          "name": "additional_lock",
+          "available": true
+        }
+      ],
+      "owned_guard_running": false,
+      "hailo_fuser_returncode": 1
+    }
+  },
+  "unit_tests": {
+    "mac": {
+      "run": 29,
+      "passed": 29,
+      "skipped": 0
+    },
+    "pi": {
+      "run": 29,
+      "passed": 28,
+      "skipped": 1,
+      "skip_reason": "Mac-only hardware guard test"
+    }
+  },
+  "video_source": {
+    "dataset": "UAV-CB building thermal",
+    "construction": "First 300 images sorted by published filename, FFV1 lossless 640x512",
+    "decoded_pixels_verified": true,
+    "container_fps": 25,
+    "original_capture_fps_verified": false,
+    "temporal_continuity_verified": false,
+    "video_ground_truth_evaluated": false
+  },
+  "transport_comparison_first30": {
+    "png_detections": 18,
+    "jpeg95_detections": 17,
+    "identical_prediction_frames": 12,
+    "default": "png_lossless",
+    "interpretation": "Lossy compression changes predictions; no accuracy comparison without ground truth."
+  },
+  "preserved_failures": [
+    {
+      "scenario": "initial_jpeg300",
+      "processed_frames": 207,
+      "error": "Remote end closed connection without response",
+      "retest": "300/300 completed after connection lifecycle and timeout fixes; no inference retry",
+      "root_cause": "Exact network failure mechanism not conclusively isolated."
+    },
+    {
+      "scenario": "mac_native_accessibility",
+      "qt_versions": [
+        "6.12.0",
+        "6.7.3"
+      ],
+      "error": "SIGSEGV in Cocoa accessibility bridge",
+      "retest": "Native scan/start/pause/resume/stop/quit passed with rich-text tables on Qt6.12.0",
+      "upstream_related_issue": "https://qt-project.atlassian.net/browse/QTBUG-149612"
+    }
+  ],
+  "limits": [
+    "Constructed image-sequence video, not an independently validated continuous recording.",
+    "No physical camera or long-duration field acceptance.",
+    "Pi GUI timing uses offscreen rendering, not physical monitor refresh.",
+    "Remote request latency includes current relay-network overhead; not hardware FPS."
+  ],
+  "source_sha256": {
+    "src/uav_detection/gui/worker.py": "e4a94b0ac633b1e7510f34d4114f2fc9633473f187ff87f620d8ccfceb63b4cf",
+    "src/uav_detection/gui/qt.py": "3937a7925ff006a2ffe3c8d8d1c11613672d8145df8829689c042ccc66437f95",
+    "src/uav_detection/gui/__init__.py": "928007dbefdb7bcee04892baa0a27b302ff5b7d8f402e0a2567a91bd7567735d",
+    "src/uav_detection/gui/core.py": "f05e092c2ca35637ea5e4febd38929ce023f83bdd7a96d6423e38ff67f18a75d",
+    "src/uav_detection/gui/app.py": "97c5bceaa7b7c6e5e92d56252c8d523d32a6ee42dbfc0ba1a3a957e0506a5367",
+    "scripts/deployment/serve_gui.py": "4a666c382cf7806bbc7320bbb316c5902a8580d731874dfef6bb430815c7d2d3",
+    "scripts/run_live_gui.py": "a7e15cf92a2eeaeee27c43b8439da8eb40a909636965301c8c9d89d10e91ad8b",
+    "tests/test_gui.py": "6b099eaeb52067bed74e767706a62f54c883e1d078babe935f4a315e01163134"
+  },
+  "repository_checks": {
+    "repository_integrity": "passed",
+    "references": "passed",
+    "tracked_public_tests": 65,
+    "tracked_public_skipped": 8,
+    "compileall": "passed",
+    "git_diff_check": "passed"
+  }
+}

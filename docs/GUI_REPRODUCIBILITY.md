@@ -5,9 +5,9 @@
 The complete GUI, H10 adapters, configuration templates and checks are in this
 repository. A fresh checkout can run the interface without private files using
 an explicitly **synthetic replay fixture**. Real detection additionally requires
-the verified model package and a Raspberry Pi 5 with HAILO10H.
+the [public, verified model package](https://github.com/EmpyreanHYR/MPU-Big-Data-Project2-UAV-Detection/releases/tag/gui-h10-v1.0.0) and a Raspberry Pi 5 with HAILO10H.
 
-仓库即可复现界面与合成样例；真机检测还需匹配的模型包和硬件，合成样例不代表模型效果。
+模型包和完整演示视频已公开；有匹配硬件即可使用自己的素材实际检测。下面的合成样例仅用于无设备界面检查。
 
 ## 1. Clone and install / 安装
 
@@ -99,12 +99,40 @@ also be removed. Keep the filter off until the new source has been reviewed.
 | Raspberry Pi 5, HAILO10H, working desktop | Existing device; physical display for native GUI |
 | HailoRT 5.1.1 and matching driver | Existing working device stack; launchers do not install drivers |
 | Python, NumPy, Pillow, OpenCV, PyQt5 or PyQt6 | The verified Pi used system PyQt5 5.15.11 / Qt 5.15.15, NumPy 2.2.4, Pillow 11.1.0 |
-| `model/model.hef`, `model/h10_metadata.json` | Obtain the frozen PinP2 H10 deployment package from the project maintainer |
+| `models/pinp2_h10/model.hef`, `h10_metadata.json` | Download the pinned public release with the command below |
 | Input images or video | Your own media, or the authorized project dataset/result package |
 | Two shared hardware locks | The actual lock files used by the device's other workloads |
 
-模型、原始数据、SSH凭据和本机录像不随Git发布。没有模型包时，可复现界面和测试，
-不能运行真实H10检测或重现原模型精度。
+### Download the actual model / 下载真实模型
+
+Run this **on the Pi**, from the complete repository checkout:
+
+```sh
+python3 scripts/download_gui_model.py
+python3 scripts/download_gui_model.py --verify-only
+```
+
+The standard-library downloader installs the [frozen release](https://github.com/EmpyreanHYR/MPU-Big-Data-Project2-UAV-Detection/releases/tag/gui-h10-v1.0.0)
+into `models/pinp2_h10/`. It verifies the ZIP size/SHA256, every extracted file,
+metadata identity and the repository deployment policy. Existing files are checked,
+never overwritten. The [release manifest](../configs/deployment/pinp2_h10_release.json)
+pins the checksums. For an offline Pi, download
+[`pinp2-h10-model-v1.0.0.zip`](https://github.com/EmpyreanHYR/MPU-Big-Data-Project2-UAV-Detection/releases/download/gui-h10-v1.0.0/pinp2-h10-model-v1.0.0.zip)
+on another computer, copy it to the Pi, then run:
+
+```sh
+python3 scripts/download_gui_model.py --archive /path/to/pinp2-h10-model-v1.0.0.zip
+```
+
+The package contains `model.hef`, `h10_metadata.json`, `deployment_policy.json`,
+`README.md` and `SHA256SUMS`. No `.pt`, ONNX, Torch, training environment or Hailo
+compiler is needed for GUI inference. It targets **HAILO10H**, not Hailo-8/8L.
+The original metadata is preserved byte-for-byte; its historical `H10_used: false`
+describes export provenance, while actual device use is recorded by runtime results.
+
+真实模型和[带配音演示视频](https://github.com/EmpyreanHYR/MPU-Big-Data-Project2-UAV-Detection/releases/download/gui-h10-v1.0.0/PinP2_H10_GUI_narrated_demo.mp4)
+公开下载；数据集、SSH凭据和私有连接配置不随仓库分发。使用自己的图片／视频即可检测，
+无需标签；要重算论文精度则还需对应的验证集、标注和划分。
 
 The [deployment policy](../configs/deployment/pinp2_h10.json) defines the exact
 model identity, HEF/weight SHA256, confidence 0.25 and NMS IoU 0.4. The expected
@@ -120,13 +148,29 @@ and refuses busy hardware or incompatible models without CPU fallback.
 Clone the complete repository **on the Pi**, then in its graphical desktop terminal:
 
 ```sh
-mkdir -p outputs
-cp configs/gui/pi-local.example.json outputs/gui_pi_local.json
-# Edit media, model and the two existing shared lock paths in the private copy.
 python3 -c "import numpy, PIL, cv2, PyQt5, hailo_platform; print('Pi dependencies available')"
+python3 scripts/configure_pi_gui.py \
+  --source /absolute/path/to/your-image.png \
+  --shared-lock /absolute/path/to/shared-hardware.lock \
+  --additional-lock /absolute/path/to/shared-device.lock
 timeout --signal=TERM --kill-after=20s 1860s \
   python3 scripts/run_pi_gui.py --config outputs/gui_pi_local.json --fullscreen
 ```
+
+Replace the three paths with your real image/video and the two locks shared by
+all H10 users on that device. Lock parent directories must exist and be writable.
+On a new dedicated Pi with no existing H10 workflows, create a stable directory
+(e.g. `mkdir -p "$HOME/.local/state/pinp2"`) and use `hardware.lock` and `device.lock`
+inside it; every later H10 workflow must reuse these same paths. On a shared Pi,
+reuse the existing locks instead of making a separate pair.
+
+The helper creates `outputs/gui_pi_local.json` with absolute paths and refuses to
+overwrite it. For a video, supply an actual `.mp4`/`.avi` to `--source`, optionally
+add `--loop`, and use `--output outputs/gui_pi_video.json`; launch with that config.
+Choose **Start**, then **Pause**, **Resume**, and **Stop** in the GUI. Detections and
+session summaries are saved under `outputs/gui/`. Labels are optional and empty
+by default; without GT labels, counts are detections, not measured TP/FP or accuracy.
+The timestamp filter starts off; configure a reviewed source as in section 3.
 
 If the Pi uses PyQt6, replace `PyQt5` in the dependency check. Use the interpreter
 that can import the installed HailoRT stack; do not replace it with the desktop
@@ -145,7 +189,9 @@ cp configs/gui/h10-profile.example.json outputs/gui_h10_profile.json
 ```
 
 The SSH host key must already be trusted and key login must work. `remote_root`
-must exist. The profile's source file is on the client. For a GUI shown on the
+must exist. Set `model_dir` to the **Pi's absolute** `models/pinp2_h10` directory
+after downloading/verifying the model there; downloading only on the client does
+not install it on the Pi. The profile's source file is on the client. For a GUI shown on the
 **Pi's monitor**, use `scripts/launch_pi_gui.py --video /path/to/local/video.avi`;
 it caches that file on the Pi and creates a separate release and local launcher.
 Alternatively use the native configuration above with media already on the Pi.
@@ -165,10 +211,12 @@ describe the previously measured device, not measurements made by fresh-clone CI
 
 Publication check on 2026-11-16: a clean export of the Git candidate was installed
 into a new desktop environment using the constraint file, with no private assets.
-All 33 GUI tests, the 12-image window/export smoke check and the synthetic timestamp
+All 33 original GUI tests, the 12-image window/export smoke check and the synthetic timestamp
 example passed. The public project suite ran 98 tests with 8 optional model tests
 skipped; the 5 timestamp audit tests also passed. The CLI entry point and dependency
-consistency were checked. See the workflow badge for subsequent Linux CI results.
+consistency were checked. The model publication adds 3 package-integrity tests (36 GUI tests total), checks
+installation of the real release ZIP without loading it, and verifies public
+downloads against the pinned hashes. See the workflow badge for subsequent Linux CI results.
 
 | Symptom | Check |
 |---|---|

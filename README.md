@@ -2,7 +2,33 @@
 
 本项目研究小型红外无人机的检测与边缘部署。在YOLO26n上加入浅层风车卷积（PConv）和高分辨率P2检测分支，形成 **PinP2-YOLO**，并在树莓派5＋HAILO10H上完成实际推理测试。
 
-## 快速复现GUI
+## GUI demonstration / 操作演示
+
+https://github.com/user-attachments/assets/ad5af9a7-2ece-4dd1-8940-8daeae079ef7
+
+**3分46秒**：树莓派本机真实H10检测，展示图片检测、时间文字过滤、视频检测及暂停／恢复。
+英文讲解、双语字幕、操作放大，无背景音乐。上方为完整720p预览；
+[下载1080p原版视频](https://github.com/EmpyreanHYR/MPU-Big-Data-Project2-UAV-Detection/releases/download/gui-h10-v1.0.0/PinP2_H10_GUI_narrated_demo.mp4) ·
+[双语字幕](https://github.com/EmpyreanHYR/MPU-Big-Data-Project2-UAV-Detection/releases/download/gui-h10-v1.0.0/PinP2_H10_GUI_bilingual.srt) ·
+[模型与视频Release](https://github.com/EmpyreanHYR/MPU-Big-Data-Project2-UAV-Detection/releases/tag/gui-h10-v1.0.0)。
+视频检测素材由30张真实红外图片循环组成，用于演示操作，不是连续拍摄的视频或精度测试。
+
+## Real detection / 真实检测
+
+已公开与本项目真机验收一致的 **HAILO10H HEF模型＋解码元数据**，无需另找维护者索取模型。
+在树莓派的完整仓库中执行：
+
+```sh
+python3 scripts/download_gui_model.py
+python3 scripts/download_gui_model.py --verify-only
+```
+
+模型安装到 `models/pinp2_h10/`，下载器自动核对压缩包及每个文件的SHA256。
+随后按[真机配置与启动步骤](docs/GUI_REPRODUCIBILITY.md#4-prepare-real-h10-detection--准备真机)
+指定自己的图片／视频，即可实际推理。需要树莓派5、HAILO10H和已配置的HailoRT5.1.1；
+该HEF不适用于Hailo-8/8L，也不在普通电脑上执行检测。
+
+## Quick GUI check / 无设备检查界面
 
 完整步骤见[GUI复现指南](docs/GUI_REPRODUCIBILITY.md)。使用Python3.12+，在仓库根目录执行：
 
@@ -13,7 +39,7 @@ python3 -m venv .venv-gui
 .venv-gui/bin/python scripts/run_gui.py --config outputs/gui_smoke/demo.json
 ```
 
-这个入口生成明确标注的合成图片和预测，用于检查界面，不代表模型效果。真实图片／视频检测还需树莓派5＋HAILO10H及匹配的模型包；配置模板位于[configs/gui](configs/gui/README.md)。自动检查运行 `python scripts/check_gui.py`，不加载模型或连接设备。
+这个入口生成明确标注的合成图片和预测，用于检查界面，不代表模型效果。真实图片／视频检测使用上方公开的模型包和树莓派5＋HAILO10H；配置模板位于[configs/gui](configs/gui/README.md)。自动检查运行 `python scripts/check_gui.py`，不加载模型或连接设备。
 
 ## 组员从哪里开始
 
@@ -50,7 +76,7 @@ python3 -m venv .venv-gui
 | `docs/proposal/` | 已提交提案，保留当时计划，不作为当前实验参数 |
 | `bibliography/`、`templates/`、`third_party/` | 统一文献、原始模板及第三方来源与许可 |
 
-原始数据、权重、ONNX/HEF、逐图预测和设备运行记录不在Git中。需要复核完整实验时，应向项目维护者获取对应私有结果包，按[复现说明](docs/report/REPRODUCIBILITY_NOTES.md)核对版本与哈希。
+GUI所需HEF、匹配元数据和演示视频已发布到[GitHub Release](https://github.com/EmpyreanHYR/MPU-Big-Data-Project2-UAV-Detection/releases/tag/gui-h10-v1.0.0)，不占用Git源码历史。原始数据、训练权重、ONNX、逐图预测和完整设备记录仍不随仓库分发。需要复核完整实验时，应向项目维护者获取对应私有结果包，按[复现说明](docs/report/REPRODUCIBILITY_NOTES.md)核对版本与哈希。
 
 ## 本地检查与报告构建
 

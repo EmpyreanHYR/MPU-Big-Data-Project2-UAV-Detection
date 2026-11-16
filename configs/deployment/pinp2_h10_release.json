@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "release_tag": "gui-h10-v1.0.0",
+  "model_id": "scratch100__pconv_p2",
+  "url": "https://github.com/EmpyreanHYR/MPU-Big-Data-Project2-UAV-Detection/releases/download/gui-h10-v1.0.0/pinp2-h10-model-v1.0.0.zip",
+  "sha256": "efebe5ef9e9d7d5a39abb11da4c7b82f5b7c5f8b08afa99be49f575754992f25",
+  "bytes": 2620590,
+  "files": {
+    "README.md": {
+      "sha256": "0d17e781865c6104395a17c64a93d48e961fcfb86d743a7fd32ff77641a3fe86",
+      "bytes": 884
+    },
+    "deployment_policy.json": {
+      "sha256": "50c406bc9b275d63ebd0d0378fb7ec4904dc91ca3c8ef74d9e61c450f5dae8ec",
+      "bytes": 533
+    },
+    "h10_metadata.json": {
+      "sha256": "3443ac724b5e485b4e78af2d816bb14918779205ab9ea4ce78ce00beb609005e",
+      "bytes": 3383
+    },
+    "model.hef": {
+      "sha256": "ad2d561f768bb31262ddad49b1a5b55a0d05fba8a339bc4860df8fcd9d730c15",
+      "bytes": 4214784
+    },
+    "SHA256SUMS": {
+      "sha256": "4f6d7558e78d6ab50cb826422fa7114d58a6a974421fa16cd5370432b5b9c2c0",
+      "bytes": 325
+    }
+  }
+}

@@ -20,6 +20,8 @@ Mac GUI 使用独立 `.venv-gui`，与历史训练环境分开。客户端优先
 
 本次客户端实际验证环境：macOS ARM64、Python3.14.6、PyQt6 6.12.1／Qt6 6.12.0、NumPy2.5.4、Pillow13.0.0、opencv-python-headless4.14.0.94。树莓派另已验证现有 PyQt5 5.15.11／Qt5 5.15.15、NumPy2.2.4、Pillow11.1.0 和 HailoRT5.1.1。Windows 尚未验收。macOS系统辅助功能扫描Qt原生动态表格时会触发崩溃，降低Qt版本也未解决；现已改用富文本表格，保留表头排序、文本复制和点击目标放大，并通过原生窗口复测。Mac依赖固定为验收组合，未关闭辅助功能。
 
+公开模型下载、自动配置和新设备复现步骤见[GUI复现指南](GUI_REPRODUCIBILITY.md#4-prepare-real-h10-detection--准备真机)；[README内嵌演示](../README.md#gui-demonstration--操作演示)可直接观看。
+
 ## 树莓派本机高速演示
 
 视频演示优先使用 [启动树莓派本机演示.command](../启动树莓派本机演示.command)，在Pi显示器上打开GUI。素材按哈希缓存一次，随后本机解码和调用H10，无逐帧网络传输和PNG/JPEG编解码开销。保留原始像素、模型和NMS策略。操作、5分钟彩排和后续录制准备见 [演示准备](DEMO_REHEARSAL.md)。

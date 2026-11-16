@@ -16,3 +16,8 @@ It creates both `demo.json` (12-image replay) and `timestamp_demo.json`
 
 See the [reproduction guide](../../docs/GUI_REPRODUCIBILITY.md) for installation,
 model prerequisites and checks, and the [GUI guide](../../docs/GUI.md) for controls.
+
+For native real-media detection, first run `python3 scripts/download_gui_model.py`
+on the Pi, then use `python3 scripts/configure_pi_gui.py --help` to generate a
+private configuration with verified model paths and your own media. This avoids
+manually filling the model path in the template.

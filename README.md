@@ -12,6 +12,7 @@ https://github.com/user-attachments/assets/ad5af9a7-2ece-4dd1-8940-8daeae079ef7
 [双语字幕](https://github.com/EmpyreanHYR/MPU-Big-Data-Project2-UAV-Detection/releases/download/gui-h10-v1.0.0/PinP2_H10_GUI_bilingual.srt) ·
 [模型与视频Release](https://github.com/EmpyreanHYR/MPU-Big-Data-Project2-UAV-Detection/releases/tag/gui-h10-v1.0.0)。
 视频检测素材由30张真实红外图片循环组成，用于演示操作，不是连续拍摄的视频或精度测试。
+按原始标注、conf≥0.25和IoU≥0.5复核，这30张图的H10正确检出数为0；时间文字过滤使误报18→8，漏检30不变。[同图诊断](docs/results/LOCALIZATION_DIAGNOSIS_20261116.md)记录了FP32/H10对照和标注尺度检查，功能演示与检测质量分别评价。
 
 ## Real detection / 真实检测
 
@@ -58,10 +59,12 @@ python3 -m venv .venv-gui
 | 训练比例 | 500／1000／1999张训练图，统一500张验证；[三档实测](docs/results/TRAINING_FRACTIONS_20261107.md) |
 | 边缘测试 | GPU19组、Pi CPU17组、H10兼容模型7组；[设备结果](docs/results/EDGE_EXTENSION_20261104.md) |
 | 后处理改进 | NMS IoU0.4使H10误报119→62，检出323、漏检163不变；[审计与硬件实测](docs/results/NMS_VLM_AUDIT_20261115.md) |
-| VLM候选复核 | 已完成负面结果分析，当前策略未优于相同召回率的置信度阈值对照；后续扩展暂停 |
+| VLM候选复核 | Qwen2.5-VL-3B-Instruct的E0—E4及689条响应已核验；[负面结果](docs/results/NMS_VLM_AUDIT_20261115.md)未优于相同召回率的置信度阈值对照，扩大实验暂停 |
 | 报告与图表 | [10页IEEE报告、中文稿及可编辑图源](docs/report/README.md) |
 
 当前PinP2/H10默认部署的AP50:95为 **31.740%**，三轮阈值基准为 **22.89±0.01 FPS**。这些是内部验证集上的部署结果；原生训练验证、FP32、无NMS和NMS后的指标分别记录。最终模型是综合取舍，不能声称所有精度和速度指标都最优。
+
+与大数据课程的联系包括数据真实性（像素去重、标注冲突与跨源标注差异）、数据规模（三档训练量及推理负载）和处理速度（边缘吞吐与内存）。VLM是已经评价的离线组件，未纳入当前H10实时推理流程。
 
 ## 目录怎么用
 
@@ -91,4 +94,4 @@ python scripts/check_project.py
 
 安装pdfLaTeX和BibTeX后，可用 `python scripts/build_report.py` 编译报告；提案构建使用 `python scripts/build_proposal.py`。文献修改以 `bibliography/references.bib` 为准，同步副本后运行检查。
 
-贡献说明、个人反思和提交附件仍待组员补齐。仓库清理范围与旧文件恢复方法见[维护记录](docs/REPOSITORY_MAINTENANCE.md)。
+报告、幻灯片和贡献文件截止为 **2026年11月29日24:00（北京时间）**；12月3日汇报，10分钟讲述＋5分钟问答。四位成员的实际贡献与反思、PPT/讲稿、Turnitin、AI使用声明及独立提交包仍待补齐；3分46秒演示视频已完成。具体核查见[当前清单](docs/report/REVIEW_CHECKLIST.md)。仓库清理范围与旧文件恢复方法见[维护记录](docs/REPOSITORY_MAINTENANCE.md)。

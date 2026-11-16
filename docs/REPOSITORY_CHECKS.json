@@ -1,7 +1,11 @@
 {
-  "date": "2026-11-15",
-  "scope": "Current repository handoff; historical check snapshots remain in Git history",
+  "date": "2026-11-16",
+  "scope": "Current tracked documentation and coursework status; submitted manuscripts and experiment results unchanged",
   "formal_report_pages": 10,
+  "formal_report_paper": "A4",
+  "formal_report_equations": 26,
+  "formal_report_tables": 8,
+  "formal_report_figures": 4,
   "valid_training_records": 19,
   "primary_scratch100_models": 11,
   "gpu_evaluated_models": 19,
@@ -11,32 +15,110 @@
     "proposal": 13,
     "report": 24
   },
+  "llm_component": {
+    "status": "completed negative-result experiment",
+    "model": "Qwen2.5-VL-3B-Instruct",
+    "policies": "E0-E4",
+    "verified_responses": 689,
+    "edge_deployed": false,
+    "remaining": "clear semantic positive controls and numerical checks; expansion paused"
+  },
+  "gui_release": {
+    "tag": "gui-h10-v1.0.0",
+    "source_commit": "7e547323cca3baaa91ee8ef539c48e4cfae5ab43",
+    "public_assets": [
+      "matching HAILO10H HEF and metadata",
+      "1080p narrated video",
+      "720p preview",
+      "bilingual SRT",
+      "SHA256SUMS"
+    ],
+    "video_duration_seconds": 226,
+    "demo_unique_source_images": 30,
+    "scope": "functional image-loop demonstration, not independent continuous-video accuracy validation"
+  },
+  "coursework": {
+    "submission_deadline": "2026-11-30T00:00:00+08:00",
+    "presentation_date": "2026-12-03",
+    "presentation_minutes": 10,
+    "questions_minutes": 5,
+    "proposal_pages": 2,
+    "proposal_paper": "Letter; differs from coursework A4 requirement",
+    "contribution_placeholders": 4,
+    "submission_or_instructor_approval_receipt": "not found in reviewed local materials",
+    "submission_deadline_display": "November 29, 2026, 24:00 Beijing time"
+  },
   "open_coursework_items": [
-    "individual contributions",
-    "personal reflections",
-    "submission attachments"
+    "individual actual contributions",
+    "personal difficulties, solutions and reflections",
+    "PPT or PDF presentation slides",
+    "presentation script and timed team rehearsal",
+    "Turnitin report",
+    "completed generative AI use declarations",
+    "self-contained submission package"
   ],
   "validation": {
-    "date": "2026-11-15",
+    "date": "2026-11-16",
+    "scope": "Documentation-only update; software test suites not rerun",
     "repository": "passed",
     "references": {
       "proposal": 13,
       "report": 24,
       "missing": 0
     },
-    "report_build": "passed; no undefined references or overflowing text; at most10 pages",
-    "public_tests": {
-      "run": 65,
-      "passed": 57,
-      "skipped": 8,
-      "failures": 0,
-      "skip_reason": "model integration checks excluded on Mac"
+    "markdown_local_links": "passed",
+    "git_diff_check": "passed",
+    "report_build": {
+      "date": "2026-11-16",
+      "scope": "preceding read-only audit in a temporary directory",
+      "pages": 10,
+      "undefined_references": false,
+      "overfull_boxes": false,
+      "original_files_replaced": false
     },
-    "private_ignored_tests": "full discovery encountered10 errors from missing historical private billing fixtures; excluded from public suite",
-    "python_syntax": "passed",
+    "report_table_comparison": "all 8 tables matched saved CSV/JSON during the preceding read-only audit",
+    "protected_document_files": 38,
+    "protected_document_hashes_unchanged": true,
+    "report_sha256": {
+      "report.pdf": "520d9bd5f299713c1590029114a0750e9e556437a568f28dbd99fd94ebfc782c",
+      "report.tex": "369dd72bdc622c71d0740d7c8a316a94c25d1bad7e91fdb375a8865e82340589",
+      "report_zh.md": "18c1e9c6dd3ff22764a9dcbc7485dd41113c33800d6269be55c515904cd4a8da",
+      "references.bib": "882348ccd49c9a1ca9ffc08ac6b017d51786185945cff4068908baf1784f3695"
+    },
+    "changes_limited_to_tracked_documentation": true,
+    "code_configs_and_experiment_data_changed": false,
     "model_or_device_execution": false
   },
+  "latest_recorded_software_validation": {
+    "public_suite": {
+      "date": "2026-11-16",
+      "source_commit": "901eb9950919080e71b41cc8d3535439655f17ce",
+      "run": 98,
+      "passed": 90,
+      "skipped": 8,
+      "failures": 0,
+      "scope": "recorded GUI publication checks, not a new run during documentation update"
+    },
+    "gui_release": {
+      "date": "2026-11-16",
+      "source_commit": "7e547323cca3baaa91ee8ef539c48e4cfae5ab43",
+      "gui_tests_passed": 36,
+      "synthetic_window_frames": 12,
+      "recorded_ci_runs": [
+        {
+          "url": "https://github.com/EmpyreanHYR/MPU-Big-Data-Project2-UAV-Detection/actions/runs/43883714892",
+          "conclusion": "success"
+        },
+        {
+          "url": "https://github.com/EmpyreanHYR/MPU-Big-Data-Project2-UAV-Detection/actions/runs/43883690400",
+          "conclusion": "success"
+        }
+      ],
+      "scope": "recorded release validation, not a new run during documentation update"
+    }
+  },
   "cleanup": {
+    "date": "2026-11-15",
     "superseded_files_removed": 12,
     "recover_from_commit": "5d894e9",
     "record": "docs/REPOSITORY_MAINTENANCE.md",

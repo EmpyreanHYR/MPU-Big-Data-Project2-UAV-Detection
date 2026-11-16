@@ -10,6 +10,8 @@
 
 当前稿包含26个公式、8张表、4幅图和24条参考文献。贡献与个人反思仍是占位内容，不能视为已经填写完成。
 
+2026年11月16日核查：现有源文件在临时目录完整编译为10页A4，无未定义引用或排版溢出；8张表与保存结果一致。当前提交稿的PDF、TeX、中文稿、文献及图表保留原样。本目录的导航、核查清单和复现说明独立更新，最新GUI、时间文字过滤及外部素材定位诊断见[结果导航](../results/README.md)。
+
 ## 图表怎么取用
 
 | 图 | 内容 | 文件 |
@@ -25,7 +27,9 @@
 
 ## 修改与构建
 
-修改 `report.tex`，同步中文稿；使用 `python scripts/build_report.py` 编译PDF，检查未定义引用、排版溢出与10页上限。需要pdfLaTeX和BibTeX。随后执行 `python scripts/check_project.py` 核对模板、引用、链接和公开测试。
+仅更新说明文档时，执行 `python scripts/check_repository.py` 和 `python scripts/check_references.py` 检查模板、引用及本地链接即可。检查记录见[REPOSITORY_CHECKS.json](../REPOSITORY_CHECKS.json)。
+
+需要另行修改提交稿时，维护 `report.tex` 并同步中文稿，再使用 `python scripts/build_report.py` 编译PDF；该命令会替换正式PDF，需要pdfLaTeX和BibTeX，并检查未定义引用、排版溢出与10页上限。涉及代码修改时按范围运行 `python scripts/check_project.py`。
 
 原始IEEE模板与[原件](../../templates/ieee/README.md)保持一致，提案与报告作者信息一致。编辑图时保留draw.io源并更新相关导出；涉及实验数值时从结果表核对，不依据图片估读。
 

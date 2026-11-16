@@ -20,4 +20,4 @@
 - AUVD-Seg300：[作者论文](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0330074)。
 - Anti-UAV-detection：[派生数据发布](https://github.com/SSDIC-CV/Anti-UAV-detection)。
 
-原始下载包在本地项目的数据目录保持完整，不提交到Git。清理、标签映射、固定清单和文件哈希保存在实际训练来源及结果包中。[处理流程](PREPARATION.md)与[单源协议](../experiments/SIRST_CROSSDATA_20261102.md)说明实际采用的数据组成。
+原始下载包按私有存档索引保存在指定数据存储位置，不提交到Git。存档精简后，本机仅保留部分原始包；SIRST-UAVB需从已核验的原件恢复，不能假设克隆仓库或复制本机目录就包含完整数据。清理、标签映射、固定清单和文件哈希保存在实际训练来源及结果包中。[处理流程](PREPARATION.md)与[单源协议](../experiments/SIRST_CROSSDATA_20261102.md)说明实际采用的数据组成。

@@ -1,5 +1,9 @@
 # 仓库维护记录
 
+2026年11月16日：同步Git跟踪的进展、核查、复现与演示说明。当前统计为19个有效权重、11个scratch100主比较、GPU19组/Pi CPU17组/H10七组；LLM候选复核已完成负面结果，GUI模型与3分46秒视频已有公开Release。课程附件状态与实验未完成项分别记录在[核查清单](report/REVIEW_CHECKLIST.md)，旧阶段清单可从Git历史查看。
+
+本次仅维护说明文件及检查摘要。提交报告的PDF、TeX、中文稿、BibTeX、IEEE类文件和全部图表保持原字节；提案、原始模板、代码、配置及实验数值也保持原样。文档检查和受保护文件哈希核对见[检查摘要](REPOSITORY_CHECKS.json)。
+
 2026年11月15日：整理当前阅读入口，移除12个已被替代或不再适用的文件，工作树减少约4.64 MiB。提交历史仍保留旧文件，Git历史体积不会因此立即缩小。
 
 | 移除内容 | 数量 | 原因与替代位置 |
@@ -28,5 +32,5 @@ git show 5d894e9:docs/datasets/metadata/sirst_v2_count.json
 - 组员阅读以根README、项目状态和当前报告为入口，避免在多处追加相同进度。
 - 新指标放入结果文件并注明模型、数据、初始化与评价口径，再更新结果导航。
 - 报告图保留编辑源和实际使用的导出；不要把旧布局继续放入当前成果目录。
-- 不提交数据、权重、私有设备路径和账号信息；不要删除仍承担结果来源证明的历史记录。
-- 提交前运行 `python scripts/check_project.py`。报告正文或图表发生变更时，再运行 `python scripts/build_report.py`。
+- 原始数据、PT/ONNX、私有设备路径和账号信息不写入Git；已批准的最终GUI HEF、匹配元数据与演示媒体通过Release提供，下载时核验发布清单。不要删除仍承担结果来源证明的历史记录。
+- 仅说明文件变更时运行 `python scripts/check_repository.py`、`python scripts/check_references.py` 和 `git diff --check`，并检查报告及实验数据哈希。代码变更再运行适用测试；报告正文或图表确需修改时才运行会替换正式PDF的 `python scripts/build_report.py`。

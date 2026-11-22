@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PinP2-YOLO · COMP6132</title>
+  <link rel="stylesheet" href="styles.css?v=pdf">
+  <script src="slides.js?v=pdf" defer></script>
+</head>
+<body>
+<div class="viewport"><main class="stage" id="stage">
+  <div class="mast"><span>COMP6132 · INTRODUCTION TO BIG DATA</span><span>PINP2-YOLO</span></div>
+  <div id="slides">
+    <section class="slide bookend" aria-labelledby="opening">
+      <div class="cover">
+        <p class="cover-course">COMP6132 Introduction to Big Data</p>
+        <h1 id="opening" tabindex="-1">PinP2-YOLO</h1>
+        <p class="cover-subtitle">Infrared UAV Detection with Directional<br>Features and P2 Fusion</p>
+        <p class="cover-authors">Yaorong Huang · Chunshen Yu · Yifan Zhai · Zhiwen Luo</p>
+        <p class="cover-school">Macao Polytechnic University</p>
+      </div>
+    </section>
+    <section class="slide" aria-labelledby="s1" hidden>
+      <h1 id="s1" tabindex="-1">Background and Dataset</h1>
+      <div class="split">
+        <figure class="visual">
+          <div class="examples">
+            <img src="assets/urban-uav.png" width="499" height="468" alt="Infrared urban scene with a small UAV and enlarged annotation inset">
+            <img src="assets/uav-and-bird.png" width="500" height="468" alt="Infrared background clutter with a UAV and a bird annotated in different colors">
+          </div>
+          <figcaption>Blue boxes mark UAVs. Pink boxes mark birds.</figcaption>
+        </figure>
+        <div class="copy">
+          <p class="lead">Can we detect a UAV when it occupies only a few infrared pixels?</p>
+          <ul><li>Unauthorized flights at night or in low visibility motivate infrared UAV detection.</li><li>Small targets, weak contrast and background clutter make detection difficult.</li><li><strong>SIRST-UAVB</strong>: 1,999 training images, 500 validation images and 486 validation UAV boxes.</li></ul>
+          <p class="muted byline">Yaorong Huang · Chunshen Yu · Yifan Zhai · Zhiwen Luo</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" aria-labelledby="s2" hidden>
+      <h1 id="s2" tabindex="-1">Data Preparation and Quality Control</h1>
+      <div class="split">
+        <figure class="visual">
+          <ol class="flow" aria-label="Five preparation steps">
+            <li>Raw<br><strong>3,000</strong></li><li>Check<br>labels</li><li>Filter<br><strong>2,499</strong></li><li>Group<br>and split</li><li>Export<br>YOLO labels</li>
+          </ol>
+          <figcaption>Pixel duplicates and annotation conflicts are resolved before the split.</figcaption>
+        </figure>
+        <div class="copy"><p class="lead">Veracity starts with reliable labels and a reproducible split.</p>
+          <ul><li>Check readable images, label pairs, classes and bounding-box coordinates.</li><li>Remove <strong>494</strong> pixel duplicates and isolate <strong>7</strong> label conflicts.</li><li>Freeze a seed-42 split grouped by inferred background view. Export normalized UAV labels.</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" aria-labelledby="s3" hidden>
+      <h1 id="s3" tabindex="-1">From YOLO26n to PinP2-YOLO</h1>
+      <div class="split">
+        <figure class="visual"><img class="figure architecture" src="assets/final_pconv_p2.svg" width="1266" height="1308" alt="Project architecture showing the shallow PConv change and the added P2 detection branch"><figcaption>Report Fig. 1 · Complete PinP2-YOLO architecture and module details.</figcaption></figure>
+        <div class="copy"><p class="lead">Two changes preserve more detail near the input.</p>
+          <ul><li><strong>PConv</strong> replaces one shallow convolution and samples in different directions.</li><li><strong>P2 fusion</strong> adds a stride-4 prediction branch for small objects.</li><li><strong>2.516M</strong> parameters in the final native graph.</li></ul></div>
+      </div>
+    </section>
+
+    <section class="slide" aria-labelledby="s4" hidden>
+      <h1 id="s4" tabindex="-1">Comparison with Baseline Models</h1>
+      <div class="split">
+        <div class="visual comparison">
+          <div class="view-controls" role="group" aria-label="Comparison evidence"><button type="button" data-view="comparison-table" aria-controls="comparison-table" aria-pressed="true">Table I · Metrics</button><button type="button" data-view="comparison-figure" aria-controls="comparison-figure" aria-pressed="false">Fig. 3 · Detection examples</button></div>
+          <table class="results" id="comparison-table"><caption>Selected detectors · native validation</caption><thead><tr><th scope="col">Model</th><th scope="col">Params (M)</th><th scope="col">AP50</th><th scope="col">AP50:95</th></tr></thead><tbody>
+          <tr><th scope="row">YOLO26n</th><td>2.504</td><td>65.76%</td><td>27.95%</td></tr>
+          <tr><th scope="row">YOLO11n</th><td>2.590</td><td>68.14%</td><td>27.04%</td></tr>
+          <tr><th scope="row">YOLOv8n</th><td>3.011</td><td>71.43%</td><td>26.63%</td></tr>
+          <tr><th scope="row">PConv + SD (v8n-P2)</th><td>2.928</td><td>76.58%</td><td>32.93%</td></tr>
+          <tr class="highlight"><th scope="row">PinP2-YOLO</th><td>2.516</td><td>69.61%</td><td>31.27%</td></tr>
+          </tbody></table>
+          <figure id="comparison-figure" hidden><img class="figure report-wide" src="assets/qualitative_comparison.png" alt="Detection results for the same infrared validation images, showing the baseline and PinP2 on GPU and H10"><figcaption>Report Fig. 3 · Same-image comparison. GPU and H10 results are shown separately.</figcaption></figure>
+        </div>
+        <div class="copy"><p class="lead">PinP2 improves on YOLO26n with a small increase in parameters.</p><ul><li>Same frozen validation set and native metric definitions. Runs use 100 epochs from scratch.</li><li>PConv + SD scores higher on native AP. Edge speed and conversion also informed our choice.</li></ul></div>
+      </div>
+    </section>
+
+    <section class="slide" aria-labelledby="s5" hidden>
+      <h1 id="s5" tabindex="-1">Ablation Study: PConv and P2</h1>
+      <div class="split">
+        <figure class="visual"><svg class="plot" id="ablation" viewBox="0 0 690 390" role="img" aria-label="Native AP50:95 for YOLO26n, PConv alone, P2 alone, and PinP2: 27.952%, 24.381%, 29.975%, and 31.274%"></svg><figcaption>Native validation AP50:95 · percentage points use unrounded aggregates.</figcaption></figure>
+        <div class="copy"><p class="lead"><strong>+3.322 pp</strong> over YOLO26n with both changes.</p><ul><li>PConv alone lowers AP by 3.571 points.</li><li>P2 alone raises AP by 2.023 points.</li><li>One seed and different physical batch sizes limit the causal interpretation.</li></ul></div>
+      </div>
+    </section>
+
+    <section class="slide" aria-labelledby="s7" hidden>
+      <h1 id="s7" tabindex="-1">Edge Deployment: Raspberry Pi 5 + HAILO10H</h1>
+      <div class="split">
+        <div class="visual"><ol class="flow four" aria-label="Deployment stages"><li>Export<br><strong>ONNX</strong></li><li>Compile<br><strong>HEF</strong></li><li>Infer<br><strong>Pi 5 + H10</strong></li><li>Decode<br><strong>and NMS</strong></li></ol>
+          <table class="results mini"><caption>Historical H10 workload benchmark · frozen model</caption><thead><tr><th scope="col">Images</th><th scope="col">125</th><th scope="col">250</th><th scope="col">500</th></tr></thead><tbody><tr><th scope="row">Mean time</th><td>5.570 s</td><td>11.121 s</td><td>22.261 s</td></tr></tbody></table>
+        </div>
+        <div class="copy"><p class="lead">Velocity: <strong>22.89 ± 0.01 FPS</strong> on the tested image pipeline.</p><ul><li>Final H10 AP50:95 <strong>31.740%</strong> with NMS 0.4. HEF size <strong>4.02 MiB</strong>.</li><li>Historical workload run: 22.44–22.48 FPS, peak RSS 80.64–85.45 MiB.</li><li>Device benchmark and GUI display rate measure different work.</li></ul></div>
+      </div>
+    </section>
+
+    <section class="slide" aria-labelledby="s6" hidden>
+      <h1 id="s6" tabindex="-1">Effect of Training Data Scale</h1>
+      <div class="split">
+        <figure class="visual"><svg class="plot" id="scale" viewBox="0 0 690 390" role="img" aria-label="Training size versus native AP50:95. 500 images: 16.353%, 1,000: 24.543%, 1,999: 31.274%"></svg><figcaption>Nested training subsets. All runs use the same 500 validation images.</figcaption></figure>
+        <div class="copy"><p class="lead">Volume: AP rose as the training set grew in these runs.</p><ul><li>Same model, 100 epochs, physical batch 8 and seed 42.</li><li>Larger subsets also receive more training steps at fixed epochs.</li><li>Repeat with more seeds and matched training steps to test the trend.</li></ul></div>
+      </div>
+    </section>
+
+    <section class="slide" aria-labelledby="s8" hidden>
+      <h1 id="s8" tabindex="-1">Post-processing Optimization: NMS IoU = 0.4</h1>
+      <div class="split">
+        <div class="visual comparison">
+          <div class="view-controls" role="group" aria-label="NMS evidence"><button type="button" data-view="nms-figure" aria-controls="nms-figure" aria-pressed="true">Fig. 4 · Same-image example</button><button type="button" data-view="nms-sweep" aria-controls="nms-sweep" aria-pressed="false">Threshold sweep</button></div>
+          <figure id="nms-figure"><img class="figure report-wide" src="assets/nms_same_image.png" alt="Same infrared image at different NMS thresholds. Panels d and e show that 0.4 suppresses the duplicate box while 0.5 keeps it."><figcaption>Report Fig. 4 · Compare panel (d), IoU 0.4, with panel (e), IoU 0.5.</figcaption></figure>
+          <figure id="nms-sweep" hidden><img class="figure nms" src="assets/nms-fp-panel.png" alt="Measured H10 false positives: 119 without NMS, 62 at 0.3 and 0.4, and 63 at 0.5"><figcaption>H10 threshold sweep · Orange marks the selected threshold.</figcaption></figure>
+        </div>
+        <div class="copy"><p class="lead">False positives fell from <strong>119 to 62</strong>.</p><ul><li>The boxes in Fig. 4 overlap at IoU ≈ 0.468. At 0.4, NMS removes the lower-scoring duplicate. At 0.5, both remain.</li><li>0.4 was the largest tested threshold with 62 false positives and unchanged recall.</li><li>TP 323 and FN 163 stayed fixed.</li></ul></div>
+      </div>
+    </section>
+
+    <section class="slide" aria-labelledby="s9" hidden>
+      <h1 id="s9" tabindex="-1">Offline VLM-assisted Candidate Verification</h1>
+      <div class="split">
+        <div class="visual"><table class="results"><caption>Report Table VIII · Offline verification of saved H10 candidates</caption><thead><tr><th scope="col">Policy</th><th scope="col">TP</th><th scope="col">FP</th><th scope="col">FN</th><th scope="col">Recall</th></tr></thead><tbody>
+          <tr><th scope="row">Original (E0)</th><td>323</td><td>119</td><td>163</td><td>66.46%</td></tr>
+          <tr class="highlight"><th scope="row">Threshold only (E1)</th><td>184</td><td>11</td><td>302</td><td>37.86%</td></tr>
+          <tr><th scope="row">All context (E2)</th><td>1</td><td>0</td><td>485</td><td>0.21%</td></tr>
+          <tr><th scope="row">Selective context (E3)</th><td>184</td><td>12</td><td>302</td><td>37.86%</td></tr>
+          <tr><th scope="row">Selective local (E4)</th><td>183</td><td>12</td><td>303</td><td>37.65%</td></tr>
+        </tbody></table></div>
+        <div class="copy"><p class="lead">At equal recall, confidence filtering had one fewer false positive.</p><ul><li>Qwen2.5-VL-3B-Instruct reviewed selected candidate crops on a GPU.</li><li>Tiny targets and domain differences may limit what the verifier can see.</li><li>The deployed H10 pipeline uses detection and NMS.</li></ul></div>
+      </div>
+    </section>
+
+    <section class="slide" aria-labelledby="s10" hidden>
+      <h1 id="s10" tabindex="-1">Conclusion and Future Work</h1>
+      <div class="split">
+        <div class="visual"><dl class="summary"><div><dt>Native validation AP50:95</dt><dd>31.274%</dd></div><div><dt>H10 AP50:95 with NMS 0.4</dt><dd>31.740%</dd></div><div><dt>H10 benchmark throughput</dt><dd>22.89 FPS</dd></div></dl><p class="muted">Native and H10 results use separate evaluation paths.</p></div>
+        <div class="copy"><ul><li>P2 with PConv outperformed the baseline. Native AP increased across the three training sizes.</li><li>NMS reduced duplicate detections. The tested VLM added no benefit over thresholding.</li><li>Next: improve tiny-target recall and labels, run multiple seeds and validate on independent continuous video and new domains.</li></ul>
+        </div>
+      </div>
+    </section>
+    <section class="slide demo" aria-labelledby="demo-title" hidden>
+      <h1 id="demo-title" tabindex="-1">GUI Demonstration</h1>
+      <div class="split">
+        <figure class="visual">
+          <video id="video" src="assets/project-demo.mp4" poster="assets/gui-poster.png" preload="metadata" playsinline aria-label="Recorded PinP2 infrared detection workbench"></video>
+          <img class="print-poster" src="assets/gui-poster.png" alt="Still image from the PinP2 infrared detection workbench recording">
+          <figcaption>Original recording · 3 min 46 sec</figcaption>
+        </figure>
+        <div class="copy">
+          <p class="lead">PinP2-YOLO detection workbench</p>
+          <p>The recording shows image and video inputs, detection results, and playback controls.</p>
+          <p class="muted">The replay loops infrared stills to demonstrate the workflow. An independent continuous-video evaluation remains future work.</p>
+          <div class="actions">
+            <button class="primary" id="full" type="button">Play full video</button>
+            <a class="button" href="https://github.com/EmpyreanHYR/MPU-Big-Data-Project2-UAV-Detection/blob/main/docs/GUI.md" target="_blank" rel="noopener noreferrer" aria-label="Open project GUI on GitHub (opens in a new tab)">Open project GUI ↗</a>
+          </div>
+          <p id="demo-status" role="status" class="muted" hidden></p>
+        </div>
+      </div>
+      <div class="evidence-row" id="github-release"></div>
+    </section>
+    <section class="slide bookend" aria-labelledby="closing" hidden>
+      <div class="closing"><h1 id="closing" tabindex="-1">Thank you</h1><p>Questions &amp; Discussion</p></div>
+    </section>
+  </div>
+  <footer class="nav" aria-label="Presentation controls">
+    <button id="previous" type="button">← Previous</button>
+    <div class="progress"><span id="counter" aria-live="polite" aria-atomic="true">01 / 13</span><progress id="progress" max="13" value="1" aria-label="Slide progress"></progress></div>
+    <div class="nav-right"><button type="button" id="fullscreen">Full screen</button><button type="button" id="export-pdf">Export PDF</button><button id="next" type="button">Next →</button></div>
+  </footer>
+</main></div>
+</body>
+</html>
+

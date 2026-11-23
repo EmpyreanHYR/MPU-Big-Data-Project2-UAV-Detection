@@ -1,0 +1,56 @@
+name: Deploy HTML presentation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'presentation/**'
+      - '.github/workflows/presentation-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Assemble presentation
+        run: |
+          mkdir -p _site/presentation
+          cp presentation/{index.html,demo.html,styles.css,slides.js} _site/presentation/
+          cp -R presentation/assets _site/presentation/
+          test -s _site/presentation/assets/project-demo.mp4
+          cat > _site/index.html <<'HTML'
+          <!doctype html>
+          <html lang="en">
+          <meta charset="utf-8">
+          <meta http-equiv="refresh" content="0; url=./presentation/">
+          <title>PinP2-YOLO presentation</title>
+          <a href="./presentation/">Open the HTML presentation</a>
+          </html>
+          HTML
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

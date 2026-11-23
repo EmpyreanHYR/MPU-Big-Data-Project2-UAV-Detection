@@ -37,7 +37,7 @@ RT检查先对300个唯一查询作一对一位置对齐，再应用同一容差
 
 最终GUI使用的HAILO10H HEF、匹配元数据和演示视频已通过[gui-h10-v1.0.0 Release](https://github.com/EmpyreanHYR/MPU-Big-Data-Project2-UAV-Detection/releases/tag/gui-h10-v1.0.0)公开；[模型下载器](../../scripts/download_gui_model.py)依据[发布清单](../../configs/deployment/pinp2_h10_release.json)校验压缩包及各文件。按[GUI复现指南](../GUI_REPRODUCIBILITY.md)准备Pi5、HAILO10H及HailoRT5.1.1后，可用自己的图片或视频运行该冻结模型。
 
-公开源码和Release不包含完整训练数据、PT权重、ONNX、其他模型的HEF、专有编译器及全部执行日志。GUI推理复现与完整训练/实验复现是不同范围；后者仍需对应私有结果包。VLM公开代码支持候选准备和保存响应的指标重放，GPU执行脚本未随仓库发布，详见[VLM说明](../../experiments/pinp2_vlm/README.md)。完整参数默认值、实际64图校准身份及原生到共同FP32差异仍是复现审查边界。
+公开源码和Release包含最终PinP2-YOLO的`best.pt`、`model.onnx`和`model.hef`（[pinp2-final-model-v1.1.0](https://github.com/EmpyreanHYR/MPU-Big-Data-Project2-UAV-Detection/releases/tag/pinp2-final-model-v1.1.0)），但不包含完整训练数据、其他18组对照模型的权重与HEF、专有编译器及全部执行日志。用最终权重可复现GUI推理、部署评分和ONNX输出一致检查；重跑训练或逐模型复核其他结果仍需对应私有结果包。VLM公开代码支持候选准备和保存响应的指标重放，GPU执行脚本未随仓库发布，详见[VLM说明](../../experiments/pinp2_vlm/README.md)。完整参数默认值、实际64图校准身份及原生到共同FP32差异仍是复现审查边界。
 
 ## 所选权重的外部来源诊断
 

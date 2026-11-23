@@ -1,5 +1,5 @@
 {
-  "date": "2026-11-16",
+  "date": "2026-11-24",
   "scope": "Current tracked documentation and coursework status; submitted manuscripts and experiment results unchanged",
   "formal_report_pages": 10,
   "formal_report_paper": "A4",
@@ -21,7 +21,7 @@
     "policies": "E0-E4",
     "verified_responses": 689,
     "edge_deployed": false,
-    "remaining": "clear semantic positive controls and numerical checks; expansion paused"
+    "remaining": "clear semantic positive controls and numerical checks planned"
   },
   "gui_release": {
     "tag": "gui-h10-v1.0.0",
@@ -45,7 +45,6 @@
     "proposal_pages": 2,
     "proposal_paper": "Letter; differs from coursework A4 requirement",
     "contribution_placeholders": 4,
-    "submission_or_instructor_approval_receipt": "not found in reviewed local materials",
     "submission_deadline_display": "November 29, 2026, 24:00 Beijing time"
   },
   "open_coursework_items": [
@@ -54,12 +53,11 @@
     "PPT or PDF presentation slides",
     "presentation script and timed team rehearsal",
     "Turnitin report",
-    "completed generative AI use declarations",
     "self-contained submission package"
   ],
   "validation": {
-    "date": "2026-11-16",
-    "scope": "Documentation-only update; software test suites not rerun",
+    "date": "2026-11-24",
+    "scope": "Documentation-only wording and navigation update; software test suites not rerun",
     "repository": "passed",
     "references": {
       "proposal": 13,
@@ -115,6 +113,21 @@
         }
       ],
       "scope": "recorded release validation, not a new run during documentation update"
+    },
+    "repository_checks": {
+      "workflows": {
+        "Deploy HTML presentation": "success",
+        "basis": "current main at 03157c6 (2026-11-24), before this documentation update",
+        "Public checks": "success"
+      },
+      "local_check_project": {
+        "date": "2026-11-24",
+        "source_state": "working tree with documentation edits",
+        "result": "passed",
+        "tests_total": 101,
+        "passed": 93,
+        "skipped": 8
+      }
     }
   },
   "cleanup": {

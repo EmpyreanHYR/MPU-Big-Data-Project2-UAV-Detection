@@ -1,6 +1,6 @@
 # 仓库维护约定
 
-本文件说明文档、结果与制品的放置方式，供继续维护时参考。当前统计与仓库检查摘要见[REPOSITORY_CHECKS.json](REPOSITORY_CHECKS.json)：19个有效权重、11个scratch100主比较、GPU19组/Pi CPU17组/H10七组；LLM候选复核已完成，结果为多query复核未超过纯阈值调整；GUI模型与3分46秒视频通过公开Release提供。课程附件状态与实验未完成项见[核查清单](report/REVIEW_CHECKLIST.md)。
+本文件说明文档、结果与制品的放置方式。当前统计与仓库检查摘要见[REPOSITORY_CHECKS.json](REPOSITORY_CHECKS.json)：19个有效权重、11个scratch100主比较、GPU19组/Pi CPU17组/H10七组；视觉语言候选复核已完成，多query复核未超过纯阈值调整；GUI模型与3分46秒视频通过公开Release提供。课程材料对应关系与剩余事项见[核查清单](report/REVIEW_CHECKLIST.md)。
 
 ## 文档入口
 
@@ -34,8 +34,12 @@ git log --oneline -- 文件路径
 git show <提交>:文件路径
 ```
 
-## 数据与制品边界
+## 当前维护状态
 
-- 原始数据、PT/ONNX/HEF、私有设备路径和账号信息留在私有存储，不写入Git；已批准的最终GUI HEF、匹配元数据与演示媒体通过Release提供，下载时用发布清单校验哈希。
-- 结果文件与原始预测数组保留在Git忽略的 `outputs/` 及私有结果包中，公开文档引用其汇总值。
-- PT权重、ONNX、ONNX/HEF与原始预测是结果来源，继续保留。
+各GitHub Actions工作流在最近一次推送（2026-11-24，尚无与本次文档修订对应的运行）均成功，运行记录可在仓库Actions页查看。
+
+## 数据与制品
+
+- 原始数据、PT/ONNX/HEF、本机设备路径和账号信息保存在私有存储，不进入Git；最终GUI HEF、匹配元数据与演示媒体通过Release提供，下载时用发布清单校验哈希。
+- 结果文件与原始预测数组保存在Git忽略的 `outputs/` 及私有结果包中，公开文档引用其汇总值。
+- PT权重、ONNX、HEF与原始预测是结果来源，继续保留。

@@ -1,4 +1,4 @@
-name: GUI reproduction
+name: Public checks
 
 on:
   push:
@@ -10,6 +10,13 @@ on:
       - 'constraints/**'
       - 'pyproject.toml'
       - 'docs/GUI*.md'
+      - 'docs/ENVIRONMENT.md'
+      - 'docs/report/REVIEW_CHECKLIST.md'
+      - 'docs/report/REPRODUCIBILITY_NOTES.md'
+      - 'docs/PROJECT_STATUS.md'
+      - 'docs/REPOSITORY_MAINTENANCE.md'
+      - 'docs/REPOSITORY_CHECKS.json'
+      - 'experiments/pinp2_vlm/**'
       - '.github/workflows/gui.yml'
   pull_request:
     paths:
@@ -20,6 +27,13 @@ on:
       - 'constraints/**'
       - 'pyproject.toml'
       - 'docs/GUI*.md'
+      - 'docs/ENVIRONMENT.md'
+      - 'docs/report/REVIEW_CHECKLIST.md'
+      - 'docs/report/REPRODUCIBILITY_NOTES.md'
+      - 'docs/PROJECT_STATUS.md'
+      - 'docs/REPOSITORY_MAINTENANCE.md'
+      - 'docs/REPOSITORY_CHECKS.json'
+      - 'experiments/pinp2_vlm/**'
       - '.github/workflows/gui.yml'
   workflow_dispatch:
 

@@ -1,10 +1,10 @@
 # 按实验目的组织的完整结果表
 
-主比较使用同一1999训练／500验证清单、随机初始化100轮；不同家族配置及YOLO26物理batch差异保留。原生最佳验证P/R/F1不是固定0.25阈值指标。
+主比较使用同一1999训练／500验证清单、随机初始化100轮。原生最佳验证P/R/F1取自最佳AP95同一行，不是固定0.25阈值指标。
 
 ## 1. 对比实验：基线模型与独立方案
 
-YOLO26n、YOLO11n、YOLOv8n、PConv＋SD、MSF、RT-DETR与最终方法比较；SIA/SIA＋CSP是其他探索分支，不是PinP2递增步骤。
+YOLO26n、YOLO11n、YOLOv8n、PConv＋SD、MSF、RT-DETR与最终方法比较；SIA/SIA＋CSP是独立的探索分支。
 
 | Model | Params M | P% | R% | F1% | AP50% | AP95% |
 |---|---|---|---|---|---|---|
@@ -20,7 +20,7 @@ YOLO26n、YOLO11n、YOLOv8n、PConv＋SD、MSF、RT-DETR与最终方法比较；
 
 ## 2. 消融实验：递增主线与独立控制
 
-主线B0（原YOLO26n）→B1（PConv）→B3（PinP2-YOLO）；B2（仅P2）是因子控制。PConv单独下降3.571个百分点，继续增加P2后提升6.893个百分点，最终相对B0提升3.322个百分点。不能将递增模块解读为指标必然递增。
+主线B0（原YOLO26n）→B1（PConv）→B3（PinP2-YOLO）；B2（仅P2）是因子控制。只加PConv时AP95下降3.571个百分点，再叠加P2后回升6.893个百分点，PinP2相对B0净提升3.322个百分点；B2（仅P2）提升2.023个百分点。
 
 | Config | PConv | P2 | Batch | Params M | P% | R% | F1% | AP50% | AP95% | Delta AP95 pp |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -33,7 +33,7 @@ YOLO26n、YOLO11n、YOLOv8n、PConv＋SD、MSF、RT-DETR与最终方法比较；
 
 ## 3. 训练数据比例实验
 
-训练集25%／50%／100%对应500／1000／1999张；三组统一在固定500张验证图上评价。25%和50%已分别完成100轮、GPU500及独立数值核验；100%复用已核验的原训练。固定轮数不等于固定优化步数。
+训练集25%／50%／100%对应500／1000／1999张；三组统一在固定500张验证图上评价。25%和50%各新训100轮并做了GPU 500图评价，100%复用全量数据训练。固定轮数意味着优化步数随数据量增加。
 
 | Train fraction | Train images | P% | R% | F1% | AP50% | AP95% | GPU AP95/Miss% | Status |
 |---|---|---|---|---|---|---|---|---|
@@ -63,21 +63,21 @@ YOLO26n、YOLO11n、YOLOv8n、PConv＋SD、MSF、RT-DETR与最终方法比较；
 
 | 模型／记录 | 状态 | 原因 |
 |---|---|---|
-| YOLO26n＋SIA | E1 | 当前原始检测头导出／数值或解码验证关卡未通过，未产生可信的本权重H10实测。 |
-| YOLO26n＋SIA＋CSP | E1 | 同上；训练、GPU和Pi CPU结果已保存。 |
-| MSF-GhostNet-III | E1 | 同上；不是未训练，也不是GPU/Pi结果缺失。 |
-| RT-DETR-L | E2 | 当前已验证H10导出适配路径未覆盖；不等于所有未来路径都不支持。 |
-| 训练比例25%／50% | 已完成 | 两组100轮、GPU500和本机备份均已核验；新权重Pi/H10未测。 |
-| 六组预训练／150轮历史权重的H10 | NR | 不在当前scratch100 H10实测范围；不能继承其他权重的H10结果。 |
-| Faster R-CNN | 取消 | 用户取消，未列为有效完成模型。 |
-| Ghost移植YOLO26旧v2 | 未完成 | 正式0轮，不能冒充已完成的MSF-GhostNet-III。 |
-| 按GT大小分组的FP | NA | 误报没有真实目标大小，指标无定义；不是漏记。 |
+| YOLO26n＋SIA | E1 | 原始检测头导出与解码验证未通过，没有本权重的H10实测。 |
+| YOLO26n＋SIA＋CSP | E1 | 同上。 |
+| MSF-GhostNet-III | E1 | 同上。 |
+| RT-DETR-L | E2 | 尚无可用的H10导出适配。 |
+| 训练比例25%／50% | 已完成 | 100轮训练与GPU 500图评价完成，新权重未测Pi/H10。 |
+| 六组预训练／150轮历史权重的H10 | NR | 只对从零100轮权重做了H10实测。 |
+| Faster R-CNN | 取消 | 训练取消。 |
+| Ghost移植YOLO26旧v2 | 未完成 | 未训练。 |
+| 按GT大小分组的FP | NA | 误报没有真实目标尺寸，指标无定义。 |
 
-E1/E2不是0分；NR是未做；NA是无定义。部分细项已在CSV/JSON记录，仅未在紧凑主表展开。
+E1/E2不是0分，NR是未做，NA是无定义；细项见CSV/JSON。
 
 ## 固定阈值质量与计数完整记录
 
-GPU与Pi CPU固定TP/FP/FN一致，因此共享一组P/R/F1与FN/FP。H10独立重算，conf0.25先筛选，再IoU≥0.5一对一匹配。
+GPU与Pi CPU的固定阈值TP/FP/FN相同，共用一组P/R/F1；H10独立重算。conf0.25先筛选，再按IoU≥0.5一对一匹配。
 
 | Model | GPU/Pi P/R/F1% | H10 P/R/F1% | GPU/Pi FN/FP | H10 FN/FP |
 |---|---|---|---|---|
@@ -93,7 +93,7 @@ GPU与Pi CPU固定TP/FP/FN一致，因此共享一组P/R/F1与FN/FP。H10独立�
 | MSF-GhostNet-III | 70.26/72.43/71.33 | E1/E1/E1 | 134/149 | E1 |
 | RT-DETR-L | 28.00/73.05/40.48 | E2/E2/E2 | 131/913 | E2 |
 
-## 历史六组：单独保留，不混入scratch100主比较
+## 历史六组对照组（150轮）
 
 | Model | Initialization group | Epochs | Native P/R/F1% | AP50/AP95% | GPU/PiCPU/H10 |
 |---|---|---|---|---|---|
@@ -106,8 +106,8 @@ GPU与Pi CPU固定TP/FP/FN一致，因此共享一组P/R/F1与FN/FP。H10独立�
 
 ## 补充：固定模型的推理负载与错误分析
 
-[125／250／500张H10推理负载和三类错误分析](FINAL_MODEL_SCALING_ERRORS_20261105.md)作为补充保留。它检验处理规模，不能替代第3类训练比例实验。
+[125／250／500张H10推理负载和三类错误分析](FINAL_MODEL_SCALING_ERRORS_20261105.md)，检验同一模型在不同处理规模下的行为，与训练比例实验相互独立。
 
 [完整细项CSV](EDGE_EXTENSION_20261104.csv) · [原始指标JSON](EDGE_EXTENSION_20261104.json) · [表格结构JSON](EXPERIMENT_TABLES_20261105.json) · [报告PDF](../report/report.pdf)
 
-[三档训练比例完整CSV/JSON与口径](TRAINING_FRACTIONS_20261107.md)。原生与GPU部署指标分别报告，完整训练模型H10指标不移用于部分训练权重。
+[三档训练比例完整CSV/JSON与口径](TRAINING_FRACTIONS_20261107.md)。

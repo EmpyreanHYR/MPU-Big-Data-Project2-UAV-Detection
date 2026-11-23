@@ -1,36 +1,41 @@
-# 仓库维护记录
+# 仓库维护约定
 
-2026年11月16日：同步Git跟踪的进展、核查、复现与演示说明。当前统计为19个有效权重、11个scratch100主比较、GPU19组/Pi CPU17组/H10七组；LLM候选复核已完成负面结果，GUI模型与3分46秒视频已有公开Release。课程附件状态与实验未完成项分别记录在[核查清单](report/REVIEW_CHECKLIST.md)，旧阶段清单可从Git历史查看。
+本文件说明文档、结果与制品的放置方式，供继续维护时参考。当前统计与仓库检查摘要见[REPOSITORY_CHECKS.json](REPOSITORY_CHECKS.json)：19个有效权重、11个scratch100主比较、GPU19组/Pi CPU17组/H10七组；LLM候选复核已完成，结果为多query复核未超过纯阈值调整；GUI模型与3分46秒视频通过公开Release提供。课程附件状态与实验未完成项见[核查清单](report/REVIEW_CHECKLIST.md)。
 
-本次仅维护说明文件及检查摘要。提交报告的PDF、TeX、中文稿、BibTeX、IEEE类文件和全部图表保持原字节；提案、原始模板、代码、配置及实验数值也保持原样。文档检查和受保护文件哈希核对见[检查摘要](REPOSITORY_CHECKS.json)。
+## 文档入口
 
-2026年11月15日：整理当前阅读入口，移除12个已被替代或不再适用的文件，工作树减少约4.64 MiB。提交历史仍保留旧文件，Git历史体积不会因此立即缩小。
+- 根README、[项目状态](PROJECT_STATUS.md)与[当前报告](report/README.md)是组员的主要入口；进度只写在一处，其他文档链接到它。
+- [实验导航](experiments/README.md)汇总实验协议和结果导航；[结果导航](results/README.md)指向最新表格、设备比较与规模／错误分析。
+- 提交报告的PDF、TeX、中文稿、BibTeX、IEEE类文件与全部图表作为最终字节保留。文档检查与受保护文件哈希见[检查摘要](REPOSITORY_CHECKS.json)。
 
-| 移除内容 | 数量 | 原因与替代位置 |
-|---|---:|---|
-| `docs/results/figures/final_pconv_p2_20261104.*` | 4 | 旧网络图布局；统一使用[当前报告网络图](report/figures/final_pconv_p2.pdf)及其draw.io源 |
-| `docs/results/figures/pconv_module_20261105.*` | 3 | 独立旧PConv图；当前图1已合入PConv/P2细节，保留[模块编辑源](report/figures/pinp2_modules.drawio) |
-| `docs/report/figures/pinp2_modules.pdf/png/svg` | 3 | 未被当前报告引用的独立模块导出；保留draw.io，避免同一内容多份成品 |
-| `docs/datasets/metadata/sirst_v2_count.json`、`sirst_v2_split_counts.json` | 2 | 早期候选数据集计数；当前数据协议未使用SIRST-V2，也无代码或文档依赖这两个文件 |
+## 新增内容
 
-同时精简根README、项目状态和报告导航，修正结果／实验导航的旧数量与未完成状态。`REPOSITORY_CHECKS.json`只保留当前概况与核验记录，旧排版、旧待办和历史润色过程可从Git查看。
+- 新指标写入结果文件，注明模型、数据、初始化与评价口径，再更新结果导航。
+- 报告图同时保留draw.io编辑源和实际使用的导出（如[当前报告网络图](report/figures/final_pconv_p2.pdf)、[模块编辑源](report/figures/pinp2_modules.drawio)）；同一内容只保留当前一份成品。
+- 数据集元数据以当前协议为准：当前使用SIRST-UAVB，SIRST-V2等早期候选计数不再随仓库分发。
+- 有效实验、失败与取消说明、可编辑图源、模型适配器、仍被脚本／测试引用的历史配置按原样保留，历史证据按日期解读。原始数据、权重、私有运行记录及模板原件保持私有。
 
-有效的旧实验结果、失败与取消说明、可编辑图源、模型适配器、仍被脚本／测试引用的历史配置继续保留。历史证据按日期解释，不把旧结论作为当前状态。原始数据、权重、私有运行记录及模板原件未清理。
+## 变更检查
 
-## 找回旧文件
-
-清理前完整版本为 `5d894e9`。查阅旧文件使用：
+仅修改说明文件时运行：
 
 ```sh
-git show 5d894e9:docs/datasets/metadata/sirst_v2_count.json
+python scripts/check_repository.py
+python scripts/check_references.py
+git diff --check
 ```
 
-确实需要恢复单个文件时，在仓库根目录运行 `git restore --source=5d894e9 -- 文件路径`；恢复后再判断是否要纳入当前工作。
+代码变更另运行适用测试；报告正文或图表需要重建时才运行 `python scripts/build_report.py`，它会替换正式PDF。
 
-## 后续维护约定
+历史文件可用Git查阅，例如：
 
-- 组员阅读以根README、项目状态和当前报告为入口，避免在多处追加相同进度。
-- 新指标放入结果文件并注明模型、数据、初始化与评价口径，再更新结果导航。
-- 报告图保留编辑源和实际使用的导出；不要把旧布局继续放入当前成果目录。
-- 原始数据、PT/ONNX、私有设备路径和账号信息不写入Git；已批准的最终GUI HEF、匹配元数据与演示媒体通过Release提供，下载时核验发布清单。不要删除仍承担结果来源证明的历史记录。
-- 仅说明文件变更时运行 `python scripts/check_repository.py`、`python scripts/check_references.py` 和 `git diff --check`，并检查报告及实验数据哈希。代码变更再运行适用测试；报告正文或图表确需修改时才运行会替换正式PDF的 `python scripts/build_report.py`。
+```sh
+git log --oneline -- 文件路径
+git show <提交>:文件路径
+```
+
+## 数据与制品边界
+
+- 原始数据、PT/ONNX/HEF、私有设备路径和账号信息留在私有存储，不写入Git；已批准的最终GUI HEF、匹配元数据与演示媒体通过Release提供，下载时用发布清单校验哈希。
+- 结果文件与原始预测数组保留在Git忽略的 `outputs/` 及私有结果包中，公开文档引用其汇总值。
+- PT权重、ONNX、ONNX/HEF与原始预测是结果来源，继续保留。

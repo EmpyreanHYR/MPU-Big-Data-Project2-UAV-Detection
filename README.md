@@ -2,6 +2,8 @@
 
 本项目研究小型红外无人机的检测与边缘部署。在YOLO26n上加入浅层风车卷积（PConv）和高分辨率P2检测分支，形成 **PinP2-YOLO**，并在树莓派5＋HAILO10H上完成实际推理测试。
 
+**课程汇报** · [打开 HTML 汇报（含演示视频）](https://yaoronghuang.top/MPU-Big-Data-Project2-UAV-Detection/presentation/)
+
 ## GUI demonstration / 操作演示
 
 https://github.com/user-attachments/assets/ad5af9a7-2ece-4dd1-8940-8daeae079ef7

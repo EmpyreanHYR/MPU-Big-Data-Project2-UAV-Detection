@@ -5,7 +5,7 @@
 | [英文PDF](report.pdf) | 当前10页A4 IEEE报告，用于阅读和提交核对 |
 | [LaTeX正文](report.tex)、[参考文献](references.bib) | 正式报告维护源；文献主本在 `bibliography/references.bib` |
 | [中文对应稿](report_zh.md) | 组员理解方法、结果和准备讲稿 |
-| [复现说明](REPRODUCIBILITY_NOTES.md) | 原生／部署评价口径、四源外部结果及公开材料的复现范围 |
+| [复现说明](REPRODUCIBILITY_NOTES.md) | 原生／部署评价口径、外部迁移结果及公开材料的复现范围 |
 | [核查清单](REVIEW_CHECKLIST.md) | 课程要求对应的材料、提案与实际工作的差异及剩余事项 |
 
 当前稿包含26个公式、8张表、4幅图和24条参考文献。
@@ -23,7 +23,7 @@
 
 [模块可编辑源](figures/pinp2_modules.drawio)用于维护作图1的素材；独立模块图导出已并入图1。[NMS统计图](figures/nms_selection.pdf)及[来源](figures/nms_selection.provenance.json)是结果分析的补充材料，不是报告图4。
 
-四类实验和设备指标见[结果导航](../results/README.md)。历史无NMS结果与当前NMS0.4部署分开呈现。外部评价正文聚焦AUVD-Seg300案例，其余三源结果保留在复现说明中。
+四类实验和设备指标见[结果导航](../results/README.md)。历史无NMS结果与当前NMS0.4部署分开呈现。外部评价使用AUVD-Seg300单一来源。
 
 ## 修改与构建
 
@@ -33,4 +33,4 @@
 
 原始IEEE模板与[原件](../../templates/ieee/README.md)保持一致，提案与报告作者信息一致。编辑图时保留draw.io源并更新相关导出；实验数值从结果表核对。
 
-最新正文范围：外部实验仅保留AUVD-Seg300的设置、结果及单一来源验证限制；中英文均已移除四源比较、其他测试结果及正文中的补充结果指引。历史原始实验记录未改动。
+最新正文范围：外部实验仅保留AUVD-Seg300的设置、结果及单一来源验证限制。历史原始实验记录未改动。

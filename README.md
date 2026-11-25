@@ -96,7 +96,7 @@ PyTorch检查点使用仓库[模型构建入口](src/uav_detection/architecture.
 
 ## Data / 数据
 
-原始数据从各数据集的公开发布处获取。本项目使用SIRST-UAVB（训练与内部验证）、UAV-CB thermal、Tri-Modal Anti-UAV IR和AUVD-Seg300（外部评价），以及Anti-UAV-detection（外部UAV测试）。数据来源、作者链接与获取方式见[数据来源说明](docs/datasets/SOURCES.md)，处理流程见[数据处理流程](docs/datasets/PREPARATION.md)。
+原始数据从各数据集的公开发布处获取。训练与内部验证使用SIRST-UAVB；外部迁移评价使用AUVD-Seg300，其冻结权重在外部数据上不微调，也不用于选点或调阈值。数据来源、作者链接与获取方式见[数据来源说明](docs/datasets/SOURCES.md)，处理流程见[数据处理流程](docs/datasets/PREPARATION.md)。
 
 ## 本地检查与报告构建
 

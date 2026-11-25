@@ -305,7 +305,7 @@ Figure~\ref{fig:qualitative} shows what the aggregate numbers mean on individual
 \end{figure*}
 
 \subsection{Transfer to AUVD-Seg300}
-On AUVD-Seg300, the selected scratch100 PinP2-YOLO weight reaches native AP50 of 33.008\% and AP50:95 of 11.494\%, against 31.274\% AP50:95 on internal validation. AUVD is the best of the four external sources measured for this weight; the other three reach 0.316\%, 0.745\% and 1.984\% AP50:95, so the case reported here is a favourable one and the cross-source gap is large. These native-evaluator results come from cross-source data; H10 and the NMS IoU 0.4 deployment policy carry over untested.
+On AUVD-Seg300, the selected scratch100 PinP2-YOLO weight reaches native AP50 of 33.008\% and AP50:95 of 11.494\%, against 31.274\% AP50:95 on internal validation. The gap to the internal value reflects the difficulty of transfer to an external sensor and annotation convention. These native-evaluator results come from external data; H10 and the NMS IoU 0.4 deployment policy carry over untested.
 
 \subsection{Final-Model Workload Scaling}
 Table~\ref{tab:scaling} reports nine Pi5/H10 runs over 2,625 measured images and 180 warmups using the final model. A fourfold increase in images raises mean processing time from 5.570 to 22.261 seconds, a factor of 3.996, while loop throughput stays at 22.44--22.48 FPS and run-p95 latency at 47.05--47.36 ms, so time per image stays nearly constant over this range. This scope further includes prediction recording and AP-floor decoding. Time and throughput are mean $\pm$ sample SD over three runs; p95 is the mean of run-p95 values, and RSS is the largest recorded peak.

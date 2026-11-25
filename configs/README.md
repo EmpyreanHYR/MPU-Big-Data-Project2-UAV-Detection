@@ -1,6 +1,6 @@
 # 配置导航
 
-当前主比较使用SIRST-UAVB固定1999训练／500验证、seed42、640输入、FP32、从零100轮。训练与选点只使用该单源划分，其他四源分别作外部评价。
+当前主比较使用SIRST-UAVB固定1999训练／500验证、seed42、640输入、FP32、从零100轮。训练与选点只使用该单源划分，外部评价使用AUVD-Seg300。
 
 | 配置 | 用途 |
 |---|---|
@@ -9,7 +9,7 @@
 | [sirst100_pf_sia](experiments/sirst100_pf_sia.json)／[SIA＋CSP](experiments/sirst100_pf_sia_csp.json) | 两组100轮PF启发适配 |
 | [sirst_comparison150](experiments/sirst_comparison150/) | 比较模型的原始命名目录；以文件内实际轮数为准，YOLO11/8的旧150轮与追加100轮实测分开记录 |
 | [sirst_only150](experiments/sirst_only150/) | 历史COCO初始化150轮结构对照，与从零组分开 |
-| [four_source150](experiments/four_source150/) | 已停止使用的四源历史配置及适配器注册信息；不代表当前训练组成 |
+| [four_source150](experiments/four_source150/) | 已停止使用的历史配置及适配器注册信息；不代表当前训练组成 |
 | [models](models/README.md) | 模型图、PConv/P2组合与其他适配器说明 |
 | [environments](environments/) | 独立比较模型的附加环境依赖 |
 

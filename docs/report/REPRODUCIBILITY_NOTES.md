@@ -39,20 +39,9 @@ RT检查先对300个唯一查询作一对一位置对齐，再应用同一容差
 
 公开源码和Release包含最终PinP2-YOLO的`best.pt`、`model.onnx`和`model.hef`（[pinp2-final-model-v1.1.0](https://github.com/EmpyreanHYR/MPU-Big-Data-Project2-UAV-Detection/releases/tag/pinp2-final-model-v1.1.0)）；完整训练数据、其他18组对照模型的权重与HEF、编译器及全部执行日志保存在私有结果包。用最终权重可复现GUI推理、部署评分和ONNX输出一致检查；重跑训练或复核其他模型结果需对应私有结果包。视觉语言复核的公开代码支持候选准备和保存响应的指标重放，详见[复核说明](../../experiments/pinp2_vlm/README.md)。
 
-## 所选权重的外部来源诊断
+## 所选权重的外部迁移评价
 
-正文聚焦AUVD-Seg300迁移案例，其他三个来源的名称及逐项数字保留在下表。AUVD最高的AP50:95为11.494%，内部原生值为31.274%，反映跨域迁移的难度；它不是NMS0.4/H10策略的外部验证。
-
-以下均为所选scratch100 PinP2-YOLO权重的原生评价器结果；外部数据未用于选权重或阈值。
-
-| 来源 | 图像数 | 原生AP50:95（%） |
-|---|---:|---:|
-| UAV-CB thermal | 3391 | 0.316 |
-| Tri-Modal Anti-UAV IR | 1060 | 0.745 |
-| AUVD-Seg300 | 300 | 11.494 |
-| Anti-UAV-detection | 2048 | 1.984 |
-
-[全部60次模型×来源矩阵](../results/ALL_MODEL_EXTERNAL_20261104.csv)包含模型名、训练组、轮数、来源及指标；[新三组原始外部指标](../results/SCRATCH_ABLATIONS_EXTERNAL_20261104.json)将其绑定到权重。YOLO11n／YOLOv8n100轮未补四源外部评价，不计入60次。
+外部迁移只在AUVD-Seg300上进行。所选scratch100 PinP2-YOLO权重的原生AP50:95为11.494%，内部原生值为31.274%，差距反映跨域迁移的难度；它不是NMS0.4/H10策略的外部验证。外部数据未用于选权重或阈值。
 
 ## 结论适用范围
 

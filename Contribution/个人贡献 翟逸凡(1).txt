@@ -1,0 +1,13 @@
+个人贡献
+姓名：翟逸凡　　学号：P2622668
+负责本项目红外无人机检测系统的应用测试、错误分析及报告行文勘误工作。在应用测试方面，围绕系统的图像与视频检测功能，检查检测结果可视化、目标边界框显示、置信度输出及结果导出等功能的完整性与稳定性，分析不同运行环境下的系统响应情况与应用表现，确保检测流程符合项目要求。
+
+在错误分析方面，结合模型实验结果，重点分析复杂背景、小目标检测及不同置信度阈值下出现的误检与漏检问题，评估检测精度、推理效率及系统运行稳定性，归纳实际应用中存在的局限，并提出相应的优化建议。
+
+此外，负责项目报告的行文检查与勘误，对报告中的专业术语、语法表达、逻辑衔接、图表说明及格式规范进行核对与修订，确保技术描述准确、内容结构清晰、实验结果表述一致，提高最终报告的规范性与可读性，为项目成果展示与总结提供支持。
+
+Responsible for application testing, error analysis, and proofreading of the project report for the infrared UAV detection system. Conducted functional testing of image and video detection, focusing on detection visualization, bounding box display, confidence score output, and result export. Evaluated system stability and responsiveness under different operating conditions to ensure that the detection workflow met project requirements.
+
+Performed error analysis based on experimental results, focusing on false positives and false negatives caused by complex backgrounds, small target sizes, and different confidence thresholds. Evaluated detection accuracy, inference efficiency, and system stability, identified limitations in practical applications, and proposed potential improvements.
+
+Additionally, reviewed and proofread the project report, correcting technical terminology, grammatical errors, logical inconsistencies, figure and table descriptions, and formatting issues. Ensured the accuracy of technical explanations, consistency of experimental results, and clarity of the report structure. These contributions improved the overall quality, readability, and professionalism of the final project report and supported the presentation and evaluation of the project outcomes.

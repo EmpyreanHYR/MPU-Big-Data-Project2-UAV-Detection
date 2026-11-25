@@ -1,0 +1,8 @@
+个人贡献
+姓名：罗智文　　学号：p2619614
+承担本项目数据集的设计与构建工作，统筹数据集全生命周期管理。结合项目研究目标与任务需求，完成数据源调研、原始数据采集与归集，制定完备的数据处理规范、标注体系与质量审核标准，明确标注口径、边界案例与争议样本判定原则，组织标注实施并开展交叉核验，持续校正标注偏差，有效控制标注不一致性。
+针对原始数据中存在的噪声、重复样本、异常值与偏置问题开展系统性清洗、筛选与脱敏处理，完成数据集分层划分、样本均衡调配与格式标准化，建立数据集版本管理机制，留存各版本修改记录，保障数据可追溯、可复现。
+同步撰写数据集说明文档，详实记录数据来源、样本分布、构建流程、已知局限与使用约束，配合模型开发团队完成数据交付、问题反馈与迭代优化，为本项目模型训练、验证、测试及相关对比实验提供可靠、合规的数据基础。
+Responsible for the design and construction of the dataset and the management of its full lifecycle. Aligned with the research objectives and task requirements, conducted data source investigation as well as raw data collection and aggregation. Formulated comprehensive data processing specifications, annotation frameworks and quality review criteria, and clarified annotation definitions, edge cases and adjudication rules for disputed samples. Coordinated annotation implementation and cross-validation to continuously mitigate annotation bias and improve inter-annotator agreement.
+Performed systematic cleaning, filtering and desensitization to address noise, duplicates, outliers and inherent biases in raw data. Carried out stratified splitting, sample balance adjustment and format standardization, and established a dataset version control mechanism with complete revision logs to ensure traceability and reproducibility.
+Prepared thorough dataset documentation, including data provenance, sample distribution, construction pipeline, known limitations and usage constraints. Collaborated with the modeling team on data delivery, issue troubleshooting and iterative refinement, providing a reliable and compliant foundation for model training, validation, testing and comparative experiments.

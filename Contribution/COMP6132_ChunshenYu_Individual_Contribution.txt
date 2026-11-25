@@ -1,0 +1,9 @@
+个人贡献
+姓名：余春申　　学号：P2619574
+
+负责小组汇报 PPT 的制作与修改。根据项目报告和组长反馈梳理汇报结构，选取模型结构图、检测对比图和 NMS 示例，整理消融实验、训练数据规模及边缘部署等结果。将汇报整理为可离线放映的 HTML 版本，加入 GitHub 成果链接，并在结论后安排小组录制的 GUI 演示视频。
+
+Individual Contribution
+Name: Chunshen Yu    Student ID: P2619574
+
+Prepared and revised the group presentation slides. Organized the presentation using the project report and feedback from the group leader. Selected the model architecture diagram, detection comparisons, and NMS example, and summarized the ablation, training data scale, and edge deployment results. Prepared an offline HTML version with links to project materials on GitHub and placed the team's GUI demonstration video after the conclusion.

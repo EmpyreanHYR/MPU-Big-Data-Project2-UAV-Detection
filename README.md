@@ -61,22 +61,27 @@ python3 -m venv .venv-gui
 | 视觉语言复核 | Qwen2.5-VL-3B-Instruct的E0—E4共689条响应；[结果](docs/results/NMS_VLM_AUDIT_20261115.md)未优于相同召回率下的置信度阈值对照 |
 | 报告与图表 | [10页IEEE报告、中文稿及可编辑图源](docs/report/README.md) |
 
-当前PinP2/H10默认部署的AP50:95为 **31.740%**（内部验证集），三轮阈值基准为 **22.89±0.01 FPS**；原生训练验证、FP32、无NMS和NMS后的指标分别记录。最终模型是精度、速度与边缘可行性的综合取舍。
+当前PinP2/H10默认部署的AP50:95为 **31.740%**（内部验证集），三轮阈值基准为 **22.89±0.01 FPS**；原生训练验证、FP32、无NMS和NMS后的指标分别记录。
 
-与大数据课程的联系包括数据真实性（像素去重、标注冲突与跨源标注差异）、数据规模（三档训练量及推理负载）和处理速度（边缘吞吐与内存）。视觉语言复核为离线实验，结果支持维持置信度阈值过滤。
+本项目与课程主题的联系很具体：去重和冲突标注决定了验证集是否可信，训练量实验覆盖500至1999张，部署侧记录了H10吞吐和峰值内存。视觉语言复核为离线实验，结果支持维持置信度阈值过滤。
+
+2026年11月24日完成报告与汇报材料的一致性校对：统一小数精度表述、补齐表VIII的E0—E4策略定义、清理讲稿中的成员占位与固定过渡语，并重新编译10页PDF。四名组员的具体贡献仍待本人填写。
 
 ## 目录怎么用
 
 | 目录 | 内容 |
 |---|---|
-| `src/uav_detection/` | 模型结构、训练适配、数据处理 |
+| `src/uav_detection/` | 模型结构、训练适配、数据处理与 PyQt GUI 代码 |
 | `configs/` | 当前模型与部署参数，以及有日期说明的历史实验配置 |
-| `scripts/` | 数据准备、训练入口、指标复算、部署、文档构建与检查 |
+| `scripts/`、`tests/` | 数据准备、训练入口、指标复算、部署、文档构建与检查，以及对应测试 |
 | `experiments/` | NMS审计和视觉语言复核的分析代码 |
+| `presentation/` | 离线 HTML 汇报、讲稿、问答备份与逐图数据出处 |
 | `docs/report/` | 当前报告、图表及复现说明 |
 | `docs/results/` | 当前结果入口与有来源的历史对照证据 |
 | `docs/proposal/` | 已提交提案 |
 | `bibliography/`、`templates/`、`third_party/` | 统一文献、原始模板及第三方来源与许可 |
+| `.github/`、`constraints/` | CI 工作流与 GUI 依赖锁定 |
+| `data/`、`models/`、`outputs/` | 本地数据、权重及处理证据的导航说明；实际大文件与私有运行记录不随仓库分发 |
 
 ## Model weights / 模型权重
 
@@ -102,7 +107,7 @@ python -m pip install -e '.[evaluation]'
 python scripts/check_project.py
 ```
 
-检查入口运行仓库检查、引用检查和Git跟踪的全部测试；模型集成测试需要完整的Torch依赖，在普通桌面环境会被跳过。
+检查入口运行仓库检查、引用检查和Git跟踪的全部测试；模型集成测试需要完整的Torch依赖，在普通桌面环境会被跳过。仅改文档时可直接运行 `python scripts/check_repository.py` 和 `python scripts/check_references.py`；归档后的本机环境缺少 NumPy 等依赖，`check_project.py` 可能报缺少模块，不影响前两项检查。
 
 安装pdfLaTeX和BibTeX后，可用 `python scripts/build_report.py` 编译报告；提案构建使用 `python scripts/build_proposal.py`。文献修改以 `bibliography/references.bib` 为准，同步副本后运行检查。
 

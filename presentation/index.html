@@ -47,7 +47,7 @@
           </ol>
           <figcaption>Pixel duplicates and annotation conflicts are resolved before the split.</figcaption>
         </figure>
-        <div class="copy"><p class="lead">Veracity starts with reliable labels and a reproducible split.</p>
+        <div class="copy"><p class="lead">Duplicate images and conflicting labels would make the validation score unreliable.</p>
           <ul><li>Check readable images, label pairs, classes and bounding-box coordinates.</li><li>Remove <strong>494</strong> pixel duplicates and isolate <strong>7</strong> label conflicts.</li><li>Freeze a seed-42 split grouped by inferred background view. Export normalized UAV labels.</li></ul>
         </div>
       </div>
@@ -94,7 +94,7 @@
         <div class="visual"><ol class="flow four" aria-label="Deployment stages"><li>Export<br><strong>ONNX</strong></li><li>Compile<br><strong>HEF</strong></li><li>Infer<br><strong>Pi 5 + H10</strong></li><li>Decode<br><strong>and NMS</strong></li></ol>
           <table class="results mini"><caption>Historical H10 workload benchmark · frozen model</caption><thead><tr><th scope="col">Images</th><th scope="col">125</th><th scope="col">250</th><th scope="col">500</th></tr></thead><tbody><tr><th scope="row">Mean time</th><td>5.570 s</td><td>11.121 s</td><td>22.261 s</td></tr></tbody></table>
         </div>
-        <div class="copy"><p class="lead">Velocity: <strong>22.89 ± 0.01 FPS</strong> on the tested image pipeline.</p><ul><li>Final H10 AP50:95 <strong>31.740%</strong> with NMS 0.4. HEF size <strong>4.02 MiB</strong>.</li><li>Historical workload run: 22.44–22.48 FPS, peak RSS 80.64–85.45 MiB.</li><li>Device benchmark and GUI display rate measure different work.</li></ul></div>
+        <div class="copy"><p class="lead">Measured <strong>22.89 ± 0.01 FPS</strong> on the tested image pipeline.</p><ul><li>Final H10 AP50:95 <strong>31.740%</strong> with NMS 0.4. HEF size <strong>4.02 MiB</strong>.</li><li>Historical workload run: 22.44–22.48 FPS, peak RSS 80.64–85.45 MiB.</li><li>Device benchmark and GUI display rate measure different work.</li></ul></div>
       </div>
     </section>
 
@@ -102,7 +102,7 @@
       <h1 id="s6" tabindex="-1">Effect of Training Data Scale</h1>
       <div class="split">
         <figure class="visual"><svg class="plot" id="scale" viewBox="0 0 690 390" role="img" aria-label="Training size versus native AP50:95. 500 images: 16.353%, 1,000: 24.543%, 1,999: 31.274%"></svg><figcaption>Nested training subsets. All runs use the same 500 validation images.</figcaption></figure>
-        <div class="copy"><p class="lead">Volume: AP rose as the training set grew in these runs.</p><ul><li>Same model, 100 epochs, physical batch 8 and seed 42.</li><li>Larger subsets also receive more training steps at fixed epochs.</li><li>Repeat with more seeds and matched training steps to test the trend.</li></ul></div>
+        <div class="copy"><p class="lead">AP rose from 16.353% with 500 images to 31.274% with 1,999.</p><ul><li>Same model, 100 epochs, physical batch 8 and seed 42.</li><li>Larger subsets also receive more training steps at fixed epochs.</li><li>Repeat with more seeds and matched training steps to test the trend.</li></ul></div>
       </div>
     </section>
 

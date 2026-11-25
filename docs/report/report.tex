@@ -53,7 +53,7 @@ At long range, an infrared UAV may cover only a few pixels. Clouds and building 
 
 Processing frames beside the sensor removes the need to stream them to a central server. A finer feature grid then raises the throughput and memory cost on the embedded device, a cost that parameter count alone does not predict.
 
-YOLO predicts locations and scores in one pass\cite{redmon2016yolo}, and YOLO26 uses an end-to-end head without distribution focal loss (DFL)\cite{jocher2026yolo26,ultralytics2026docs}. The finest prediction level in standard YOLO26n has stride 8, leaving the head with a coarse spatial grid. we ask whether directional sampling before fusion and a stride-4 prediction level improve detection, and how the resulting detector performs after accelerator conversion.
+YOLO predicts locations and scores in one pass\cite{redmon2016yolo}, and YOLO26 uses an end-to-end head without distribution focal loss (DFL)\cite{jocher2026yolo26,ultralytics2026docs}. The finest prediction level in standard YOLO26n has stride 8, leaving the head with a coarse spatial grid. We ask whether directional sampling before fusion and a stride-4 prediction level improve detection, and how the resulting detector performs after accelerator conversion.
 
 PinP2-YOLO (\textit{Pinwheel-enhanced P2 Fusion YOLO}) replaces one shallow downsampling convolution with pinwheel convolution (PConv)\cite{yang2025pconv} and extends the fusion pyramid to stride 4. The new path combines shallow features with context from coarser levels (Fig.~\ref{fig:architecture}).
 
@@ -62,7 +62,7 @@ This study contributes a YOLO26n structural adaptation for infrared small target
 \section{Related Work}
 \IEEEpubidadjcol
 \subsection{Infrared Small-Target Representation}
-Infrared small-target work starts from the observation that a target too small to describe internally can still be located from its surroundings. ACM exchanges high-level semantics with low-level detail through asymmetric contextual modulation\cite{dai2021acm}, DNANet repeats feature interaction through dense nested attention\cite{li2023dnanet}, and ISNet adds shape modelling with two-orientation attention\cite{zhang2022isnet}. These methods highlight the value of shallow spatial representations for infrared small-target detection.
+Infrared small-target work starts from the observation that a target too small to describe internally can still be located from its surroundings. ACM exchanges high-level semantics with low-level detail through asymmetric contextual modulation\cite{dai2021acm}, DNANet repeats feature interaction through dense nested attention\cite{li2023dnanet}, and ISNet adds shape modelling with two-orientation attention\cite{zhang2022isnet}. These designs motivate the shallow-layer changes in the detector described below.
 
 The original PConv work combines directional convolution with a scale-based dynamic loss\cite{yang2025pconv}. We introduce PConv at one shallow YOLO26n layer and include PConv + SD on YOLOv8n-P2 as another comparison model. A related line replaces IoU with normalized Wasserstein distance to soften tiny-box localization\cite{wang2021nwd}; this work informs our error analysis, while training and evaluation keep IoU.
 
@@ -260,7 +260,7 @@ Error strata are fixed in advance. Object size is $d=\sqrt{(x_2-x_1)(y_2-y_1)}$ 
 C(I)=\frac{1}{|\Omega|}\sum_{p\in\Omega}\sqrt{(\partial_x I(p))^2+(\partial_y I(p))^2}.
 \label{eq:clutter}
 \end{equation}
-Here $\partial_x,\partial_y$ are central differences, and $\Omega$ excludes UAV and bird boxes expanded by four original pixels. The low, medium, and high strata use terciles from the fixed 1,024 calibration-source training images, with thresholds of 0.011011 and 0.015144. This measure provides a quantitative stratification of image background texture. Original bird boxes are recovered by image-file identity and UAV-label checks. After UAV matching, remaining predictions are matched one-to-one to bird annotations at IoU $\geq0.5$, and these matches count as UAV false alarms attributable to annotated birds.
+Here $\partial_x,\partial_y$ are central differences, and $\Omega$ excludes UAV and bird boxes expanded by four original pixels. The low, medium, and high strata use terciles from the fixed 1,024 calibration-source training images, with thresholds of 0.011011 and 0.015144. Original bird boxes are recovered by image-file identity and UAV-label checks. After UAV matching, remaining predictions are matched one-to-one to bird annotations at IoU $\geq0.5$, and these matches count as UAV false alarms attributable to annotated birds.
 
 \section{Results and Analysis}
 \subsection{Comparison with Baseline Detectors}
@@ -328,10 +328,10 @@ Train fraction & Train images & P & R & F1 & AP50 & AP50:95 & GPU AP95/Miss & St
 \end{tabular}
 \end{table*}
 
-Native AP50:95 rises from 16.353\% to 24.543\% and 31.274\% as the training subset grows (Table~\ref{tab:ratio}). Common GPU AP50:95 also rises from 7.077\% to 13.792\% and 25.186\%, while the miss rate at confidence 0.25 falls from 57.613\% to 43.004\% and 32.510\%. Across these runs, larger training subsets improve both AP50:95 and the fixed-threshold miss rate.
+Native AP50:95 rises from 16.353\% to 24.543\% and 31.274\% as the training subset grows (Table~\ref{tab:ratio}). Common GPU AP50:95 also rises from 7.077\% to 13.792\% and 25.186\%, while the miss rate at confidence 0.25 falls from 57.613\% to 43.004\% and 32.510\%.
 
 \subsection{Cross-Device Edge Deployment}
-Table~\ref{tab:edge} reports cross-device measurements in the fixed order GPU / Pi CPU / Pi H10. AP and miss rate are percentages, and FPS includes preprocessing and postprocessing. O/H denotes ONNX/HEF size and P/H denotes Pi CPU/H10 process RSS, both in MiB. All 11 current models have GPU and Pi CPU measurements. Per-image TP, FP, and FN counts agree between these devices, with AP differences below 0.000193 points.
+Table~\ref{tab:edge} reports cross-device measurements in the fixed order GPU / Pi CPU / Pi H10. AP and miss rate are percentages, and FPS includes preprocessing and postprocessing. O/H denotes ONNX/HEF size and P/H denotes Pi CPU/H10 process RSS, both in MiB. All 11 current models have GPU and Pi CPU measurements. Per-image TP, FP, and FN counts agree between these devices, with AP differences below 0.001 points.
 \begin{table*}[!t]
 \caption{Cross-device deployment comparison.}
 \label{tab:edge}
@@ -377,7 +377,7 @@ Figure~\ref{fig:qualitative} shows what the aggregate numbers mean on individual
 On AUVD-Seg300, the selected scratch100 PinP2-YOLO weight reaches native AP50 of 33.008\% and AP50:95 of 11.494\%, against 31.274\% AP50:95 on internal validation. The cross-source gap is large. These native-evaluator results come from cross-source data; H10 and the NMS IoU 0.4 deployment policy carry over untested.
 
 \subsection{Final-Model Workload Scaling}
-Table~\ref{tab:scaling} reports nine Pi5/H10 runs over 2,625 measured images and 180 warmups using the final model. A fourfold increase in images raises mean processing time from 5.570 to 22.261 seconds, a factor of 3.996, while loop throughput stays at 22.44--22.48 FPS and run-p95 latency at 47.05--47.36 ms. Processing time scales approximately linearly over this measured workload range. This scope further includes prediction recording and AP-floor decoding. Time and throughput are mean $\pm$ sample SD over three runs; p95 is the mean of run-p95 values, and RSS is the largest recorded peak.
+Table~\ref{tab:scaling} reports nine Pi5/H10 runs over 2,625 measured images and 180 warmups using the final model. A fourfold increase in images raises mean processing time from 5.570 to 22.261 seconds, a factor of 3.996, while loop throughput stays at 22.44--22.48 FPS and run-p95 latency at 47.05--47.36 ms, so time per image stays nearly constant over this range. This scope further includes prediction recording and AP-floor decoding. Time and throughput are mean $\pm$ sample SD over three runs; p95 is the mean of run-p95 values, and RSS is the largest recorded peak.
 \begin{table*}[!t]
 \caption{Pi5/H10 workload scaling.}
 \label{tab:scaling}
@@ -397,7 +397,7 @@ Images & UAV GT & AP50:95 (\%) & FN & Miss (\%) & Wall time (s) & Loop FPS & p95
 RSS rises from 80.64 to 85.45 MiB with retained predictions, and boundary samples stay between 48.5 and 51.8 degrees Celsius with no throttling flags. Prediction counts are identical to the earlier same-HEF outputs across repeated runs; subset AP varies with image composition.
 
 \subsection{Size, Background, and Bird Errors}
-Table~\ref{tab:errors} divides the 163 misses and 119 false positives by target size, background texture, and bird annotation. Size rows index objects using square-root box area $d$ in original pixels; background/bird rows partition images. Size-group FP is undefined because false predictions have no ground-truth size. Among the validation targets, 441 of 486 UAVs have $d<8$ pixels, and this group contributes 153 of the 163 misses (93.87\%) at a 34.69\% within-group rate. Targets of 8--16 pixels miss 10 of 40 (25.00\%), while the five larger UAVs have no misses. Small targets account for 90.74\% of the ground-truth UAVs.
+Table~\ref{tab:errors} divides the 163 misses and 119 false positives by target size, background texture, and bird annotation. Size rows index objects using square-root box area $d$ in original pixels; background/bird rows partition images. Size-group FP is undefined because false predictions have no ground-truth size. Among the validation targets, 441 of 486 UAVs have $d<8$ pixels, and this group contributes 153 of the 163 misses (93.87\%) at a 34.69\% within-group rate. Targets of 8--16 pixels miss 10 of 40 (25.00\%), while the five larger UAVs have no misses.
 \begin{table*}[!t]
 \caption{H10 errors by target size, background, and bird presence.}
 \label{tab:errors}
@@ -448,11 +448,11 @@ None & 126 & 25.186 & 119 & 24.351\\
 \end{tabular}
 \end{table}
 
-We select IoU 0.4, confidence 0.25, and at most 300 detections: the largest tested IoU attaining the minimum FP62 at unchanged recall. False positives fall 47.9\%; AP50:95 rises from 24.351\% to 31.740\%. IoU 0.3 gives the same FP and only 0.0026 points higher AP with stronger suppression; 0.5 gives FP63.
+We select IoU 0.4, confidence 0.25, and at most 300 detections: the largest tested IoU attaining the minimum FP62 at unchanged recall. False positives fall 47.9\%; AP50:95 rises from 24.351\% to 31.740\%. IoU 0.3 gives the same FP and only 0.002 points higher AP in Table~\ref{tab:nms} with stronger suppression; 0.5 gives FP63.
 
 Per-image TP counts remain unchanged after rematching, although 17 previously matched boxes are suppressed. FN163 and 20 bird-associated false positives remain. The thresholds come from this reused validation set, so the choice captures error filtering and awaits an independent threshold estimate. The set contains one two-UAV image with non-overlapping annotations, so crowded-target behaviour is untested.
 
-Figure~\ref{fig:nms_same_image} uses image 2859 to illustrate the 0.4/0.5 boundary at confidence 0.25. All enlarged panels share the white-marked $48\times32$-pixel crop, original intensities and nearest-neighbor display. Cyan dashes denote UAV ground truth; orange/red predictions score 0.595/0.332. Their IoU is 0.468, so 0.3/0.4 suppress the lower-score duplicate while 0.5/0.7 retain it. The panel illustrates that boundary on one image.
+Figure~\ref{fig:nms_same_image} uses image 2859 to illustrate the 0.4/0.5 boundary at confidence 0.25. All enlarged panels share the white-marked $48\times32$-pixel crop, original intensities and nearest-neighbor display. Cyan dashes denote UAV ground truth; orange/red predictions score 0.595/0.332. Their IoU is 0.468, so 0.3/0.4 suppress the lower-score duplicate while 0.5/0.7 retain it.
 
 \begin{figure*}[t]
 \centering
@@ -485,11 +485,11 @@ E4: selective local & 183 & 12 & 303 & 37.65\\
 \end{tabular}
 \end{table}
 
-E1 is a post-hoc confidence-only threshold of 0.598002, matched to E3 recall. E3 reduces recall by 28.60 points and trails the confidence-only control at the same recall (Table~\ref{tab:vlm}). Among 141 queried baseline true positives, it labels 126 BACKGROUND, 14 BIRD, and only one UAV. None of the 689 context/local responses uses UNCERTAIN. Selected targets have a median longest side of 7.42 original pixels and occupy a median 0.76\% of the context crop area; resizing does not add observed detail. Limited visual evidence and domain mismatch are plausible causes, which semantic positive controls and numerical checks can confirm. E3 calls average 236.93 ms on the GPU, with no measured edge implementation. The results show the cost of this particular verification policy, which adds no value over confidence filtering; how general VLMs would fare on infrared detection is a separate question.
+Table~\ref{tab:vlm} compares five policies: E0 is the original detector output, E1 a post-hoc confidence-only control, E2 context-crop queries on every candidate, E3 context-crop queries on a selected subset, and E4 local-crop queries on the same subset. E1 uses a threshold of about 0.598, matched to E3 recall. E3 reduces recall by 28.60 points and trails the confidence-only control at the same recall. Among 141 queried baseline true positives, it labels 126 BACKGROUND, 14 BIRD, and only one UAV. None of the 689 context/local responses uses UNCERTAIN. Selected targets have a median longest side of 7.42 original pixels and occupy a median 0.76\% of the context crop area; resizing does not add observed detail. The queried boxes are small, so the VLM may simply lack enough visual detail; this is a hypothesis, not a measured cause. E3 calls average 236.93 ms on the GPU, with no measured edge implementation.
 
 \section{Discussion}
 \subsection{What the Extension Improves}
-P2 improves native AP50:95 with or without PConv; PConv alone reduces AP, while its addition to P2 gives a smaller gain. The combined model trades throughput for higher H10 AP and fewer misses than YOLO26n. Against YOLO11n and YOLOv8n, it uses fewer parameters and runs faster, with the accuracy tradeoffs in Table~\ref{tab:edge}. This balance motivates the project's selection.
+P2 improves native AP50:95 with or without PConv; PConv alone reduces AP, while its addition to P2 gives a smaller gain. The combined model trades throughput for higher H10 AP and fewer misses than YOLO26n. Against YOLO11n and YOLOv8n, it uses fewer parameters and runs faster, with the accuracy tradeoffs in Table~\ref{tab:edge}.
 
 \subsection{Remaining Errors and Deployment Cost}
 NMS leaves the 163 misses (153 below eight pixels) and the 20 bird-associated false positives untouched. Default IoU 0.4 is set on this validation set; an independent review, especially of closely spaced targets in continuous video, tests its operating margin. P2 also increases Pi CPU memory, and host processing contributes substantial latency (Table~\ref{tab:edge}).
@@ -498,7 +498,7 @@ NMS leaves the 163 misses (153 below eight pixels) and the 20 bird-associated fa
 AUVD is a single external source, so broad generalization and independent video remain open questions. The ablation draws on one seed and differs in physical batch, so its stability across seeds is untested; hardware repeats add timing statistics only, not accuracy samples.
 
 \section{Conclusion}
-PinP2-YOLO improves native AP50:95 by 3.322 points over YOLO26n in the scratch100 ablation. Its H10 deployment trades speed for accuracy; default NMS IoU 0.4 reaches 31.740\% AP50:95 and reduces FP119 to FP62 at unchanged recall and 22.89 benchmark FPS. The tested VLM policy offers no advantage over confidence filtering. Independent crowded-target validation remains necessary.
+PinP2-YOLO improves native AP50:95 by 3.322 points over YOLO26n in the scratch100 ablation. Its H10 deployment trades speed for accuracy; default NMS IoU 0.4 reaches 31.740\% AP50:95 and reduces FP119 to FP62 at unchanged recall and 22.89 benchmark FPS. The tested VLM policy offers no advantage over confidence filtering.
 
 \bibliographystyle{IEEEtran}
 \bibliography{references}

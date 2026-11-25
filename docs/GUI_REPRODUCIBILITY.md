@@ -11,7 +11,7 @@ the [public, verified model package](https://github.com/EmpyreanHYR/MPU-Big-Data
 
 ## 1. Clone and install / 安装
 
-Use Python **3.12 or later** with the pinned desktop dependency set. From a terminal:
+Use Python 3.12 or later with the pinned desktop dependency set. From a terminal:
 
 ```sh
 git clone https://github.com/EmpyreanHYR/MPU-Big-Data-Project2-UAV-Detection.git
@@ -35,7 +35,7 @@ sufficient for replay; the `model` extra is not needed.
 On Windows PowerShell, use `py -3.12 -m venv .venv-gui` and replace
 `.venv-gui/bin/python` with `.venv-gui\Scripts\python.exe`. Linux needs a desktop
 Qt platform and its OpenGL/EGL runtime libraries; `QT_QPA_PLATFORM=offscreen` is for
-tests. Keep the **whole checkout** and editable installation, since the GUI also
+tests. Keep the whole checkout and editable installation, since the GUI also
 reads the repository's evaluation scripts and policy. Run the commands from the
 repository root; the default configuration uses relative paths, so moving the
 whole checkout preserves them.
@@ -177,10 +177,10 @@ cp configs/gui/h10-profile.example.json outputs/gui_h10_profile.json
 ```
 
 The SSH host key must already be trusted and key login must work. `remote_root`
-must exist. Set `model_dir` to the **Pi's absolute** `models/pinp2_h10` directory
+must exist. Set `model_dir` to the Pi's absolute `models/pinp2_h10` directory
 after downloading the model there; a client-side download does not install it on
 the Pi. The profile's source file is on the client. For a GUI shown on the
-**Pi's monitor**, use `scripts/launch_pi_gui.py --video /path/to/local/video.avi`;
+Pi's monitor, use `scripts/launch_pi_gui.py --video /path/to/local/video.avi`;
 it caches that file on the Pi and creates a separate release and local launcher.
 Alternatively use the native configuration above with media already on the Pi.
 
@@ -210,7 +210,7 @@ CI status.
 | GUI dependencies missing | Use the same Python interpreter for install, check and launch |
 | Qt platform plugin failure | Use a graphical desktop and its Qt/EGL libraries; offscreen only for automated checks |
 | `No module named detection_eval` after installing a wheel | Use the full checkout and `pip install -e`, as above |
-| Model hash mismatch | Obtain the matching HEF **and** metadata package; keep the pinned policy |
+| Model hash mismatch | Obtain the matching HEF and metadata package; keep the pinned policy |
 | H10 is busy | Wait for the other workload to release the shared locks |
 | Timestamp filter inactive | Check source SHA256, source kind and exact image dimensions |
 | Missing labels | Clear the optional label path for unlabeled media, or provide the mirrored YOLO labels |

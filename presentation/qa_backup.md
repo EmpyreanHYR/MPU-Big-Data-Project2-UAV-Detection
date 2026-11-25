@@ -22,7 +22,7 @@
    It is a recorded workflow demonstration. The group brief describes a playback loop of 30 infrared stills. The available records do not verify the exact image list or per-image H10 hits. The older 300-frame SIA+CSP records refer to a different model and demonstration. We make no independent continuous-video accuracy claim.
 
 8. **How does this relate to Big Data?**  
-   Veracity comes from label checks, deduplication and a frozen split. Volume is the experiment with 500, 1,000 and 1,999 training images. Velocity is the measured edge throughput and latency under three image workload sizes.
+   The course themes match specific checks here: label checks, deduplication and a frozen split determine whether validation is trustworthy; the 500, 1,000 and 1,999-image runs test training scale; the H10 measurements report throughput and latency under three image workloads.
 
 9. **What are the main limitations and next steps?**  
    Small targets account for 153 of 163 misses. Internal data was reused for model and NMS selection, and native AP50:95 on one external AUVD subset was 11.494%. Improve tiny-target localization, audit labels, run multiple seeds, and test new sensors and independently recorded continuous video. Try revised VLM crops and prompts only with a matched confidence baseline.

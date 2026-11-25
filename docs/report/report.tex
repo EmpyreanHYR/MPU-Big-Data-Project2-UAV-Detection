@@ -51,7 +51,7 @@ Infrared UAV detection, counter-UAV surveillance, PinP2-YOLO, pinwheel convoluti
 \section{Introduction}
 At long range, an infrared UAV may cover only a few pixels. Clouds and building edges can compete with this weak signal, motivating methods that use local context and shape cues\cite{dai2021acm,zhang2022isnet,li2023dnanet}. Localization is also sensitive to small coordinate errors because even a slight displacement can substantially change the intersection-over-union (IoU) of a small box\cite{wang2021nwd}.
 
-Processing frames beside the sensor removes the need to stream them to a central server. A finer feature grid then raises the throughput and memory cost on the embedded device, a cost that parameter count alone does not predict.
+The work spans three big-data features: veracity dominates data preparation, since 494 duplicate images and seven label conflicts were removed from the 3,000-image source; volume drives the training-fraction and workload studies (500, 1,000 and 1,999 training images, and 125, 250 and 500 accelerator images); and velocity decides deployment, where processing frames beside the sensor avoids streaming them, while a finer feature grid raises throughput and memory cost that parameter count alone does not predict.
 
 YOLO predicts locations and scores in one pass\cite{redmon2016yolo}, and YOLO26 uses an end-to-end head without distribution focal loss (DFL)\cite{jocher2026yolo26,ultralytics2026docs}. The finest prediction level in standard YOLO26n has stride 8, leaving the head with a coarse spatial grid. We ask whether directional sampling before fusion and a stride-4 prediction level improve detection, and how the resulting detector performs after accelerator conversion.
 
@@ -173,84 +173,13 @@ Training and GPU inference run on an RTX 2080 Ti; Pi CPU uses ONNX Runtime 1.23.
 
 H10 compilation uses 1,024 seed-42 training images; SDK logs record 64 images used for calibration statistics. Calibration draws on training images only, with finetuning, QAT, and Adaround switched off. Conversion and hardware timing run sequentially for the evaluated models.
 
-\subsection{Detection-Quality Metrics}
-Deployment numbers come from the same 500 images. Predictions are filtered at confidence 0.25 and matched one-to-one at IoU $\geq0.5$, so $TP+FN=486$. Here $P$, $R$, $F_1$, and $M$ denote precision, recall, F1, and the missed-object rate.
+Metric definitions: $\operatorname{IoU}(b,g)=|b\cap g|/|b\cup g|$, $P=TP/(TP+FP)$, $R=TP/(TP+FN)$, $F_1=2PR/(P+R)$, and missed-object rate $M=FN/(TP+FN)$.
 
-\begin{equation}
-\operatorname{IoU}(b,g)=\frac{|b\cap g|}{|b\cup g|}.
-\label{eq:iou}
-\end{equation}
-\begin{equation}
-P=\frac{TP}{TP+FP},
-\label{eq:precision}
-\end{equation}
-\begin{equation}
-R=\frac{TP}{TP+FN},
-\label{eq:recall}
-\end{equation}
-\begin{equation}
-F_1=\frac{2PR}{P+R},
-\label{eq:f1}
-\end{equation}
-\begin{equation}
-M=\frac{FN}{TP+FN}.
-\label{eq:miss}
-\end{equation}
-
-AP uses confidence floor 0.001 and trapezoidal integration of a 101-point precision envelope; this task has $C=1$.
-\begin{equation}
-\operatorname{AP}_{c,\tau}=\int_0^1 p^{\rm interp}_{c,\tau}(r)\,dr.
-\label{eq:ap}
-\end{equation}
-\begin{equation}
-\operatorname{mAP}_{50}=\frac{1}{C}\sum_{c=1}^{C}\operatorname{AP}_{c,0.5},
-\label{eq:map50}
-\end{equation}
-\begin{equation}
-\operatorname{mAP}_{50:95}=\frac{1}{10C}\sum_{j=0}^{9}\sum_{c=1}^{C}\operatorname{AP}_{c,0.50+0.05j}.
-\label{eq:map95}
-\end{equation}
+AP uses confidence floor 0.001 and trapezoidal integration of a 101-point precision envelope. For class $c$ and threshold $\tau$, $\operatorname{AP}_{c,\tau}=\int_0^1p^{\rm interp}_{c,\tau}(r)\,dr$, with $\operatorname{mAP}_{50}=\operatorname{AP}_{c,0.5}$ and $\operatorname{mAP}_{50:95}$ the mean of $\operatorname{AP}_{c,\tau}$ over $\tau=0.50{:}0.05{:}0.95$ for the single class $C=1$. With $t_{50}$ and $t_{95}$ the empirical median and 95th-percentile latency, $\operatorname{FPS}=1000/\bar t$.
 
 Native metrics use the best AP50:95 checkpoint. YOLO26 native P/R uses the evaluator's maximum-smoothed-F1 point, while deployment P/R uses confidence 0.25. Deployment metrics are recomputed from saved predictions.
 
-\subsection{Model-Size and Hardware Metrics}
-Model size is counted on the native graph. The unique tensors $\Theta$ include batch-normalization affine parameters and exclude running buffers, and shared tensors count once. In the convolution formula, $g$ is the group count and $b\in\{0,1\}$ indicates a bias; normalization adds $2C_{\rm out}$. Counts precede export fusion, while file size $S_{\rm bytes}$ is measured from the exported file.
-\begin{equation}
-N_\theta=\sum_{\theta\in\Theta}\operatorname{numel}(\theta).
-\label{eq:parameters}
-\end{equation}
-\begin{equation}
-N_{\rm conv}=C_{\rm out}\left(\frac{C_{\rm in}}{g}k_hk_w+b\right).
-\label{eq:convparams}
-\end{equation}
-\begin{equation}
-S_{\rm MiB}=\frac{S_{\rm bytes}}{2^{20}}.
-\label{eq:filesize}
-\end{equation}
-
-For $N$ latencies $t_i$ in milliseconds, $Q_p$ denotes the empirical quantile. Mean, median, p95, throughput, and peak process resident set size (RSS) follow.
-\begin{equation}
-\bar t=\frac{1}{N}\sum_{i=1}^{N}t_i,
-\label{eq:latency}
-\end{equation}
-\begin{equation}
-t_{50}=Q_{0.50}(\{t_i\}_{i=1}^{N}),
-\label{eq:p50}
-\end{equation}
-\begin{equation}
-t_{95}=Q_{0.95}(\{t_i\}_{i=1}^{N}).
-\label{eq:p95}
-\end{equation}
-\begin{equation}
-\operatorname{FPS}=\frac{1000}{\bar t}.
-\label{eq:fps}
-\end{equation}
-\begin{equation}
-M_{\rm RSS}=\frac{\max_t\operatorname{RSS}_{\rm bytes}(t)}{2^{20}}.
-\label{eq:rss}
-\end{equation}
-
-GPU timing is synchronized across runs. Pipeline time includes preprocessing, device transfer, model execution, and decoding and filtering, and excludes drawing, encoding, network transfer, and display. The original YOLO26 end-to-end route keeps the top 300 predictions without NMS, so its recorded NMS-IoU setting is inactive. The YOLOv8/YOLO11 routes apply NMS at IoU 0.7. The supplementary NMS replay below is measured and reported on its own. RSS reports process memory.
+Model size counts unique native-graph tensors, including normalization parameters and excluding running buffers, with shared tensors counted once; exported file sizes are reported in MiB from the file bytes. GPU timing is synchronized across runs. Pipeline time includes preprocessing, device transfer, model execution, and decoding and filtering, and excludes drawing, encoding, network transfer, and display. The original YOLO26 end-to-end route keeps the top 300 predictions without NMS, so its recorded NMS-IoU setting is inactive. The YOLOv8/YOLO11 routes apply NMS at IoU 0.7. The supplementary NMS replay below is measured and reported on its own. RSS reports process memory.
 
 \subsection{Workload and Error-Stratification Protocol}
 Final-model scaling measures inference workloads using the same frozen model weights. A seed-42 permutation defines nested sets of 125, 250, and 500 validation images, and each size is measured three times in a fresh process, using size orders (125,250,500), (250,500,125), and (500,125,250). Every process checks that it loads the same HEF and data, uses batch 1, performs 20 warmups, and releases the shared device on completion. Timing covers image read and decode, preprocessing, synchronous H10 inference, host decoding, filtering, and prediction recording, and excludes initialization, warmups, metric scoring, result compression, drawing, and network access. Normal filesystem caching stays on, and AP is computed in canonical manifest order so that equal scores sort reproducibly.
@@ -263,6 +192,8 @@ C(I)=\frac{1}{|\Omega|}\sum_{p\in\Omega}\sqrt{(\partial_x I(p))^2+(\partial_y I(
 Here $\partial_x,\partial_y$ are central differences, and $\Omega$ excludes UAV and bird boxes expanded by four original pixels. The low, medium, and high strata use terciles from the fixed 1,024 calibration-source training images, with thresholds of 0.011011 and 0.015144. Original bird boxes are recovered by image-file identity and UAV-label checks. After UAV matching, remaining predictions are matched one-to-one to bird annotations at IoU $\geq0.5$, and these matches count as UAV false alarms attributable to annotated birds.
 
 \section{Results and Analysis}
+Deployment numbers below come from the same 500 images, with predictions filtered at confidence 0.25 and matched one-to-one at IoU $\geq0.5$ ($TP+FN=486$); native metrics use the best AP50:95 checkpoint.
+
 \subsection{Comparison with Baseline Detectors}
 Table~\ref{tab:comparison} compares detectors trained on the full training split. PConv + SD on YOLOv8n-P2 achieves the highest native AP50:95 at 32.930\%, followed by PinP2-YOLO at 31.274\%. SIA and SIA + CSP are independent explorations outside the final method's incremental chain. All use 1,999 training images and scratch100. P/R/F1 and AP in Tables~\ref{tab:comparison}--\ref{tab:ratio} are native best-checkpoint percentages.
 \begin{table*}[!t]
@@ -374,7 +305,7 @@ Figure~\ref{fig:qualitative} shows what the aggregate numbers mean on individual
 \end{figure*}
 
 \subsection{Transfer to AUVD-Seg300}
-On AUVD-Seg300, the selected scratch100 PinP2-YOLO weight reaches native AP50 of 33.008\% and AP50:95 of 11.494\%, against 31.274\% AP50:95 on internal validation. The cross-source gap is large. These native-evaluator results come from cross-source data; H10 and the NMS IoU 0.4 deployment policy carry over untested.
+On AUVD-Seg300, the selected scratch100 PinP2-YOLO weight reaches native AP50 of 33.008\% and AP50:95 of 11.494\%, against 31.274\% AP50:95 on internal validation. AUVD is the best of the four external sources measured for this weight; the other three reach 0.316\%, 0.745\% and 1.984\% AP50:95, so the case reported here is a favourable one and the cross-source gap is large. These native-evaluator results come from cross-source data; H10 and the NMS IoU 0.4 deployment policy carry over untested.
 
 \subsection{Final-Model Workload Scaling}
 Table~\ref{tab:scaling} reports nine Pi5/H10 runs over 2,625 measured images and 180 warmups using the final model. A fourfold increase in images raises mean processing time from 5.570 to 22.261 seconds, a factor of 3.996, while loop throughput stays at 22.44--22.48 FPS and run-p95 latency at 47.05--47.36 ms, so time per image stays nearly constant over this range. This scope further includes prediction recording and AP-floor decoding. Time and throughput are mean $\pm$ sample SD over three runs; p95 is the mean of run-p95 values, and RSS is the largest recorded peak.
@@ -485,7 +416,7 @@ E4: selective local & 183 & 12 & 303 & 37.65\\
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:vlm} compares five policies: E0 is the original detector output, E1 a post-hoc confidence-only control, E2 context-crop queries on every candidate, E3 context-crop queries on a selected subset, and E4 local-crop queries on the same subset. E1 uses a threshold of about 0.598, matched to E3 recall. E3 reduces recall by 28.60 points and trails the confidence-only control at the same recall. Among 141 queried baseline true positives, it labels 126 BACKGROUND, 14 BIRD, and only one UAV. None of the 689 context/local responses uses UNCERTAIN. Selected targets have a median longest side of 7.42 original pixels and occupy a median 0.76\% of the context crop area; resizing does not add observed detail. The queried boxes are small, so the VLM may simply lack enough visual detail; this is a hypothesis, not a measured cause. E3 calls average 236.93 ms on the GPU, with no measured edge implementation.
+Table~\ref{tab:vlm} compares five policies: E0 is the original detector output, E1 a post-hoc confidence-only control, E2 context-crop queries on every candidate, E3 context-crop queries on a selected subset, and E4 local-crop queries on the same subset. E1 matches E3 recall without helping it, and most queried true positives are labelled background: the selected targets have a median longest side of 7.42 original pixels, and resizing adds no observed detail. The VLM may simply lack visual evidence at this scale; this is a hypothesis, not a measured cause.
 
 \section{Discussion}
 \subsection{What the Extension Improves}
@@ -498,19 +429,37 @@ NMS leaves the 163 misses (153 below eight pixels) and the 20 bird-associated fa
 AUVD is a single external source, so broad generalization and independent video remain open questions. The ablation draws on one seed and differs in physical batch, so its stability across seeds is untested; hardware repeats add timing statistics only, not accuracy samples.
 
 \section{Conclusion}
+The extension, the 11-model comparison, the three training sizes and the edge deployment were completed. Four changes remain: scratch 100-epoch training on SIRST-UAVB alone, a single ablation seed, one PConv position, and no independent video evaluation.
 PinP2-YOLO improves native AP50:95 by 3.322 points over YOLO26n in the scratch100 ablation. Its H10 deployment trades speed for accuracy; default NMS IoU 0.4 reaches 31.740\% AP50:95 and reduces FP119 to FP62 at unchanged recall and 22.89 benchmark FPS. The tested VLM policy offers no advantage over confidence filtering.
 
 \bibliographystyle{IEEEtran}
 \bibliography{references}
 \appendices
-\section{Individual Work Contribution}
-The following sections are reserved for each member's actual work, difficulties, solutions, and reflections.
+\section{Personal Contribution and Reflection}
 \subsection{Yaorong Huang}
-\textit{To be completed by the member.}
+My work covered the model, the experiments and the edge deployment of PinP2-YOLO: the shallow PConv and stride-4 P2 structure with its network drawing, all comparison and ablation training under one configuration, ONNX export and Hailo-10H testing on Raspberry Pi 5, the NMS audit of the end-to-end head, a negative VLM review, and the report and reproducibility material.
+
+The largest difficulty was that the network rebuilt by the training pipeline, and therefore trained, might not be the designed one: my custom PConv and P2 modules were dropped or reverted to native layers on rebuild. Temporary patches could not keep training, export and deployment on the same path. I moved the modules into a version-pinned adapter layer that restores them, checked module types and parameter counts after every rebuild, and compared outputs across the three stages.
+
+PConv alone lowered accuracy and only the PConv-P2 combination improved it, so a change can be judged only by factor ablation. The gain came from better localization while small targets were still missed, and a single seed, unequal ablation batches and a threshold chosen on the same validation set limit the conclusions.
+
 \subsection{Chunshen Yu}
-\textit{To be completed by the member.}
+I prepared the slides and result visualisations: the thirteen-slide offline HTML presentation with its charts, the speaker notes and a backup question-and-answer page, and an automatic deployment linked from the project README.
+
+The biggest difficulty was keeping the visual design consistent with the data. Early candidate charts placed results from different training protocols, devices or thresholds side by side, which implied comparisons the experiments do not support. I required every plotted value to be traced to a named result file and one evaluation path before drawing it.
+
+Layout decides which results an audience treats as comparable. I revised slides more often than necessary early on, and the deck still needs a table-by-table check against the final report.
+
 \subsection{Yifan Zhai}
-\textit{To be completed by the member.}
+I led the application testing and error analysis: I ran the released detector on practical scenes rather than only on the validation set, sorted the failures by background complexity, target size and confidence threshold, and proofread the report and corrected its wording.
+
+One observed failure had several plausible causes, since a missed target can come from a strong background, small size or an unsuitable threshold. I kept the tests separate, changed one factor at a time, and recorded the scene and threshold behind every failure.
+
+Error analysis is more useful than a single accuracy figure, but it must stay tied to visible examples. This work would be stronger with an agreed failure-taxonomy sheet shared across the team before the tests began.
 \subsection{Zhiwen Luo}
-\textit{To be completed by the member.}
+I designed and built the dataset: I gathered and cleaned the SIRST-UAVB images and labels, removed duplicates, isolated conflicting annotations, fixed the training and validation split, kept the data under version control, and wrote the dataset documentation.
+
+The raw pool was not clean: duplicated images reappear under different file names and some annotations disagree. I audited by image content and source group rather than by file name, quarantined conflicts instead of deleting them, and froze the split so later code could not move images between training and validation.
+
+Data work is mostly bookkeeping, and an error there is invisible in the results. My main doubt is scale: a small validation set makes most differences coarse, and one duplicated sample can inflate its accuracy more than extra training data could correct.
 \end{document}
